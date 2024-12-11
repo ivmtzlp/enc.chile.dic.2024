@@ -12,10 +12,10 @@ mod_progreso_ui <- function(id){
   bslib::card(
     full_screen = T,
     bslib::accordion(
-      shinycssloaders::withSpinner(plotOutput(ns("progreso_gral")))
+      shinycssloaders::withSpinner(plotOutput(ns("progreso_gral"))),
+      shinycssloaders::withSpinner(plotOutput(ns("estimacion")))
     )
   )
-
 }
 
 #' progreso Server Functions
@@ -26,6 +26,43 @@ mod_progreso_server <- function(id){
     ns <- session$ns
 
     output$progreso_gral <- renderPlot({
+
+      tot_efectivas <-
+      bd_respuestas_efectivas %>%
+        as_tibble |>
+        nrow()
+
+      g <-
+      tibble(tipo = c("Efectivas", "Meta", "Faltantes"),
+             n = c(tot_efectivas, 3000, 3000 - tot_efectivas)) |>
+        filter(tipo != 'Meta') |>
+        mutate(pct = n/sum(n),
+               control = "control") |>
+        ggplot(aes(x = control,
+                   y = n,
+                   fill = factor(tipo, levels = rev(c("Efectivas", "Faltantes"))),
+                   label = paste0(scales::comma(n),
+                                  " (",
+                                  scales::percent(pct, accuracy = 1.0),
+                                  ")"))) +
+        geom_col() +
+        geom_text(size = 10) +
+        coord_flip() +
+        scale_fill_manual(values = c("Efectivas" = color_general,
+                                     "Faltantes" = 'gray70'),
+                          breaks = rev(c("Faltantes", "Efectivas"))) +
+        scale_y_continuous(labels = scales::comma,
+                           n.breaks = 6) +
+        tema_morant() +
+        labs(fill = "", title = "Progreso") +
+        theme(axis.text.y = element_blank(),
+              legend.position = "bottom", plot.title = element_text(size = 18))
+
+      return(g)
+
+    })
+
+    output$estimacion <- renderPlot({
 
       hist_efectivas <-
         bd_respuestas_efectivas %>%

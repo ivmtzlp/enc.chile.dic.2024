@@ -11,7 +11,6 @@ app_ui <- function(request) {
     bslib::page_navbar(
       shinyjs::useShinyjs(),
       title = "Encuesta Nacional Chile - Dic 2024",
-      # bslib::nav_spacer(),
       bslib::nav_panel(
         title = "Mapa Principal",
         mod_priincipal_ui("priincipal_1")
@@ -19,6 +18,10 @@ app_ui <- function(request) {
       bslib::nav_panel(
         title = "Progreso",
         mod_progreso_ui("progreso_1")
+      ),
+      bslib::nav_panel(
+        title = "Resultados",
+        mod_resultados_ui("resultados_1")
       )
     )
   )

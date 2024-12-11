@@ -61,3 +61,44 @@ tema_morant <- function(base_family = "Poppins") {
      tema_transparente()
   )
 }
+
+graficar_barras <- function(bd,
+                            salto = 20,
+                            porcentajes_fuera = F,
+                            desplazar_porcentajes = 0,
+                            orden_respuestas = NA,
+                            text_size = 8){
+
+  g <-
+    bd %>%
+    {
+      if(length(orden_respuestas) == 1) {
+        ggplot(data = .,
+               aes(x = forcats::fct_reorder(stringr::str_wrap(respuesta, salto), media),
+                   y  = media,
+                   fill = respuesta))
+      } else {
+        ggplot(data = .,
+               aes(x = factor(stringr::str_wrap(respuesta, salto), levels = stringr::str_wrap(orden_respuestas, salto)),
+                   y  = media,
+                   fill = respuesta))
+      }
+    } +
+    ggchicklet::geom_chicklet(radius = grid::unit(3, "pt"), color = "transparent", alpha = 0.8, width = 0.45)
+  if (porcentajes_fuera == F) {
+    g <-
+      g +
+      ggfittext::geom_bar_text(aes(label = scales::percent(media, accuracy = 1)), contrast = T)
+  }
+  if (porcentajes_fuera == T) {
+    g <-
+      g +
+      geom_text(aes(label = scales::percent(media, accuracy = 1)), nudge_y = desplazar_porcentajes, size = text_size)
+  }
+  g <-
+    g +
+    coord_flip() +
+    labs(x = NULL, y = NULL) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1))
+  return(g)
+}
