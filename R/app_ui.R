@@ -11,14 +11,16 @@ app_ui <- function(request) {
     bslib::page_navbar(
       shinyjs::useShinyjs(),
       title = "Encuesta Nacional Chile - Dic 2024",
-      bslib::nav_spacer(),
-      mod_priincipal_ui("priincipal_1")
+      # bslib::nav_spacer(),
+      bslib::nav_panel(
+        title = "Mapa Principal",
+        mod_priincipal_ui("priincipal_1")
+      ),
+      bslib::nav_panel(
+        title = "Progreso",
+        mod_progreso_ui("progreso_1")
+      )
     )
-
-    # Your application UI logic
-    # fluidPage(
-    #   h1("enc.chile.dic.2024")
-    # )
   )
 }
 
