@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "morant-consultores",
+  "private_key_id": "c4ad602b619442982fb16ce4810f42ee3af56b97",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCtCBD2lWeENIQ2\nfCjek9Tvxl2pRPoA4Ou4RNJGbyQbgcKOWScDQfD0tuPJ4IK3Xg1WfXn/rHNAMdnE\n9I7lm0o5XIYtPD6KkXj/2t7iPZ0o7v56Clx56PUD7MmCjJ5CklbKtVRT6LpaLKi8\n6zYRXVCguyyGNVi5l2WQJWXIL9zyR+/rywzhOFeUrqFoEJKjMQ+pszMZj34IbAYw\nry36m/j24vcJs8JElkYAxC78gk6Z3pfmJ77YGjs6hOdzoE/masARfrwMEwmK1cKm\n7Slr16GGJjQFlM9TDTClB4ZMIKrIY+Fqf0msetuT7R9OGfzJ6t8KG8Lk1hb7TFp4\nc/o5B6VNAgMBAAECggEABKGEorTY8mbdav/jsCFQv6IVe6RG9KMQa/wbjJsI4luU\ns26bZrDrHAGREyQZG4M+5COzki4xX3R2GZlaAbcoQ2TAipFkMx01mdNnx7JSdHgB\nA48nbnPXquU5d28ABVQZUo+L1DsUUbmEQpog9lIDCGo6BNWErGLq6vK1SKhPR4Su\nDzK5DuynXBEVzxmkUFjTyulcWjBnX3WEgUMMp6Lj5c7g8Bpfc9F4p3q9nZ6lz9j0\nNv4txdONt+VQZw1lNChPbJVFd8SEJHJT0uu/D7COE2C4qz+BZFV4hxkhl12hlIz/\nINlkrB2/liSipDPFBB9FITG0LbFhlULZJITr6qPXmQKBgQDkpunO3OStetUEXwdX\n8H7mpqoSxWkAj7G9eyGJQWsQEhDmQjFDs8S2kOj2SIL5lGBpj3sVrxvMu+j3YOth\nw/rKtNWM1/KoBSWzvw+DXMC9Nm87rXeLpzWO95Ef1ucR4tBhhWU4W6tHyBddjDD0\nj1rR22DjQ9RXIUdeuKTv6d0vWwKBgQDBuhx2HS5CXqytpZOtawNKCP9PGV4EDzhk\nU4ncYITBF8pd/ZzUpkjhUsEVCcdelP98SOXDI4vHmxCn61RFxWQNKu+Gn4ywx5bq\nPEnynsMmSqLSZq8ff6OL/l6nxZy05J3DWOljtEntt/QAGkwaDPvfk+YqvIKVuUNk\nV+GoldeGdwKBgQCk6ATEnueGfopXZroDIH5Fl3odo6bBMuF7yOw886NlqcHqb17c\ndzCugwChb1aW7f5C46pfzzT7iaLRl2Lr1c5wl89UjwKBT4ULiAaGNUUEsdezcL5B\nSE0GWWKfVfy9F5o2W2DPLr3vPU4st8ku+J0FsXTFM8xXMrcoh37dUQum9QKBgDLn\nubTbxB0SjaNvf9ew6ANbS+M4EjlU2oeaX/51qkym+Lkr/DrwmvQCb9QcZrQWyO+a\npC1buM4xk/Xb46AV102Se7BPWoPVXnWcc/358+Oq9w/8hYXsX0hZBfxl8+Cgtkfv\npBxb8pUxoj8oqdiqksDUN0YBlPrM3MWQRi6reR/PAoGAeY2tW++0uHU/o7+z7ujd\nYZQk7+Vjg8zOBZLTJozJmT83/gN+7xvfamK8MROvEDFhPe8X04yKnu/PpGZjSSug\n5vpVkCKjvyUJNd/CsNO9JiX9vL8Tk9bPG/m0dIbItJDfABUl6wZm+IzL/IXmnzJs\nOVLcsES0qvY70fraTXK00Yg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "rmarkdown@morant-consultores.iam.gserviceaccount.com",
+  "client_id": "113601003564329559871",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rmarkdown%40morant-consultores.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
