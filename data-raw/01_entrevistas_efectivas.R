@@ -22,10 +22,12 @@ bd_respuestas_campo_raw <-
 ## Eliminadas ---------------------------------------------------------------------------------
 
 # Eliminadas
-googledrive::drive_auth(path = "./data-raw/api-key.json")
+# googledrive::drive_auth(path = "./data-raw/api-key.json")
 googledrive::drive_download(file = link_eliminadas,
                             path = path_eliminadas,
                             overwrite = T)
+
+2
 
 bd_eliminadas <-
   readxl::read_xlsx(path = path_eliminadas) |>
