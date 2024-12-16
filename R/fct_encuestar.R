@@ -102,3 +102,14 @@ graficar_barras <- function(bd,
     scale_y_continuous(labels = scales::percent_format(accuracy = 1))
   return(g)
 }
+
+formato_archivo = function(nombre, extension, tolerancia = 10) {
+  paste0(nombre,
+         "_",
+         gsub(pattern = "-", replacement = "", x = Sys.Date()),
+         "_",
+         format(Sys.time(), "%H"),
+         as.character(floor(as.integer(format(Sys.time(), "%M")) / tolerancia) * tolerancia),
+         "h.",
+         extension)
+}

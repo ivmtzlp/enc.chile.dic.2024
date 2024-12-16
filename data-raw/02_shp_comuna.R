@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 
-devtools::load_all()
+# devtools::load_all()
 
 # Paths ---------------------------------------------------------------------------------------
 

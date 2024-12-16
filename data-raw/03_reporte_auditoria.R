@@ -5,11 +5,9 @@ library(dplyr)
 library(ggplot2)
 library(openxlsx)
 
-devtools::load_all("../encuestar/")
-
 # Insumos -------------------------------------------------------------------------------------
 
-source(file = "./data-raw/01_entrevistas_efectivas.R")
+# source(file = "./data-raw/01_entrevistas_efectivas.R")
 
 bd_respuestas_auditoria <-
   bd_respuestas_efectivas |>
@@ -94,7 +92,7 @@ bd_comuna_dia <-
 
 ## Exportar -----------------------------------------------------------------------------------
 
-output_file_path = encuestar:::formato_archivo(nombre = "./data-raw/reporte_avances",
+output_file_path = formato_archivo(nombre = "./data-raw/reporte_avances",
                                                extension = "xlsx",
                                                tolerancia = 60)
 
@@ -132,7 +130,7 @@ bd_respuestas_efectivas_export <-
          GPS_INT_LO) |>
   mutate(link_map =  paste0("https://www.google.com/maps?q=", GPS_INT_LA, ",", GPS_INT_LO,"&t=m"))
 
-output_bd_efectivas_path = encuestar:::formato_archivo(nombre = "./data-raw/bd_efectivas",
+output_bd_efectivas_path = formato_archivo(nombre = "./data-raw/bd_efectivas",
                                                        extension = "xlsx",
                                                        tolerancia = 60)
 

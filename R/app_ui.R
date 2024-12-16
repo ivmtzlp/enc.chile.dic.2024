@@ -18,11 +18,11 @@ app_ui <- function(request) {
       bslib::nav_panel(
         title = "Progreso",
         mod_progreso_ui("progreso_1")
-      ),
-      bslib::nav_panel(
-        title = "Resultados",
-        mod_resultados_ui("resultados_1")
       )
+      # bslib::nav_panel(
+      #   title = "Resultados",
+      #   mod_resultados_ui("resultados_1")
+      # )
     )
   )
 }
