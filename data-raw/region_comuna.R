@@ -21,3 +21,10 @@ bd_region_comuna <-
   distinct(region, comuna)
 
 usethis::use_data(bd_region_comuna, overwrite = TRUE)
+
+bd_comunas_regionMetropolitanaSantiago <-
+  bd_region_comuna |>
+  filter(region == "METROPOLITANA DE SANTIAGO") |>
+  mutate(comuna = stringr::str_to_upper(stringi::stri_trans_general(comuna, "Latin-ASCII")))
+
+usethis::use_data(bd_comunas_regionMetropolitanaSantiago, overwrite = TRUE)

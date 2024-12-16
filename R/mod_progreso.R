@@ -12,8 +12,25 @@ mod_progreso_ui <- function(id){
   bslib::card(
     full_screen = T,
     bslib::accordion(
-      shinycssloaders::withSpinner(plotOutput(ns("progreso_gral"))),
-      shinycssloaders::withSpinner(plotOutput(ns("estimacion")))
+      height = "100%",
+      open = c("progreso", "acumulado"),
+      shinyWidgets::progressBar(
+        id = "enc_hechas",
+        value = nrow(bd_respuestas_efectivas),
+        display_pct = T,
+        striped = T,
+        total = 3000,
+        status = "success"),
+      bslib::accordion_panel(
+        value = "progreso",
+        title = "Progreso por Comuna",
+        shinycssloaders::withSpinner(plotOutput(ns("progreso_comuna")))
+        ),
+      bslib::accordion_panel(
+        value = "acumulado",
+        title = "Avance acumulado",
+        shinycssloaders::withSpinner(plotOutput(ns("estimacion")))
+      )
     )
   )
 }
@@ -25,38 +42,39 @@ mod_progreso_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$progreso_gral <- renderPlot({
+    output$progreso_comuna <- renderPlot({
 
       tot_efectivas <-
-      bd_respuestas_efectivas %>%
+        bd_respuestas_efectivas %>%
         as_tibble |>
-        nrow()
+        count(comuna_mm, sort = TRUE, name = "Efectivas") |>
+        tidyr::complete(comuna_mm = unique(bd_cuotas_comuna$comuna),
+                        fill = list(Efectivas = 0)) |>
+        left_join(bd_cuotas_comuna, by = c("comuna_mm" = "comuna")) |>
+        mutate(Faltantes = cuota - Efectivas,
+               pct = Efectivas/cuota) |>
+        arrange(desc(pct))
 
       g <-
-      tibble(tipo = c("Efectivas", "Meta", "Faltantes"),
-             n = c(tot_efectivas, 3000, 3000 - tot_efectivas)) |>
-        filter(tipo != 'Meta') |>
-        mutate(pct = n/sum(n),
-               control = "control") |>
-        ggplot(aes(x = control,
-                   y = n,
-                   fill = factor(tipo, levels = rev(c("Efectivas", "Faltantes"))),
-                   label = paste0(scales::comma(n),
-                                  " (",
-                                  scales::percent(pct, accuracy = 1.0),
-                                  ")"))) +
-        geom_col() +
-        geom_text(size = 10) +
+      tot_efectivas |>
+        ggplot(aes(x = reorder(comuna_mm, pct))) +
+        geom_col(aes(y = Faltantes), fill = "gray70") +
+        geom_col(aes(y = Efectivas), fill = color_general) +
+        geom_text(aes(y = Efectivas,
+                      label = paste0(scales::comma(Efectivas),
+                                     "/",
+                                     cuota,
+                                     " (",
+                                     scales::percent(pct, accuracy = 1.0),
+                                     ")")),
+                  hjust = -0.1,
+                  size = 8) +
         coord_flip() +
-        scale_fill_manual(values = c("Efectivas" = color_general,
-                                     "Faltantes" = 'gray70'),
-                          breaks = rev(c("Faltantes", "Efectivas"))) +
+        scale_x_discrete(labels = function(x) stringr::str_to_title(string = x)) +
         scale_y_continuous(labels = scales::comma,
                            n.breaks = 6) +
         tema_morant() +
-        labs(fill = "", title = "Progreso") +
-        theme(axis.text.y = element_blank(),
-              legend.position = "bottom", plot.title = element_text(size = 18))
+        theme(legend.position = "bottom")
 
       return(g)
 
@@ -155,7 +173,7 @@ mod_progreso_server <- function(id){
         theme(legend.position = "bottom")
       return(g)
 
-      })
+    })
 
   })
 }

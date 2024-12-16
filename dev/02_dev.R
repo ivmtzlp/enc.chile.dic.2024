@@ -41,6 +41,8 @@ golem::add_sass_file("custom")
 usethis::use_data_raw(name = "shp_comuna", open = TRUE)
 usethis::use_data_raw(name = "region_comuna", open = TRUE)
 usethis::use_data_raw(name = "bd_entrevistas_efectivas", open = FALSE)
+usethis::use_data_raw(name = "cuotas_comunas", open = TRUE)
+usethis::use_data_raw(name = "diccionario", open = TRUE)
 
 ## Tests ----
 ## Add one line by test you want to create

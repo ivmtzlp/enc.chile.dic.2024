@@ -43,7 +43,30 @@ bd_respuestas_efectivas <-
   filter(!Srvyr %in% c("KATHERYN HERNANDEZ",
                        "KATHERYN HERNANDEZ ")) |>
   # La base de region comuna se obtiene a partir de otro script. Es un insumo de sólo lectura
-  left_join(bd_region_comuna, by = "comuna")
+  left_join(bd_region_comuna, by = "comuna") |>
+  mutate(comuna_mm = dplyr::if_else(condition = comuna %in% c("VALPARAISO", "VINA DEL MAR"),
+                                    true = "VALPARAISO/VINA DEL MAR",
+                                    false =  comuna),
+         comuna_mm = dplyr::if_else(condition = comuna %in% c("COQUIMBO", "LA SERENA"),
+                                    true = "COQUIMBO/LA SERENA",
+                                    false =  comuna_mm),
+         comuna_mm = dplyr::if_else(condition = comuna %in% c("CONCEPCION"),
+                                    true = "GRAN CONCEPCION",
+                                    false =  comuna_mm),
+         comuna_mm = dplyr::if_else(condition = comuna %in% unique(bd_comunas_regionMetropolitanaSantiago$comuna),
+                                    true = "SANTIAGO",
+                                    false =  comuna_mm)) |>
+  mutate(across(.cols = c(interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
+                .fns = ~ gsub(pattern = " \\(No leer\\)",
+                              replacement = "",
+                              x = .x)),
+         across(.cols = c(interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
+                .fns = ~ gsub(pattern = "Otro:",
+                              replacement = "Otro",
+                              x = .x)))
+
+bd_respuestas_efectivas |>
+  distinct(voto_pr)
 
 # Calculo de registros de rechazo -------------------------------------------------------------
 

@@ -55,6 +55,11 @@ color_rspchis <-"#D9526B"
 color_pmchis <- "#6B3A8C"
 color_movpro <- color_rspchis
 
+
+# Chile ---------------------------------------------------------------------------------------
+
+color_ominami <- "#7209b7"
+
 # Sociodemográficos -------------------------------------------------------
 
 color_h <- color_morena
