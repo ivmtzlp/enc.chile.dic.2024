@@ -456,3 +456,49 @@ g_frases_gobierno <-
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
+
+# Satisfaccion democracia
+bd_satisfaccion_democracia <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  count(satisfaccion_democracia) |>
+  na.omit() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = satisfaccion_democracia)
+
+g_satisfaccion_democracia <-
+  bd_satisfaccion_democracia |>
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02,
+                  orden_respuestas = rev(c("Muy satisfecho",
+                                           "Algo satisfecho",
+                                           "Ni satisfecho ni insatisfecho",
+                                           "Algo insatisfecho",
+                                           "Muy insatisfecho",
+                                           "Ns/Nc"))) +
+  scale_fill_manual(values = colores_satisfaccion_democracia) +
+  scale_y_continuous(limits = c(0, 1.0),
+                     labels = scales::percent) +
+  labs(caption = p_satisfaccion_democracia_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))
+
+# Izquierda vs derecha
+
+variables_izq_der <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(starts_with("cali_")) |>
+  names()
+
+
+variables_izq_der %>%
+  purrr::map_df(.x = .,
+                 .f = ~ tibble("variable" = .x,
+                               "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
+                                                                        variable = .x) %>%
+                                 purrr::pluck("media")))
+

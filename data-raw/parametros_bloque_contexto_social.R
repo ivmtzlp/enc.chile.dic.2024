@@ -133,3 +133,27 @@ colores_frases_gobierno <-
   as_tibble() |>
   distinct(frases_gobierno) |>
   asignar_colores()
+
+# Satisfaccion democracia
+p_satisfaccion_democracia_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "satisfaccion_democracia", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 75)
+
+colores_satisfaccion_democracia <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  distinct(satisfaccion_democracia) |>
+  asignar_colores()
+
+# Derecha izquierda
+p_izquierda_derecha_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "escala", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 75)
