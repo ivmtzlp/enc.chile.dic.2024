@@ -357,3 +357,34 @@ g_cali_economia <-
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
 
+
+# Chile actual
+
+# pREGUNTA RANDOM
+bd_chile_actual <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  count(chile_actual) |>
+  na.omit() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = chile_actual)
+
+g_chile_actual <-
+  bd_chile_actual |>
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02,
+                  orden_respuestas = rev(c("Progresando",
+                                           "Estancado",
+                                           "En retroceso",
+                                           "Ns/Nc"))) +
+  scale_fill_manual(values = colores_chile_actual) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  labs(caption = p_chile_actual_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))
+
+

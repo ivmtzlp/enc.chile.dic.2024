@@ -73,3 +73,18 @@ p_calificacion_gobierno <-
   distinct(pregunta) |>
   pull(pregunta) |>
   stringr::str_wrap(width = 55)
+
+# Chile Actual
+p_chile_actual_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "chile_actual", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 55)
+
+colores_chile_actual <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  distinct(chile_actual) |>
+  asignar_colores()
