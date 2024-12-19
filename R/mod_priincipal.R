@@ -83,7 +83,6 @@ mod_priincipal_server <- function(id){
     })
 
     output$mapa_principal <- renderLeaflet({
-
       map <-
         leaflet(options = leafletOptions(zoomControl = FALSE)) |>
         addTiles(urlTemplate = "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
@@ -94,7 +93,6 @@ mod_priincipal_server <- function(id){
                     fillOpacity = 0.2,
                     group = "comunas",
                     popup = ~ glue::glue("<span style='font-size:16px;'>Comuna: {COMUNA}</span>"))
-
       return(map)
     })
 
@@ -103,23 +101,20 @@ mod_priincipal_server <- function(id){
     comuna_actual <- reactiveVal(value = "")
 
     observeEvent(input$filtrar_comuna, {
-      if(input$comuna != comuna_actual()){
-
+      if(input$comuna != comuna_actual())
+      {
         bbox <-
           shp_comuna_react() |>
           sf::st_bbox()
 
         proxy_mapa_principal %>%
           flyToBounds(bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]])
-
       }
-    }
-    )
+    })
 
     mostrar_encuestador <- reactiveVal(value = "Todos")
 
     observeEvent(input$mostrar_encuestador, {
-
       proxy_mapa_principal |>
         clearGroup("Efectivas") %>%
         addCircleMarkers(data = shp_entrevistas_efectivas_react(),
@@ -132,10 +127,7 @@ mod_priincipal_server <- function(id){
                                               Comuna: {comuna} <br>
                                               Manzana: {manzana} </span>"),
                          group = "Efectivas")
-
-    }
-    )
-
+    })
   })
 }
 
