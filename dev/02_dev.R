@@ -27,6 +27,7 @@ golem::add_module(name = "resultados", with_test = FALSE) # Name of the module
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("encuestar", with_test = FALSE)
+golem::add_fct("resultados", with_test = FALSE)
 golem::add_utils("constantes", with_test = FALSE)
 
 ## External resources
