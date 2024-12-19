@@ -29,7 +29,7 @@ g_temas <-
 
 # medios de comunicacion
 bd_medios_com <-
-bd_respuestas_efectivas |>
+  bd_respuestas_efectivas |>
   as_tibble() |>
   count(medios_com) |>
   na.omit() |>
@@ -50,7 +50,7 @@ g_medios_com <-
 
 # Redes sociales que utiliza
 bd_utiliza <-
-bd_respuestas_efectivas |>
+  bd_respuestas_efectivas |>
   as_tibble() |>
   select(contains("utiliza")) |>
   tidyr::pivot_longer(cols = everything(),
@@ -94,8 +94,9 @@ bd_problema_chile <-
   count(respuesta) |>
   mutate(pct = n/nrow(bd_respuestas_efectivas))
 
-bd_problema_chile |>
-graficar_lollipops(width_cats = 35) +
+g_problema_chile <-
+  bd_problema_chile |>
+  graficar_lollipops(width_cats = 35) +
   scale_color_manual(values = colores_problema) +
   scale_y_continuous(limits = c(0, 1.0),
                      labels = scales::percent) +
