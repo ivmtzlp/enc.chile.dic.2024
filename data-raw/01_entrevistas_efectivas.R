@@ -3,7 +3,13 @@
 # Preambulo -----------------------------------------------------------------------------------
 
 library(dplyr)
-devtools::load_all()
+
+Sys.setenv(tz = "America/Santiago")
+
+source(file = "./R/utils_constantes.R")
+source(file = "./R/fct_encuestar.R")
+load(file = "./data/bd_region_comuna.rda")
+load(file = "./data/bd_comunas_regionMetropolitanaSantiago.rda")
 
 # Paths ---------------------------------------------------------------------------------------
 
@@ -22,7 +28,6 @@ bd_respuestas_campo_raw <-
 ## Eliminadas ---------------------------------------------------------------------------------
 
 # Eliminadas
-# googledrive::drive_auth(path = "./data-raw/api-key.json")
 googledrive::drive_download(file = link_eliminadas,
                             path = path_eliminadas,
                             overwrite = T)
@@ -56,17 +61,16 @@ bd_respuestas_efectivas <-
          comuna_mm = dplyr::if_else(condition = comuna %in% unique(bd_comunas_regionMetropolitanaSantiago$comuna),
                                     true = "SANTIAGO",
                                     false =  comuna_mm)) |>
-  mutate(across(.cols = c(interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
+  mutate(across(.cols = c(temas, medios_com, contains("_chile_O"),
+                          interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
                 .fns = ~ gsub(pattern = " \\(No leer\\)",
                               replacement = "",
                               x = .x)),
-         across(.cols = c(interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
+         across(.cols = c(medios_com, contains("_chile_O"),
+                          interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
                 .fns = ~ gsub(pattern = "Otro:",
                               replacement = "Otro",
                               x = .x)))
-
-bd_respuestas_efectivas |>
-  distinct(voto_pr)
 
 # Calculo de registros de rechazo -------------------------------------------------------------
 
@@ -85,14 +89,23 @@ geolocalizacion_efectiva <-
                  .f = ~ obtener_ubicacionEfectiva_surveyToGo(bd_respuestas = bd_respuestas_efectivas,
                                                              id = ..1,
                                                              intento_efectivo = ..2))
-
 bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
-  left_join(geolocalizacion_efectiva, by = "SbjNum") |>
-  mutate(Latitude = GPS_INT_LA,
-         Longitude = GPS_INT_LO) |>
+  left_join(geolocalizacion_efectiva, by = "SbjNum")
+
+shp_respuestas_efectivas <-
+  bd_respuestas_efectivas |>
+  transmute(SbjNum,
+            Srvyr,
+            Date,
+            manzana,
+            comuna,
+            comuna_mm,
+            region,
+            Latitude = GPS_INT_LA,
+            Longitude = GPS_INT_LO) |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4326)
 
 # Exportar
-usethis::use_data(bd_respuestas_efectivas, overwrite = TRUE)
+usethis::use_data(shp_respuestas_efectivas, overwrite = TRUE)

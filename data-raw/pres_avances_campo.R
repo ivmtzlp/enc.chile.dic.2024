@@ -221,7 +221,8 @@ tot_efectivas_resumen <-
   mutate(pct = Efectivas/cuota,
          comuna_mm = "Total")
 
-tot_efectivas |>
+tot_efectivas_flex <-
+  tot_efectivas |>
   bind_rows(tot_efectivas_resumen) |>
   mutate(comuna_mm = stringr::str_to_title(string = comuna_mm),
          pct = scales::percent(x = pct, accuracy = 1.)) |>
@@ -231,6 +232,7 @@ tot_efectivas |>
          'Faltantes' = Faltantes,
          '% de avance' = pct) |>
   flextable::flextable(cwidth = 3, cheight = 0.7) |>
+  flextable::padding(padding.top = 0, padding.bottom = 0, part = "body") |>
   flextable::autofit() |>
   flextable::border_outer(part = "header", border = officer::fp_border(color = "black", width = 1)) |>
   flextable::border_inner_v(border = officer::fp_border(color = "black", width = 1), part = "header") |>
@@ -245,6 +247,20 @@ tot_efectivas |>
   flextable::font(fontname = "Poppins", part = "all") |>
   flextable::bold(part = "header", bold = TRUE) |>
   flextable::padding(part = "body", padding.bottom = 0, padding.top = 0)
+
+g_rechazo <-
+  calcular_tasa_rechazo(bd_respuestas_efectivas = bd_respuestas_efectivas |>
+                          as_tibble()) |>
+  as_tibble() |>
+  transmute(media = rechazo,
+            respuesta = "Sí") |>
+  encuestar:::graficar_gauge(color_principal = color_general,
+                             escala = c(0, 1),
+                             size_text_pct = 12) +
+  labs(title = stringr::str_wrap(string = "La tasa se calcula como los intentos de levantamiento rechazados entre el total intentos de levantamiento",
+                                 width = 55),
+       caption = stringr::str_wrap(string = "Por ejemplo, un rechazo del 75% nos dice que de 4 intentos, 3 fueron rechazados y 1 fue efectivo",
+                                   width = 55))
 
 # Exportar ------------------------------------------------------------------------------------
 
@@ -265,6 +281,18 @@ add_slide(pptx, layout = "gerencia_portada", master = "gerencia") %>%
           location = ph_location_label(ph_label = "subtitulo")) |>
   ph_with(value = paste0('Del 6 al ',dia,' de diciembre del 2024'),
           location = ph_location_label(ph_label = "periodo"))
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = g_rechazo,
+          location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = "Tasa de rechazo",
+          location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = tot_efectivas_flex,
+          location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = "Progreso",
+          location = ph_location_label(ph_label = "titulo"))
 
 add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
   ph_with(value = g_interes_politica,

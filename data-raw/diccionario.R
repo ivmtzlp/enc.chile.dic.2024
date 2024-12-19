@@ -17,6 +17,7 @@ googledrive::drive_download(file = link_diccionario,
 2
 
 diccionario <-
-  readxl::read_xlsx(path = path_diccionario)
+  readxl::read_xlsx(path = path_diccionario) |>
+  mutate(respuesta = strsplit(respuesta, "_"))
 
 usethis::use_data(diccionario, overwrite = TRUE)

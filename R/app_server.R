@@ -24,5 +24,4 @@ app_server <- function(input, output, session) {
 
   mod_priincipal_server("priincipal_1")
   mod_progreso_server("progreso_1")
-  mod_resultados_server("resultados_1")
 }

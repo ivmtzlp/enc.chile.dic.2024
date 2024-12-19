@@ -7,7 +7,21 @@ devtools::load_all()
 
 # Exploratorio --------------------------------------------------------------------------------
 
+diccionario |>
+  filter(llave == 'temas') |>
+  tidyr::unnest(respuesta) |>
+  distinct(respuesta)
+
 bd_respuestas_efectivas |>
   as_tibble() |>
-  count(participacion_primarias)
-  select(participacion_primarias, voto_pr, voto2_pr)
+  distinct(temas)
+
+diccionario |>
+  filter(bloque == "Contexto social") |>
+  distinct(pregunta, llave)
+
+
+# Expportar -----------------------------------------------------------------------------------
+
+bd_respuestas_efectivas |>
+  openxlsx2::write_xlsx(file = "./data-raw/bd_efectivas_enc_chile_20241218.xlsx")

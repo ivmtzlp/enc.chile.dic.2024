@@ -4,6 +4,7 @@
 library(dplyr)
 library(ggplot2)
 library(openxlsx)
+Sys.setenv(tz = "America/Santiago")
 
 # Insumos -------------------------------------------------------------------------------------
 

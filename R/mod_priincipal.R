@@ -30,7 +30,7 @@ mod_priincipal_ui <- function(id){
         selectInput(inputId = ns("encuestador"),
                     label = h2("Encuestador"),
                     choices = c("Todos",
-                                sort(unique(bd_respuestas_efectivas$Srvyr))),
+                                sort(unique(shp_respuestas_efectivas$Srvyr))),
                     selected = "Todos",
                     width = "400%"),
         actionButton(
@@ -71,7 +71,7 @@ mod_priincipal_server <- function(id){
     })
 
     bd_respuestas_efectivas_react <- eventReactive(input$encuestador, {
-      bd_respuestas_efectivas %>%
+      shp_respuestas_efectivas%>%
         {
           if(input$encuestador != "Todos"){
             filter(.data = .,
