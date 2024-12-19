@@ -63,6 +63,7 @@ bd_respuestas_efectivas <-
                                     false =  comuna_mm)) |>
   mutate(across(.cols = c(temas, medios_com, contains("_chile_O"),
                           chile_actual, chile_futuro,
+                          frases_ricos,
                           interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
                 .fns = ~ gsub(pattern = " \\(No leer\\)",
                               replacement = "",

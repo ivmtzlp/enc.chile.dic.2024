@@ -384,9 +384,6 @@ g_chile_actual <-
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
 
-
-
-
 # Chile futuro
 bd_chile_futuro <-
   bd_respuestas_efectivas |>
@@ -414,4 +411,25 @@ g_chile_futuro <-
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
 
+# Frases ricos
+bd_frases_ricos <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  count(frases_ricos) |>
+  na.omit() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = frases_ricos)
 
+g_frases_ricos <-
+  bd_frases_ricos |>
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02) +
+  scale_fill_manual(values = colores_frases_ricos) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  labs(caption = p_frases_ricos_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))

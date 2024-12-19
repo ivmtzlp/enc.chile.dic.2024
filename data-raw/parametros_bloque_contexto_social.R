@@ -103,3 +103,18 @@ colores_chile_futuro <-
   as_tibble() |>
   distinct(chile_futuro) |>
   asignar_colores()
+
+# Frases ricos
+p_frases_ricos_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "frases_ricos", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 75)
+
+colores_frases_ricos <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  distinct(frases_ricos) |>
+  asignar_colores()

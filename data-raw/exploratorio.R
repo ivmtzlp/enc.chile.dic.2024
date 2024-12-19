@@ -25,7 +25,6 @@ diccionario |>
   distinct(llave) |>
   print(n = Inf)
 
-
 # Expportar -----------------------------------------------------------------------------------
 
 bd_respuestas_efectivas |>
