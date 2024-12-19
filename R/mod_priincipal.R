@@ -30,7 +30,7 @@ mod_priincipal_ui <- function(id){
         selectInput(inputId = ns("encuestador"),
                     label = h2("Encuestador"),
                     choices = c("Todos",
-                                sort(unique(shp_respuestas_efectivas$Srvyr))),
+                                sort(unique(shp_entrevistas_efectivas$Srvyr))),
                     selected = "Todos",
                     width = "400%"),
         actionButton(
@@ -70,8 +70,8 @@ mod_priincipal_server <- function(id){
         }
     })
 
-    bd_respuestas_efectivas_react <- eventReactive(input$encuestador, {
-      shp_respuestas_efectivas%>%
+    shp_entrevistas_efectivas_react <- eventReactive(input$encuestador, {
+      shp_entrevistas_efectivas %>%
         {
           if(input$encuestador != "Todos"){
             filter(.data = .,
@@ -122,7 +122,7 @@ mod_priincipal_server <- function(id){
 
       proxy_mapa_principal |>
         clearGroup("Efectivas") %>%
-        addCircleMarkers(data = bd_respuestas_efectivas_react(),
+        addCircleMarkers(data = shp_entrevistas_efectivas_react(),
                          opacity = 1,
                          radius = 10,
                          fillOpacity = 1,

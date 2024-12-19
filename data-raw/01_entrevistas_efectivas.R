@@ -93,7 +93,7 @@ bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
   left_join(geolocalizacion_efectiva, by = "SbjNum")
 
-shp_respuestas_efectivas <-
+shp_entrevistas_efectivas <-
   bd_respuestas_efectivas |>
   transmute(SbjNum,
             Srvyr,
@@ -108,4 +108,4 @@ shp_respuestas_efectivas <-
                crs = 4326)
 
 # Exportar
-usethis::use_data(shp_respuestas_efectivas, overwrite = TRUE)
+usethis::use_data(shp_entrevistas_efectivas, overwrite = TRUE)
