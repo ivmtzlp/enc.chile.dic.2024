@@ -433,3 +433,26 @@ g_frases_ricos <-
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
+
+# Frases gobierno
+bd_frases_gobierno <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  count(frases_gobierno) |>
+  na.omit() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = frases_gobierno)
+
+g_frases_gobierno <-
+  bd_frases_gobierno |>
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02) +
+  scale_fill_manual(values = colores_frases_gobierno) +
+  scale_y_continuous(limits = c(0, 1.0),
+                     labels = scales::percent) +
+  labs(caption = p_frases_gobierno_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))

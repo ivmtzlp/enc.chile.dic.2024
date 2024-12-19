@@ -118,3 +118,18 @@ colores_frases_ricos <-
   as_tibble() |>
   distinct(frases_ricos) |>
   asignar_colores()
+
+# Frases gobierno
+p_frases_gobierno_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "frases_gobierno", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 75)
+
+colores_frases_gobierno <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  distinct(frases_gobierno) |>
+  asignar_colores()
