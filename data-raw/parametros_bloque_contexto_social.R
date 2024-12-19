@@ -65,4 +65,11 @@ colores_problema <-
   distinct(respuesta) |>
   asignar_colores()
 
-
+# Calificacion Gobierno
+p_calificacion_gobierno <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "cali", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 55)
