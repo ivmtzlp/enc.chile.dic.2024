@@ -1,4 +1,6 @@
 .Rproj.user
+README.Rmd
+README.md
 data-raw/*h.pptx
 data-raw/*h.pdf
 data-raw/*h.xlsx
