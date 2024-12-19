@@ -70,7 +70,13 @@ bd_respuestas_efectivas <-
                           interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
                 .fns = ~ gsub(pattern = "Otro:",
                               replacement = "Otro",
-                              x = .x)))
+                              x = .x)),
+         across(.cols = c(starts_with("cali_")),
+                .fns = ~ gsub(pattern = "99",
+                              replacement = "Ns/Nc",
+                              x = .x)),
+         across(.cols = c(starts_with("cali_")),
+                .fns = ~ as.factor(.x)))
 
 # Calculo de registros de rechazo -------------------------------------------------------------
 

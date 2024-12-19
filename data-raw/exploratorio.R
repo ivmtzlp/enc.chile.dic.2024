@@ -20,6 +20,11 @@ diccionario |>
   filter(bloque == "Contexto social") |>
   distinct(pregunta, llave)
 
+diccionario |>
+  filter(bloque == "Contexto social") |>
+  distinct(llave) |>
+  print(n = Inf)
+
 
 # Expportar -----------------------------------------------------------------------------------
 
