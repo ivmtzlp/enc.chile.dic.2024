@@ -357,10 +357,7 @@ g_cali_economia <-
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
 
-
 # Chile actual
-
-# pREGUNTA RANDOM
 bd_chile_actual <-
   bd_respuestas_efectivas |>
   as_tibble() |>
@@ -383,6 +380,36 @@ g_chile_actual <-
   scale_y_continuous(limits = c(0, 0.5),
                      labels = scales::percent) +
   labs(caption = p_chile_actual_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))
+
+
+
+
+# Chile futuro
+bd_chile_futuro <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  count(chile_futuro) |>
+  na.omit() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = chile_futuro)
+
+g_chile_futuro <-
+  bd_chile_futuro |>
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02,
+                  orden_respuestas = rev(c("Mejor que hoy",
+                                           "Igual que hoy",
+                                           "Peor que hoy",
+                                           "Ns/Nc"))) +
+  scale_fill_manual(values = colores_chile_futuro) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  labs(caption = p_chile_futuro_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))

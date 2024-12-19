@@ -88,3 +88,18 @@ colores_chile_actual <-
   as_tibble() |>
   distinct(chile_actual) |>
   asignar_colores()
+
+# Chile futuro
+p_chile_futuro_tit <-
+  diccionario |>
+  filter(bloque == "Contexto social") |>
+  filter(grepl(pattern = "chile_futuro", x = llave)) |>
+  distinct(pregunta) |>
+  pull(pregunta) |>
+  stringr::str_wrap(width = 75)
+
+colores_chile_futuro <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  distinct(chile_futuro) |>
+  asignar_colores()

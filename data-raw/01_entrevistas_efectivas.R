@@ -62,7 +62,7 @@ bd_respuestas_efectivas <-
                                     true = "SANTIAGO",
                                     false =  comuna_mm)) |>
   mutate(across(.cols = c(temas, medios_com, contains("_chile_O"),
-                          chile_actual,
+                          chile_actual, chile_futuro,
                           interes_politica, interes_eleccion_mun_24, voto_pr, voto2_pr),
                 .fns = ~ gsub(pattern = " \\(No leer\\)",
                               replacement = "",
