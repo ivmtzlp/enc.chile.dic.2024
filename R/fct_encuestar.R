@@ -223,3 +223,188 @@ graficar_lollipops <- function(bd, orden = NULL, limits = c(0., 1.0), width_cats
           legend.background = element_rect(color = "transparent", fill = "transparent") )
   return(g)
 }
+
+graficar_candidato_opinion <- function(bd, ns_nc, regular,
+                                       grupo_positivo,
+                                       grupo_negativo,
+                                       colores,
+                                       color_nsnc,
+                                       burbuja,
+                                       color_burbuja,
+                                       size_burbuja = 8,
+                                       caption_opinion = "",
+                                       caption_nsnc = "Ns/Nc",
+                                       caption_burbuja,
+                                       size_text_legend = 12,
+                                       size_caption_opinion = 12,
+                                       size_caption_nsnc = 14,
+                                       size_caption_burbuja,
+                                       size_text_cat = 16,
+                                       size_pct = 12,
+                                       orden_resp,
+                                       salto = 200,
+                                       tema,
+                                       mostrar_nsnc = T,
+                                       salto_respuestas = 100,
+                                       orden_cat = NULL,
+                                       patron_inicial = NULL){
+
+  if(!is.null(ns_nc)){
+    bd <- bd %>% group_by(tema) %>% complete(respuesta = ns_nc, fill = list(media = 0)) %>% ungroup
+  }
+
+  aux <- bd %>% mutate(Regular = if_else(respuesta == regular, "regular1", as.character(respuesta))) %>%
+    bind_rows(bd %>% filter(respuesta == regular) %>% mutate(Regular = "regular2", media = -media)) %>%
+    mutate(etiqueta = if_else(Regular != "regular2", scales::percent(media,1), ""),
+           media = if_else(respuesta %in% grupo_negativo,-1*media,media),
+           media = if_else(respuesta == regular, media/2, media)) %>%
+    group_by(tema) %>%
+    mutate(saldo = sum(as.numeric(!(respuesta %in% c(regular, ns_nc)))*media))
+
+  orden <- aux %>% arrange(saldo) %>% pull(tema) %>% unique %>% na.omit
+
+  if(!is.null(orden_cat)) {
+
+    orden <- aux %>%
+      ungroup() |>
+      mutate(aspecto = gsub(pattern = paste0(patron_inicial, "_"),
+                            replacement = "",
+                            x = aspecto)) |>
+      distinct(aspecto, tema) |>
+      mutate(aspecto = factor(aspecto, levels = orden_cat, ordered = TRUE)) |>
+      arrange(desc(aspecto)) |>
+      pull() |>
+      as.factor()
+
+  }
+
+  if(!all(is.na(burbuja))){
+    burbuja <- burbuja %>% mutate(escala = media/max(media), tema = forcats::fct_reorder(tema, media))
+    orden <- burbuja$tema %>% levels
+    g_burbuja <-
+      burbuja %>%
+      ggplot(aes(y = tema,
+                 x = factor(1))) +
+      geom_point(aes(size = escala), color = color_burbuja, shape = 16) +
+      geom_text(aes(label = scales::percent(media,1)), hjust = -.5) +
+      scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = salto)) +
+      scale_size_area(max_size = size_burbuja) +
+      tema +
+      labs(caption = caption_burbuja) +
+      theme(legend.position = "none",
+            axis.text.x = element_blank(),
+            axis.text.y = element_blank(),
+            panel.grid.major.x = element_blank(),
+            axis.line.x = element_blank(),
+            plot.caption = element_text(hjust = 0.5, size = size_caption_burbuja))
+  }
+
+  g_opinion <-
+    aux %>%
+    {if(!is.null(ns_nc)) filter(., respuesta!= ns_nc) else .}  %>%
+    mutate(respuesta = factor(respuesta, levels = orden_resp)) |>
+    graficar_barras_saldo(orden = orden,
+                          grupo_positivo = grupo_positivo,
+                          grupo_negativo = grupo_negativo,
+                          Regular = regular,
+                          colores = colores,
+                          salto_respuestas = salto_respuestas,
+                          salto_tema = salto,
+                          caption_opinion = caption_opinion,
+                          size_text_cat = size_text_cat,
+                          size_pct = size_pct,
+                          size_text_legend = size_text_legend,
+                          size_caption_opinion = size_caption_opinion)
+
+  if(!is.null(ns_nc)){
+    b <- aux %>%
+      filter(respuesta == ns_nc) %>%
+      ggplot(aes(x = factor(tema, orden),
+                 y = media))+
+      ggchicklet::geom_chicklet(width =.6, alpha =.9, fill = color_nsnc, color = "transparent") +
+      ggfittext::geom_bar_text(aes(label = etiqueta), color = "#2C423F",
+                               hjust = -.1) +
+      coord_flip() +
+      labs(y = NULL, x = NULL, caption = caption_nsnc) +
+      scale_y_continuous(n.breaks = 2) +
+      tema +
+      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+            axis.text.x = element_blank(), axis.line.x = element_blank(),
+            plot.caption = element_text(hjust = 0.5, size = size_caption_nsnc))
+
+    if(!all(is.na(burbuja))){
+      if(mostrar_nsnc) {
+        final <- g_opinion + g_burbuja + b + patchwork::plot_layout(widths = c(.7, .15, .15), ncol= 3)
+      } else {
+        final <- g_opinion + g_burbuja + patchwork::plot_layout(widths = c(.7, .15, .15), ncol = 3)
+      }
+    } else{
+      if(mostrar_nsnc) {
+        final <- g_opinion + b + patchwork::plot_layout(widths = c(.8, .2))
+      } else {
+        final <- g_opinion
+      }
+
+    }
+
+  } else{
+    if(!all(is.na(burbuja))){
+      final <- g_opinion + g_burbuja + patchwork::plot_layout(widths = c(.8,.2))
+    } else{
+      final <- g_opinion
+    }
+  }
+  return(final &
+           theme(plot.background = element_rect(color = "transparent", fill = "transparent"),
+                 panel.background = element_rect(color = "transparent", fill = "transparent"),
+                 legend.background = element_rect(color = "transparent", fill = "transparent")))
+}
+
+graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Regular, colores, salto_respuestas, salto_tema, caption_opinion, size_text_cat = 12, size_pct, size_caption_opinion,size_text_legend = 12, tema = encuestar::tema_morant()){
+
+  if(!is.na(Regular)) {
+    group_levels <- c("regular2", grupo_negativo, "regular1", grupo_positivo)
+  } else {
+    group_levels <- c(grupo_negativo, grupo_positivo)
+  }
+
+  g <-
+    bd |>
+    ggplot(aes(x  = factor(tema, orden),
+               y = media,
+               fill = respuesta,
+               group = factor(Regular, levels = group_levels))) +
+    ggchicklet::geom_chicklet(color = "transparent", width =.6, alpha =.9) +
+    ggfittext::geom_fit_text(aes(label = etiqueta),
+                             size = size_pct,
+                             position = position_stack(.5, reverse = T),
+                             vjust = .5,
+                             contrast = T,
+                             show.legend = F) +
+    geom_hline(yintercept = 0, color = "#FFFFFF", size = .6) +
+    geom_hline(yintercept = 0, color = "gray", size = .6) +
+    coord_flip() +
+    scale_fill_manual(values = colores,
+                      labels = function(x) stringr::str_wrap(string = x, width = salto_respuestas)) +
+    labs(x = NULL,
+         y = NULL,
+         fill = NULL,
+         caption = caption_opinion) +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = salto_tema)) +
+    lemon::scale_y_symmetric(labels = function(x) scales::percent(abs(x), accuracy = 1)) +
+    theme_minimal() +
+    tema +
+    theme(legend.position = "bottom") +
+    theme(axis.text.y = element_text(size = size_text_cat),
+          plot.caption = element_text(hjust = 0.5, size = size_caption_opinion),
+          legend.key.size = unit(1, units = "cm"),
+          legend.text = element_text(size = size_text_legend))
+  return(g)
+}
+
+
+
+
+
+
+
