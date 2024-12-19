@@ -289,7 +289,7 @@ graficar_candidato_opinion <- function(bd, ns_nc, regular,
       geom_text(aes(label = scales::percent(media,1)), hjust = -.5) +
       scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = salto)) +
       scale_size_area(max_size = size_burbuja) +
-      tema +
+      tema_morant() +
       labs(caption = caption_burbuja) +
       theme(legend.position = "none",
             axis.text.x = element_blank(),
@@ -327,7 +327,7 @@ graficar_candidato_opinion <- function(bd, ns_nc, regular,
       coord_flip() +
       labs(y = NULL, x = NULL, caption = caption_nsnc) +
       scale_y_continuous(n.breaks = 2) +
-      tema +
+      tema_morant() +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
             axis.text.x = element_blank(), axis.line.x = element_blank(),
             plot.caption = element_text(hjust = 0.5, size = size_caption_nsnc))
@@ -393,7 +393,7 @@ graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Reg
     scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = salto_tema)) +
     lemon::scale_y_symmetric(labels = function(x) scales::percent(abs(x), accuracy = 1)) +
     theme_minimal() +
-    tema +
+    tema_morant() +
     theme(legend.position = "bottom") +
     theme(axis.text.y = element_text(size = size_text_cat),
           plot.caption = element_text(hjust = 0.5, size = size_caption_opinion),
