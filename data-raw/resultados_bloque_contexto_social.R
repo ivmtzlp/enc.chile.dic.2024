@@ -491,7 +491,7 @@ g_satisfaccion_democracia <-
 variables_izq_der <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(starts_with("cali_")) |>
+  select(starts_with("escala")) |>
   names()
 
 
