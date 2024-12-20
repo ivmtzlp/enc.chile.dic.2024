@@ -494,11 +494,43 @@ variables_izq_der <-
   select(starts_with("escala")) |>
   names()
 
-
-variables_izq_der %>%
+bd_variables_izq_der <-
+  variables_izq_der %>%
   purrr::map_df(.x = .,
-                 .f = ~ tibble("variable" = .x,
-                               "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
-                                                                        variable = .x) %>%
-                                 purrr::pluck("media")))
+                .f = ~ tibble("variable" = .x,
+                              "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
+                                                                         variable = .x) %>%
+                                purrr::pluck("media"))) |>
+  mutate(izq = case_when(variable == "escala_bienestar" ~ "bienestar_izq",
+                         variable == "escala_ayuda" ~ "ayuda_izq",
+                         variable == "escala_economia" ~ "economia_izq",
+                         variable == "escala_aborto" ~ "aborto_izq",
+                         variable == "escala_gays" ~ "gays_izq"),
+         der = case_when(variable == "escala_bienestar" ~ "bienestar_der",
+                         variable == "escala_ayuda" ~ "ayuda_der",
+                         variable == "escala_economia" ~ "economia_der",
+                         variable == "escala_aborto" ~ "aborto_der",
+                         variable == "escala_gays" ~ "gays_der"))
 
+
+
+bd_variables_izq_der %>%
+  ggplot(aes(x = izq,
+             y = media)) +
+  geom_point(size = 3) +
+  geom_text(aes(label = round(media, digits = 1)),
+            vjust = -2, size = 8) +
+  coord_flip() +
+  scale_y_continuous(limits = c(1, 5.5),
+                     breaks = 1:5) +
+  annotate(
+    "text",
+    x = bd_variables_izq_der$izq,
+    y = 5.5,
+    label = bd_variables_izq_der$der,
+    hjust = 0, #
+    size = 5
+  ) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 16))
