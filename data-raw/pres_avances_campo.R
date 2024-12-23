@@ -7,6 +7,10 @@ library(officer)
 
 # devtools::load_all()
 
+load(file = "./data/diccionario.rda")
+load(file = "./data/bd_comunas_regionMetropolitanaSantiago.rda")
+load(file = "./data/bd_cuotas_comuna.rda")
+
 # Resultados ----------------------------------------------------------------------------------
 
 # INTERES EN POLITCA

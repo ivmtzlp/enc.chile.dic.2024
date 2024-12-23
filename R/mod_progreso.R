@@ -16,7 +16,7 @@ mod_progreso_ui <- function(id){
       open = c("progreso", "acumulado"),
       shinyWidgets::progressBar(
         id = "enc_hechas",
-        value = nrow(shp_respuestas_efectivas),
+        value = nrow(shp_entrevistas_efectivas),
         display_pct = T,
         striped = T,
         total = 3000,
@@ -45,7 +45,7 @@ mod_progreso_server <- function(id){
     output$progreso_comuna <- renderPlot({
 
       tot_efectivas <-
-        shp_respuestas_efectivas %>%
+        shp_entrevistas_efectivas %>%
         as_tibble |>
         count(comuna_mm, sort = TRUE, name = "Efectivas") |>
         tidyr::complete(comuna_mm = unique(bd_cuotas_comuna$comuna),
@@ -83,11 +83,11 @@ mod_progreso_server <- function(id){
     output$estimacion <- renderPlot({
 
       hist_efectivas <-
-        shp_respuestas_efectivas %>%
+        shp_entrevistas_efectivas %>%
         as_tibble %>%
         count(fecha = lubridate::as_date(Date)) |>
-        tidyr::complete(fecha = seq.Date(from = min(lubridate::as_date(shp_respuestas_efectivas$Date)),
-                                         to = max(lubridate::as_date(shp_respuestas_efectivas$Date)),
+        tidyr::complete(fecha = seq.Date(from = min(lubridate::as_date(shp_entrevistas_efectivas$Date)),
+                                         to = max(lubridate::as_date(shp_entrevistas_efectivas$Date)),
                                          by = "day"),
                         fill = list(n = 0)) |>
         rename("tot_hechas" = n) |>
@@ -117,8 +117,8 @@ mod_progreso_server <- function(id){
 
       bd_hecho_pred <-
         hist_efectivas |>
-        tidyr::complete(fecha = seq.Date(from = min(lubridate::as_date(shp_respuestas_efectivas$Date)),
-                                         to = max(lubridate::as_date(shp_respuestas_efectivas$Date)) + dias_pred,
+        tidyr::complete(fecha = seq.Date(from = min(lubridate::as_date(shp_entrevistas_efectivas$Date)),
+                                         to = max(lubridate::as_date(shp_entrevistas_efectivas$Date)) + dias_pred,
                                          by = "day"),
                         fill = list(n = 0)) |>
         mutate(dias_desde_inicio = as.numeric(fecha - min(fecha))) |>
