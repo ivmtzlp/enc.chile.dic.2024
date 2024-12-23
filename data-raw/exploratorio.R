@@ -25,6 +25,9 @@ diccionario |>
   distinct(llave) |>
   print(n = Inf)
 
+bd_respuestas_efectivas |>
+  glimpse()
+
 # Expportar -----------------------------------------------------------------------------------
 
 path_entrevistas_efectivas <-
@@ -34,3 +37,7 @@ path_entrevistas_efectivas <-
 
 bd_respuestas_efectivas |>
   openxlsx2::write_xlsx(file = path_entrevistas_efectivas)
+
+
+bd_respuestas_efectivas |>
+  distinct(participacion_primarias)
