@@ -27,5 +27,10 @@ diccionario |>
 
 # Expportar -----------------------------------------------------------------------------------
 
+path_entrevistas_efectivas <-
+  formato_archivo(nombre = "./data-raw/bd_efectivas_enc_chile",
+                extension = "xlsx",
+                tolerancia = 60)
+
 bd_respuestas_efectivas |>
-  openxlsx2::write_xlsx(file = "./data-raw/bd_efectivas_enc_chile_20241218.xlsx")
+  openxlsx2::write_xlsx(file = path_entrevistas_efectivas)
