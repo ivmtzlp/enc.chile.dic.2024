@@ -5,6 +5,8 @@ library(dplyr)
 
 devtools::load_all()
 
+source(file = './data-raw/01_entrevistas_efectivas.R')
+
 # Exploratorio --------------------------------------------------------------------------------
 
 diccionario |>
