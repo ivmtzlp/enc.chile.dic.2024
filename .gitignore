@@ -4,3 +4,8 @@ README.md
 data-raw/*h.pptx
 data-raw/*h.pdf
 data-raw/*h.xlsx
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto

@@ -1,8 +1,7 @@
 Package: enc.chile.dic.2024
 Title: PKG_TITLE
 Version: 0.0.0.9000
-Authors@R: 
-    person("AUTHOR_FIRST", "AUTHOR_LAST", , "AUTHOR@MAIL.COM", role = c("cre", "aut"))
+Authors@R: person('AUTHOR_FIRST', 'AUTHOR_LAST', email = 'AUTHOR@MAIL.COM', role = c('cre', 'aut'))
 Description: PKG_DESC.
 License: MIT + file LICENSE
 URL: https://github.com/AllanJ93/enc.chile.dic.2024
