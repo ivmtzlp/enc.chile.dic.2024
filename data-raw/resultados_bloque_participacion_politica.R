@@ -1,8 +1,8 @@
 
-bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(participacion_primarias)|>
-  naniar::vis_miss()
+# bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(participacion_primarias)|>
+#   naniar::vis_miss()
 #Constantes   ########################################33
 
 # Interes Politica
