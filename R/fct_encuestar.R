@@ -360,7 +360,7 @@ graficar_candidato_opinion <- function(bd, ns_nc, regular,
                  legend.background = element_rect(color = "transparent", fill = "transparent")))
 }
 
-graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Regular, colores, salto_respuestas, salto_tema, caption_opinion, size_text_cat = 12, size_pct, size_caption_opinion,size_text_legend = 12, tema = encuestar::tema_morant()){
+graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Regular, colores, salto_respuestas, salto_tema, caption_opinion, size_text_cat = 12, size_pct, size_caption_opinion,size_text_legend = 12, tema = tema_morant()){
 
   if(!is.na(Regular)) {
     group_levels <- c("regular2", grupo_negativo, "regular1", grupo_positivo)
