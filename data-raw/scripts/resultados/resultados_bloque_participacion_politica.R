@@ -3,121 +3,9 @@
 #   as_tibble() |>
 #   select(participacion_primarias)|>
 #   naniar::vis_miss()
-#Constantes   ########################################33
 
-# Interes Politica
-orden_interes_politica <- c("Muy interesado",   "Interesado",   "Neutral/Indiferente",   "Nada interesado", "Muy poco interesado", "Ns/Nc" )
+source('./data-raw/scripts/parametros/parametros_bloque_participacion_politica.R')
 
-p_interes_politica_tit <-
-  diccionario |>
-  filter(grepl('interes_politica',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-# Interes eleccion municipal
-p_interes_eleccion_mun_24_tit <-
-  diccionario |>
-  filter(grepl('interes_eleccion_mun_24',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-# Perticipacion presidencia 21
-p_participacion_pr_21_tit <-
-  diccionario |>
-  filter(grepl('participacion_pr_21',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-
-# Perticipacion municipal 24
-p_participacion_mun_24_tit <-
-  diccionario |>
-  filter(grepl('participacion_mun_24',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-#Voto proximas elecciones
-p_voto_proximas_elecciones_tit <-
-  diccionario |>
-  filter(grepl('voto_proximas_elecciones',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-# Perticipacion primarias 25
-p_participacion_primarias_tit <-
-  diccionario |>
-  filter(grepl('participacion_primarias',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-
-# Opinion primarias
-p_opinion_primarias_tit <-
-  diccionario |>
-  filter(grepl('opinion_primarias',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-# Voto Pr 25
-p_voto_pr_tit <-
-  diccionario |>
-  filter(grepl('voto_pr',llave)) |>
-  filter(!grepl('proximas',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-# Voto segundo Pr 25
-p_voto2_pr_tit <-
-  diccionario |>
-  filter(grepl('voto2_pr',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-
-# candidato nunca voto pr 25
-p_candidato_nunca_voto_tit <-
-  diccionario |>
-  filter(grepl('candidato_nunca_voto',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-# postura ideologica
-p_definicion_postura_ideologica_tit <-
-  diccionario |>
-  filter(grepl('definicion_postura_ideologica',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-orden_definicion_postura_ideologica <- c("Izquierda","Centro izquierda","Centro","Centro derecha","Derecha","Ninguno",
-                                         "Ns/Nc" )
-
-
-# Identificacion partidista
-p_identificacion_partido_tit <-
-  diccionario |>
-  filter(grepl('identificacion_partido',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
 #######################################333
 
 # Interes Politica
@@ -132,9 +20,17 @@ bd_respuestas_efectivas |>
 
 p_interes_politica_graf<-
 bd_interes_politica|>
-  graficar_barras(orden_respuestas = rev(orden_interes_politica))+
-  labs(caption = p_interes_politica_tit)+
-  tema_morant()
+  graficar_barras(orden_respuestas = rev(orden_interes_politica),salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02)+
+  scale_fill_manual(values=colores_interes_politica)+
+  labs(caption = p_interes_politica_tit) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -148,11 +44,21 @@ bd_interes_eleccion_mun_24<-
   rename(respuesta=interes_eleccion_mun_24 )
 
 
-p_interes_eleccion_mun_24_graf<-
+p_interes_eleccion_mun_24_graf <-
   bd_interes_eleccion_mun_24|>
-  graficar_barras(orden_respuestas = rev(orden_interes_politica))+
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02,
+                  orden_respuestas = rev(orden_interes_politica))+
+
   labs(caption = p_interes_eleccion_mun_24_tit)+
-  tema_morant()
+  scale_fill_manual(values = colores_interes_eleccion_mun_24) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -169,8 +75,9 @@ bd_participacion_pr_21<-
 
 p_participacion_pr_21_graf <-
 bd_participacion_pr_21 |>
-  graficar_gauge(color_principal = "green",escala = c(0,1),size_text_pct = 25)+
-  labs(caption = p_participacion_pr_21_tit)
+  graficar_gauge(color_principal = color_general,escala = c(0,1),size_text_pct = 12)+
+  labs(title = p_participacion_pr_21_tit,
+       caption =  "Entrevistados que contestaron que Sí")
 
 
 # Perticipacion municipal 24
@@ -186,8 +93,9 @@ bd_participacion_mun_24<-
 
 p_participacion_mun_24_graf <-
   bd_participacion_mun_24 |>
-  graficar_gauge(color_principal = "green",escala = c(0,1),size_text_pct = 25)+
-  labs(caption = p_participacion_mun_24_tit)
+  graficar_gauge(color_principal =color_general,escala = c(0,1),size_text_pct = 12)+
+  labs(title = p_participacion_mun_24_tit,
+       caption =  "Entrevistados que contestaron que Sí")
 
 
 
@@ -203,10 +111,18 @@ bd_voto_proximas_elecciones<-
 
 p_voto_proximas_elecciones_graf<-
   bd_voto_proximas_elecciones|>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02)+
   #graficar_barras(orden_respuestas = rev(orden_voto_proximas_elecciones))+
+  scale_fill_manual(values = colores_voto_proximas_elecciones) +
   labs(caption = p_voto_proximas_elecciones_tit)+
-  tema_morant()
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 # Perticipacion primarias 25
@@ -222,10 +138,11 @@ bd_participacion_primarias<-
 
 p_participacion_primarias_graf <-
   bd_participacion_primarias |>
-  graficar_gauge(color_principal = "green",escala = c(0,1),size_text_pct = 25)+
-  labs(caption = p_participacion_primarias_tit)
-
-
+  graficar_gauge(color_principal = color_general,escala = c(0,1),size_text_pct = 12)+
+  labs(title = p_participacion_primarias_tit,
+       caption =  "Entrevistados que contestaron que Sí")+
+  theme(plot.title = element_text(size = 12),
+        plot.caption = element_text(size = 12))
 
 
 # Voto Pr 25
@@ -241,10 +158,18 @@ bd_voto_pr<-
 
 p_voto_pr_graf<-
   bd_voto_pr|>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.01)+
   #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
+  scale_fill_manual(values = colores_voto_pr ) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
   labs(caption = p_voto_pr_tit)+
-  tema_morant()
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 # Voto segundo Pr 25
@@ -260,10 +185,18 @@ bd_voto2_pr<-
 
 p_voto2_pr_graf<-
   bd_voto2_pr|>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.01)+
   #graficar_barras(orden_respuestas = rev(orden_voto2_pr))+
   labs(caption = p_voto2_pr_tit)+
-  tema_morant()
+  scale_fill_manual(values = colores_voto2_pr ) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -280,10 +213,18 @@ bd_candidato_nunca_voto<-
 
 p_candidato_nunca_voto_graf<-
   bd_candidato_nunca_voto|>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.01)+
   #graficar_barras(orden_respuestas = rev(orden_candidato_nunca_voto))+
   labs(caption = p_candidato_nunca_voto_tit)+
-  tema_morant()
+  scale_fill_manual(values = colores_candidato_nunca_voto ) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 # postura ideologica
@@ -291,7 +232,7 @@ bd_definicion_postura_ideologica<-
   bd_respuestas_efectivas |>
   as_tibble() |>
   select(definicion_postura_ideologica) |>
-  filter(!is.na(definicion_postura_ideologica)) |>
+  #filter(!is.na(definicion_postura_ideologica)) |>
   count(definicion_postura_ideologica) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=definicion_postura_ideologica)
@@ -301,9 +242,18 @@ bd_definicion_postura_ideologica<-
 p_definicion_postura_ideologica_graf<-
   bd_definicion_postura_ideologica|>
   #graficar_barras()+
-  graficar_barras(orden_respuestas = rev(orden_definicion_postura_ideologica))+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.01,
+                  orden_respuestas = rev(orden_definicion_postura_ideologica))+
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  scale_fill_manual(values = colores_definicion_postura_ideologica) +
   labs(caption = p_definicion_postura_ideologica_tit)+
-  tema_morant()
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -321,10 +271,18 @@ bd_identificacion_partido<-
 
 p_identificacion_partido_graf<-
   bd_identificacion_partido|>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.01)+
   #graficar_barras(orden_respuestas = rev(orden_identificacion_partido))+
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  scale_fill_manual(values = colores_identificacion_partido) +
   labs(caption = p_identificacion_partido_tit)+
-  tema_morant()
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 

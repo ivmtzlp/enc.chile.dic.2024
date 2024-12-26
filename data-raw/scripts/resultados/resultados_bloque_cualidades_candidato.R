@@ -41,11 +41,8 @@ colores_necesita_chile_economia <-
   bd_respuestas_efectivas |>
   as_tibble() |>
   select(contains("necesita_chile_economia")) |>
-  tidyr::pivot_longer(cols = everything(),
-                      names_to = "pregunta",
-                      values_to = "respuesta") |>
   na.omit() |>
-  distinct(respuesta) |>
+  distinct(necesita_chile_economia) |>
   asignar_colores()
 
 
@@ -61,11 +58,7 @@ colores_necesita_chile_consenso <-
   bd_respuestas_efectivas |>
   as_tibble() |>
   select(contains("necesita_chile_consenso")) |>
-  tidyr::pivot_longer(cols = everything(),
-                      names_to = "pregunta",
-                      values_to = "respuesta") |>
-  na.omit() |>
-  distinct(respuesta) |>
+  distinct(necesita_chile_consenso) |>
   asignar_colores()
 
 
