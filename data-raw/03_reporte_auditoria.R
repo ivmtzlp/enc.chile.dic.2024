@@ -93,7 +93,7 @@ bd_comuna_dia <-
 
 ## Exportar -----------------------------------------------------------------------------------
 
-output_file_path = formato_archivo(nombre = "./data-raw/reporte_avances",
+output_file_path = formato_archivo(nombre = "./data-raw/bd_reportes/reporte_avances",
                                                extension = "xlsx",
                                                tolerancia = 60)
 
@@ -131,7 +131,7 @@ bd_respuestas_efectivas_export <-
          GPS_INT_LO) |>
   mutate(link_map =  paste0("https://www.google.com/maps?q=", GPS_INT_LA, ",", GPS_INT_LO,"&t=m"))
 
-output_bd_efectivas_path = formato_archivo(nombre = "./data-raw/bd_efectivas",
+output_bd_efectivas_path = formato_archivo(nombre = "./data-raw/bd_reportes/bd_efectivas",
                                                        extension = "xlsx",
                                                        tolerancia = 60)
 

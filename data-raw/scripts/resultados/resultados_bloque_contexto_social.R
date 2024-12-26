@@ -1,7 +1,7 @@
 
 # Bloque Contexto Social ----------------------------------------------------------------------
 
-source(file = "./data-raw/parametros_bloque_contexto_social.R")
+source(file = "./data-raw/scripts/parametros//parametros_bloque_contexto_social.R")
 
 # pREGUNTA RANDOM
 bd_temas <-

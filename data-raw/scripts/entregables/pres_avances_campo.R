@@ -269,7 +269,7 @@ g_rechazo <-
 # Exportar ------------------------------------------------------------------------------------
 
 path_entregable <-
-  formato_archivo(nombre = "./data-raw/pres_avances",
+  formato_archivo(nombre = "./data-raw/press/pres_avances",
                   extension = "pptx",
                   tolerancia = 60)
 
