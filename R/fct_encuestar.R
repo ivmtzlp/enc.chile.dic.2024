@@ -250,7 +250,7 @@ graficar_candidato_opinion <- function(bd, ns_nc, regular,
                                        patron_inicial = NULL){
 
   if(!is.null(ns_nc)){
-    bd <- bd %>% group_by(tema) %>% complete(respuesta = ns_nc, fill = list(media = 0)) %>% ungroup
+    bd <- bd %>% group_by(tema) %>% tidyr::complete(respuesta = ns_nc, fill = list(media = 0)) %>% ungroup
   }
 
   aux <- bd %>% mutate(Regular = if_else(respuesta == regular, "regular1", as.character(respuesta))) %>%
