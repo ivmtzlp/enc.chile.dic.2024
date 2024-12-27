@@ -1,60 +1,8 @@
 #diccionario |> View()
-library(tidyverse)
+# library(tidyverse)
 
 
-# Conocimiento personajes
-conoce_per_vars<- diccionario |>
-  filter(grepl('conoce_per',llave)) |>
-  select(llave) |>
-  pull()
-
-p_conoce_per_tit <- diccionario |>
-  filter(grepl('conoce_per',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-aspectos_conoce_per <-  gsub(pattern = 'conoce_per_',replacement = '',conoce_per_vars)
-
-
-# Opinion personajes
-
-opinion_per_vars<- diccionario |>
-  filter(grepl('opinion_',llave)) |>
-  filter(!grepl('razon_',llave)) |>
-  filter(!grepl('_primarias',llave)) |>
-  select(llave) |>
-  pull()
-
-p_opinion_per_tit <- diccionario |>
-  filter(grepl('opinion_',llave)) |>
-  filter(!grepl('razon_',llave)) |>
-  filter(!grepl('_primarias',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-
-colores_opinion_per <-
-  c("Negativa" = color_opinion_muyMala,
-    #"Mala" = color_opinion_mala,
-    #"Regular" = color_opinion_regular,
-   # "Buena" = color_opinion_buena,
-    "Positiva" = color_opinion_muyBuena)
-
-#aspectos_opinion_per <-  gsub(pattern = 'opinion_',replacement = '',opinion_per_vars)
-
-
-#  Opinion personajes
-calif_per_vars <- paste0('calif_',aspectos_conoce_per)
-
-p_calif_per_tit <- diccionario |>
-  filter(llave  %in% calif_per_vars) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
+source('./data-raw/scripts/parametros/parametros_bloque_conocimiento_personajes.R')
 ################################################################################
 
 
@@ -83,9 +31,15 @@ bd_conoce_per |>
   filter(respuesta == 'Sí') |>
   rename(valor =  respuesta,
          respuesta = tema) |>
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.05)+
+  scale_fill_manual(values = colores_conoce_per)+
   labs(caption = p_conoce_per_tit  )+
-  tema_morant()
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -147,7 +101,7 @@ bd_opinion_per |>
 # Calif personajes
 #calif_per_vars |>
 
-calif_winter
+# calif_winter
 
 lista_calif_per <-
 calif_per_vars   |>

@@ -407,7 +407,7 @@ graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Reg
 graficar_intervalo_numerica <- function(bd, escala = c(0, 10), point_size = 1, text_point_size = 8){
   g <-
     bd %>%
-    ggplot(aes(y = media, x = stats::reorder(str_wrap(tema, 40), media))) +
+    ggplot(aes(y = media, x = stats::reorder(stringr::str_wrap(tema, 40), media))) +
     geom_pointrange(aes(ymin = inf, ymax = sup), color = "#850D2D", size = point_size)
   if(escala[2] == 1) {
     g <-

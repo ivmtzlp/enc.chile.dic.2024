@@ -2,77 +2,9 @@
 #   as_tibble() |>
 #   select(participacion_primarias)|>
 #   naniar::vis_miss()
-#Constantes   ########################################33
-
-# Cualidad mas valorada
-orden_cualidades_valora_candidato <- c("Muy interesado",   "Interesado",   "Neutral/Indiferente",   "Nada interesado", "Muy poco interesado", "Ns/Nc" )
-
-p_cualidades_valora_candidato_tit <-
-  diccionario |>
-  filter(grepl('cualidades_valora_candidato',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-colores_cualidades_valora_candidato <-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(contains("cualidades_valora_candidato_O")) |>
-  select(contains("_O")) |>
-  tidyr::pivot_longer(cols = everything(),
-                      names_to = "pregunta",
-                      values_to = "respuesta") |>
-  na.omit() |>
-  distinct(respuesta) |>
-  asignar_colores()
 
 
-# Nesecidad economica chile
-#orden_cualidades_valora_candidato <- c("Muy interesado",   "Interesado",   "Neutral/Indiferente",   "Nada interesado", "Muy poco interesado", "Ns/Nc" )
-
-p_necesita_chile_economia_tit <-
-  diccionario |>
-  filter(grepl('necesita_chile_economia',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-colores_necesita_chile_economia <-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(contains("necesita_chile_economia")) |>
-  na.omit() |>
-  distinct(necesita_chile_economia) |>
-  asignar_colores()
-
-
-# Nesecidad consesnso chile
-p_necesita_chile_consenso_tit <-
-  diccionario |>
-  filter(grepl('necesita_chile_consenso',llave)) |>
-  select(pregunta) |>
-  distinct(pregunta) |>
-  pull()
-
-colores_necesita_chile_consenso <-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(contains("necesita_chile_consenso")) |>
-  distinct(necesita_chile_consenso) |>
-  asignar_colores()
-
-
-# Aprobacion auntoridades
-
-aprueba_autoridades_vars <- c('aprueba_gobierno_boric','aprueba_ministros')
-
-colores_aprueba_autoridades <-c("Desaprueba mucho"=color_opinion_muyBuena,
-                                "Desaprueba poco"=color_opinion_buena,
-                                "No aprueba ni desaprueba (No leer)"= color_opinion_regular,
-                                "Aprueba poco"=color_opinion_mala,
-                                "Aprueba mucho"=color_opinion_muyMala)
-
-
+source('./data-raw/scripts/parametros/parametros_bloque_cualidades_candidato.R')
 
 #######################################333
 
@@ -112,11 +44,16 @@ bd_necesita_chile_economia<-
 p_necesita_chile_economia_graf<-
   bd_necesita_chile_economia|>
   #graficar_barras(orden_respuestas = rev(orden_necesita_chile_economia))+
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02)+
   scale_fill_manual(values = colores_necesita_chile_economia) +
-  labs(caption = p_necesita_chile_economia_tit)+
-  tema_morant()+
-  theme(axis.text.x = element_text(size = 12),
+  scale_y_continuous(limits = c(0, 0.75),
+                     labels = scales::percent) +
+  labs(caption = p_necesita_chile_economia_tit) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 12))
 
 
@@ -132,11 +69,16 @@ bd_necesita_chile_consenso <-
 p_necesita_chile_consenso_graf <-
   bd_necesita_chile_consenso|>
   #graficar_barras(orden_respuestas = rev(orden_necesita_chile_consenso))+
-  graficar_barras()+
+  graficar_barras(salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02)+
   scale_fill_manual(values = colores_necesita_chile_consenso) +
   labs(caption = p_necesita_chile_consenso_tit)+
+  scale_y_continuous(limits = c(0, 0.75),
+                     labels = scales::percent) +
   tema_morant()+
-  theme(axis.text.x = element_text(size = 12),
+  theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 12))
 
 
@@ -181,17 +123,18 @@ p_aprueba_autoridades_graf<-
     #OPINION
     salto = 45,
     colores = colores_aprueba_autoridades,
-    regular = "No aprueba ni desaprueba (No leer)",
-    orden_resp = rev(c("Desaprueba mucho","Desaprueba poco","No aprueba ni desaprueba (No leer)",
+    regular = "No aprueba ni desaprueba",
+    orden_resp = rev(c("Desaprueba mucho","Desaprueba poco","No aprueba ni desaprueba",
                    "Aprueba poco","Aprueba mucho")),
-    grupo_positivo = rev(c("Aprueba poco","Aprueba mucho")),
-    grupo_negativo = c("Desaprueba mucho","Desaprueba poco"),
+    grupo_positivo = c("Aprueba poco","Aprueba mucho"),
+    grupo_negativo = rev(c("Desaprueba mucho","Desaprueba poco")),
     caption_opinion  ="Independiente de su posición política, ¿usted aprueba o desaprueba la forma como (...) está/n conduciendo su gobierno? ... ¿mucho o poco?" ,
-    size_caption_opinion = 12,burbuja = NULL,
+    size_caption_opinion = 12,
+    burbuja = NULL,
 
 
     #NO SABE NO CONTESTA
-    ns_nc ="Ns/Nc (No leer)",
+    ns_nc ="Ns/Nc",
     caption_nsnc = "Ns/Nc",
     size_caption_nsnc = 12,
     color_nsnc = "gray50"

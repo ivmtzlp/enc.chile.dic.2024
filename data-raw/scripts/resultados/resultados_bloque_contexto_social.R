@@ -136,10 +136,10 @@ g_cali_delincuencia <-
         plot.caption = element_text(size = 16))
 
 
-bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(starts_with("cali_")) |>
-  glimpse()
+# bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(starts_with("cali_")) |>
+#   glimpse()
 
 resultados_cali_educacion <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -202,8 +202,8 @@ resultados_cali_empleo <-
 g_cali_empleo <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(!!rlang::sym(variable)) |>
-  ggplot(aes(x = as.numeric(!!rlang::sym(variable)))) +
+  select(cali_empleo) |>
+  ggplot(aes(x = as.numeric(cali_empleo))) +
   geom_density(linewidth = 1.0, fill = "#C8E5F9", color = "#2297E6", alpha = .8, linewidth = 1.5) +
   geom_vline(xintercept = resultados_cali_empleo$media, color = "#CF6076", linetype = "dashed", size = 2) +
   annotate("text",
@@ -229,8 +229,8 @@ resultados_cali_pensiones <-
 g_cali_pensiones <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(!!rlang::sym(variable)) |>
-  ggplot(aes(x = as.numeric(!!rlang::sym(variable)))) +
+  select(cali_pensiones) |>
+  ggplot(aes(x = as.numeric(cali_pensiones))) +
   geom_density(linewidth = 1.0, fill = "#C8E5F9", color = "#2297E6", alpha = .8, linewidth = 1.5) +
   geom_vline(xintercept = resultados_cali_pensiones$media, color = "#CF6076", linetype = "dashed", size = 2) +
   annotate("text",
@@ -256,8 +256,8 @@ resultados_cali_ambiente <-
 g_cali_ambiente <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(!!rlang::sym(variable)) |>
-  ggplot(aes(x = as.numeric(!!rlang::sym(variable)))) +
+  select(cali_ambiente) |>
+  ggplot(aes(x = as.numeric(cali_ambiente))) +
   geom_density(linewidth = 1.0, fill = "#C8E5F9", color = "#2297E6", alpha = .8, linewidth = 1.5) +
   geom_vline(xintercept = resultados_cali_ambiente$media, color = "#CF6076", linetype = "dashed", size = 2) +
   annotate("text",
@@ -283,8 +283,8 @@ resultados_cali_inmigracion <-
 g_cali_inmigracion <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(!!rlang::sym(variable)) |>
-  ggplot(aes(x = as.numeric(!!rlang::sym(variable)))) +
+  select(cali_inmigracion) |>
+  ggplot(aes(x = as.numeric(cali_inmigracion))) +
   geom_density(linewidth = 1.0, fill = "#C8E5F9", color = "#2297E6", alpha = .8, linewidth = 1.5) +
   geom_vline(xintercept = resultados_cali_inmigracion$media, color = "#CF6076", linetype = "dashed", size = 2) +
   annotate("text",
@@ -356,6 +356,8 @@ g_cali_economia <-
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
+
+
 
 # Chile actual
 bd_chile_actual <-
