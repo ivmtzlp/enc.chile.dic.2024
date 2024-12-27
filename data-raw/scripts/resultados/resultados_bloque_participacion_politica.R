@@ -276,7 +276,7 @@ p_identificacion_partido_graf<-
                   porcentajes_fuera = TRUE,
                   desplazar_porcentajes = 0.01)+
   #graficar_barras(orden_respuestas = rev(orden_identificacion_partido))+
-  scale_y_continuous(limits = c(0, 0.5),
+  scale_y_continuous(limits = c(0, 0.75),
                      labels = scales::percent) +
   scale_fill_manual(values = colores_identificacion_partido) +
   labs(caption = p_identificacion_partido_tit)+

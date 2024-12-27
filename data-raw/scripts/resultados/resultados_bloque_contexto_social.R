@@ -357,6 +357,41 @@ g_cali_economia <-
   theme(axis.text.x = element_text(size = 16),
         plot.caption = element_text(size = 16))
 
+# Calificacion gobierno
+resultados_cali_desem_vec <- c("resultados_cali_delincuencia",
+                               "resultados_cali_educacion",
+                               "resultados_cali_salud",
+                               "resultados_cali_empleo",
+                               "resultados_cali_pensiones",
+                               "resultados_cali_ambiente",
+                               "resultados_cali_inmigracion",
+                               "resultados_cali_derechosmujer",
+                               "resultados_cali_economia")
+
+
+
+bd_cali_desem<-
+  resultados_cali_desem_vec |>
+  purrr::map_df(.f= ~{
+    as.data.frame(eval(rlang::sym(.x))) |>
+      mutate(resultados = .x)
+  })|>
+  mutate(aspecto =  gsub("resultados_","",resultados) ) |>
+  left_join(diccionario |>
+              select(llave,tema),
+            by = c('aspecto' = 'llave' )) |>
+  mutate(inf = media,
+         sup =  media
+  )
+
+
+
+p_cali_desem_graf <-
+  bd_cali_desem |>
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6) +
+  labs(caption = p_calificacion_gobierno) +
+  scale_y_binned(labels = c(1:7),limits = c(1,7))+
+  tema_morant()
 
 
 # Chile actual
@@ -496,6 +531,24 @@ variables_izq_der <-
   select(starts_with("escala")) |>
   names()
 
+# bd_variables_izq_der <-
+#   variables_izq_der %>%
+#   purrr::map_df(.x = .,
+#                 .f = ~ tibble("variable" = .x,
+#                               "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
+#                                                                          variable = .x) %>%
+#                                 purrr::pluck("media"))) |>
+#   mutate(izq = case_when(variable == "escala_bienestar" ~ "bienestar_izq",
+#                          variable == "escala_ayuda" ~ "ayuda_izq",
+#                          variable == "escala_economia" ~ "economia_izq",
+#                          variable == "escala_aborto" ~ "aborto_izq",
+#                          variable == "escala_gays" ~ "gays_izq"),
+#          der = case_when(variable == "escala_bienestar" ~ "bienestar_der",
+#                          variable == "escala_ayuda" ~ "ayuda_der",
+#                          variable == "escala_economia" ~ "economia_der",
+#                          variable == "escala_aborto" ~ "aborto_der",
+#                          variable == "escala_gays" ~ "gays_der"))
+
 bd_variables_izq_der <-
   variables_izq_der %>%
   purrr::map_df(.x = .,
@@ -503,19 +556,19 @@ bd_variables_izq_der <-
                               "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
                                                                          variable = .x) %>%
                                 purrr::pluck("media"))) |>
-  mutate(izq = case_when(variable == "escala_bienestar" ~ "bienestar_izq",
-                         variable == "escala_ayuda" ~ "ayuda_izq",
-                         variable == "escala_economia" ~ "economia_izq",
-                         variable == "escala_aborto" ~ "aborto_izq",
-                         variable == "escala_gays" ~ "gays_izq"),
-         der = case_when(variable == "escala_bienestar" ~ "bienestar_der",
-                         variable == "escala_ayuda" ~ "ayuda_der",
-                         variable == "escala_economia" ~ "economia_der",
-                         variable == "escala_aborto" ~ "aborto_der",
-                         variable == "escala_gays" ~ "gays_der"))
+  mutate(izq = case_when(variable == "escala_bienestar" ~ "El Estado es el responsable del bienestar de las personas",
+                         variable == "escala_ayuda" ~ "Todos los ciudadanos deben recibir la misma ayuda del Estado",
+                         variable == "escala_economia" ~ "Es preferible que el funcionamiento de la economía esté basado en la planificación del Estado",
+                         variable == "escala_aborto" ~ "El aborto debe ser permitido sin restricciones legales",
+                         variable == "escala_gays" ~ "Las parejas del mismo sexo deben tener el derecho a casarse legalmente"),
+         ###derecha
+         der = case_when(variable == "escala_bienestar" ~ "Cada persona es responsable de su propio bienestar",
+                         variable == "escala_ayuda" ~ "La ayuda del Estado debe destinarse solo a los más pobres",
+                         variable == "escala_economia" ~ "Es preferible que el funcionamiento de la economía esté basado en la operación del libre mercado",
+                         variable == "escala_aborto" ~ "El aborto no debería permitirse bajo ninguna circunstancia",
+                         variable == "escala_gays" ~ "El matrimonio solo debe de darse entre un hombre y una mujer"))
 
-
-
+escala_izq_der_graf<-
 bd_variables_izq_der %>%
   ggplot(aes(x = izq,
              y = media)) +
@@ -527,11 +580,11 @@ bd_variables_izq_der %>%
                      breaks = 1:5) +
   annotate(
     "text",
-    x = bd_variables_izq_der$izq,
+    x = bd_variables_izq_der$izq |> stringr::str_wrap(width = 30) ,
     y = 5.5,
-    label = bd_variables_izq_der$der,
+    label = bd_variables_izq_der$der|> stringr::str_wrap(width = 30),
     hjust = 0, #
-    size = 5
+    size = 4
   ) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),

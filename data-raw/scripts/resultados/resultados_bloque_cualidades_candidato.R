@@ -84,13 +84,13 @@ p_necesita_chile_consenso_graf <-
 
 
 
-bd_necesita_chile_consenso <-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(aprueba_gobierno_boric) |>
-  count(aprueba_gobierno_boric) |>
-  mutate(media = n /sum(n)) |>
-  rename(respuesta=necesita_chile_consenso )
+# bd_necesita_chile_consenso <-
+#   bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(aprueba_gobierno_boric) |>
+#   count(aprueba_gobierno_boric) |>
+#   mutate(media = n /sum(n)) |>
+#   rename(respuesta=necesita_chile_consenso )
 
 # Aprobacion auntoridades
 

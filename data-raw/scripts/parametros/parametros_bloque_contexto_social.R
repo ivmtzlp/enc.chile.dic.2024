@@ -74,6 +74,7 @@ p_calificacion_gobierno <-
   pull(pregunta) |>
   stringr::str_wrap(width = 55)
 
+
 # Chile Actual
 p_chile_actual_tit <-
   diccionario |>
