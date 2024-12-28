@@ -566,26 +566,28 @@ bd_variables_izq_der <-
                          variable == "escala_ayuda" ~ "La ayuda del Estado debe destinarse solo a los más pobres",
                          variable == "escala_economia" ~ "Es preferible que el funcionamiento de la economía esté basado en la operación del libre mercado",
                          variable == "escala_aborto" ~ "El aborto no debería permitirse bajo ninguna circunstancia",
-                         variable == "escala_gays" ~ "El matrimonio solo debe de darse entre un hombre y una mujer"))
+                         variable == "escala_gays" ~ "El matrimonio solo debe de darse entre un hombre y una mujer"))%>%
+  mutate(y_numeric = as.numeric(forcats::fct_reorder(izq,media )))
 
 escala_izq_der_graf<-
-bd_variables_izq_der %>%
-  ggplot(aes(x = izq,
-             y = media)) +
+bd_variables_izq_der |>
+  ggplot(aes(y = y_numeric,
+             x = media)) +
   geom_point(size = 3) +
   geom_text(aes(label = round(media, digits = 1)),
-            vjust = -2, size = 8) +
-  coord_flip() +
-  scale_y_continuous(limits = c(1, 5.5),
+            vjust = -.5, size = 6) +
+  scale_y_continuous(breaks = bd_variables_izq_der$y_numeric,
+                     labels = bd_variables_izq_der$izq |> stringr::str_wrap(width = 40),
+                     sec.axis = sec_axis(~.,
+                                         breaks = bd_variables_izq_der$y_numeric,
+                                         labels = bd_variables_izq_der$der |> stringr::str_wrap(width = 40)   ))+
+  # coord_flip() +
+  scale_x_continuous(limits = c(1, 5.5),
                      breaks = 1:5) +
-  annotate(
-    "text",
-    x = bd_variables_izq_der$izq |> stringr::str_wrap(width = 30) ,
-    y = 5.5,
-    label = bd_variables_izq_der$der|> stringr::str_wrap(width = 30),
-    hjust = 0, #
-    size = 4
-  ) +
   tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.y  = element_text(size = 9),
         plot.caption = element_text(size = 16))
+
+
+
+forcats::fct_relabel()
