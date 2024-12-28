@@ -575,7 +575,7 @@ bd_variables_izq_der |>
              x = media)) +
   geom_point(size = 3) +
   geom_text(aes(label = round(media, digits = 1)),
-            vjust = -.5, size = 6) +
+            vjust = -.5, size = 5) +
   scale_y_continuous(breaks = bd_variables_izq_der$y_numeric,
                      labels = bd_variables_izq_der$izq |> stringr::str_wrap(width = 40),
                      sec.axis = sec_axis(~.,
@@ -584,10 +584,9 @@ bd_variables_izq_der |>
   # coord_flip() +
   scale_x_continuous(limits = c(1, 5.5),
                      breaks = 1:5) +
+  labs(caption = '')+
   tema_morant() +
   theme(axis.text.y  = element_text(size = 9),
         plot.caption = element_text(size = 16))
 
 
-
-forcats::fct_relabel()
