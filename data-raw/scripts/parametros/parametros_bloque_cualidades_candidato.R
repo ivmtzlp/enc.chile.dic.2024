@@ -60,14 +60,5 @@ colores_necesita_chile_consenso <-
   asignar_colores()
 
 
-# Aprobacion auntoridades
-
-aprueba_autoridades_vars <- c('aprueba_gobierno_boric','aprueba_ministros')
-
-colores_aprueba_autoridades <-c("Desaprueba mucho"= color_opinion_muyMala,
-                                "Desaprueba poco"= color_opinion_mala,
-                                "No aprueba ni desaprueba"= color_opinion_regular,
-                                "Aprueba poco"= color_opinion_buena,
-                                "Aprueba mucho"= color_opinion_muyBuena)
 
 
