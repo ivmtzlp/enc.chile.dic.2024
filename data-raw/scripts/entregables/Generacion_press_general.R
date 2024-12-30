@@ -61,7 +61,7 @@ add_slide(pptx, layout = "gerencia_portada", master = "gerencia") %>%
 
 ## Problemáticas sociales  --------------------------------------------------------------------
 
-#source('./R/entregable_bloque_problematicas_sociales.R')
+source('./data-raw/scripts/entregables/entregable_bloque_contexto_social.R')
 
 
 ## Conocimiento de personajes ------------------------------------------------------------------

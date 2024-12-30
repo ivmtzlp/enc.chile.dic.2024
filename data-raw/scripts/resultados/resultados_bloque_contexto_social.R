@@ -24,7 +24,7 @@ g_temas <-
   labs(caption = p_temas_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 # medios de comunicacion
 bd_medios_com <-
@@ -45,7 +45,8 @@ g_medios_com <-
   labs(caption = p_medios_com_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        axis.text.y = element_text(size = 13),
+        plot.caption = element_text(size = 12))
 
 # Redes sociales que utiliza
 bd_utiliza <-
@@ -80,7 +81,7 @@ g_utiliza <-
                         "El resultado corresponde a los que contestaron que Sí")) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 # Problemas de Chile
 bd_problema_chile <-
@@ -103,7 +104,8 @@ g_problema_chile <-
   labs(caption = p_medios_com_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        axis.text.y = element_text(size = 14),
+        plot.caption = element_text(size = 12))
 
 # Calificaciones gobierno Boric
 
@@ -126,14 +128,15 @@ g_cali_delincuencia <-
   scale_x_continuous(breaks = 1:7, labels = 1:7,
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
-  labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" delincuencia"),
+  labs(caption = paste0("",
+                        #stringr::str_to_title(" delincuencia"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_delincuencia$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_delincuencia$pct_nsnc, accuracy = 1.)),
+       title = 'Delincuencia') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 
 # bd_respuestas_efectivas |>
@@ -160,13 +163,14 @@ g_cali_educacion <-
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
   labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" educación"),
+                        #stringr::str_to_title(" educación"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_educacion$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_educacion$pct_nsnc, accuracy = 1.)),
+       title = 'Educación') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_salud <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -186,14 +190,15 @@ g_cali_salud <-
   scale_x_continuous(breaks = 1:7, labels = 1:7,
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
-  labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" salud"),
+  labs(caption = paste0("",#p_calificacion_gobierno,
+                        #stringr::str_to_title(" salud"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_salud$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_salud$pct_nsnc, accuracy = 1.)),
+       title = 'Salud') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_empleo <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -214,13 +219,14 @@ g_cali_empleo <-
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
   labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" empleo"),
+                        #stringr::str_to_title(" empleo"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_empleo$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_empleo$pct_nsnc, accuracy = 1.)),
+       title = 'Empleo') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_pensiones <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -240,14 +246,15 @@ g_cali_pensiones <-
   scale_x_continuous(breaks = 1:7, labels = 1:7,
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
-  labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" pensiones"),
+  labs(caption = paste0("",#p_calificacion_gobierno,
+                        #stringr::str_to_title(" pensiones"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_pensiones$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_pensiones$pct_nsnc, accuracy = 1.)),
+       title = 'Pensiones') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_ambiente <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -268,13 +275,14 @@ g_cali_ambiente <-
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
   labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" ambiente"),
+                        #stringr::str_to_title(" ambiente"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_ambiente$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_ambiente$pct_nsnc, accuracy = 1.)),
+       title = 'Medio Ambiente') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_inmigracion <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -294,14 +302,15 @@ g_cali_inmigracion <-
   scale_x_continuous(breaks = 1:7, labels = 1:7,
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
-  labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" inmigración"),
+  labs(caption = paste0("",#p_calificacion_gobierno,
+                        #stringr::str_to_title(" inmigración"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_inmigracion$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_inmigracion$pct_nsnc, accuracy = 1.)),
+       title = 'Inmigración') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_derechosmujer <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -322,13 +331,14 @@ g_cali_derechosmujer <-
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
   labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" inmigración"),
+                        #stringr::str_to_title(" inmigración"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_derechosmujer$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_derechosmujer$pct_nsnc, accuracy = 1.)),
+       title = 'Derechos de la Mujer') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 resultados_cali_economia <-
   calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
@@ -349,13 +359,14 @@ g_cali_economia <-
                      limits = c(1, 7)) +
   scale_y_continuous(labels = scales::percent) +
   labs(caption = paste0(p_calificacion_gobierno,
-                        stringr::str_to_title(" inmigración"),
+                        #stringr::str_to_title(" inmigración"),
                         "\n",
                         "Porcentage de Ns\\Nc: ",
-                        scales::percent(resultados_cali_economia$pct_nsnc, accuracy = 1.))) +
+                        scales::percent(resultados_cali_economia$pct_nsnc, accuracy = 1.)),
+       title = 'Economía') +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 # Calificacion gobierno
 resultados_cali_desem_vec <- c("resultados_cali_delincuencia",
@@ -388,7 +399,7 @@ bd_cali_desem<-
 
 p_cali_desem_graf <-
   bd_cali_desem |>
-  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6) +
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = .5) +
   labs(caption = p_calificacion_gobierno) +
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()
@@ -406,7 +417,7 @@ bd_chile_actual <-
 g_chile_actual <-
   bd_chile_actual |>
   graficar_barras(salto = 35,
-                  porcentajes_fuera = TRUE,
+                  porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02,
                   orden_respuestas = rev(c("Progresando",
@@ -419,7 +430,7 @@ g_chile_actual <-
   labs(caption = p_chile_actual_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 # Chile futuro
 bd_chile_futuro <-
@@ -433,7 +444,7 @@ bd_chile_futuro <-
 g_chile_futuro <-
   bd_chile_futuro |>
   graficar_barras(salto = 35,
-                  porcentajes_fuera = TRUE,
+                  porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02,
                   orden_respuestas = rev(c("Mejor que hoy",
@@ -446,7 +457,7 @@ g_chile_futuro <-
   labs(caption = p_chile_futuro_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        plot.caption = element_text(size = 12))
 
 # Frases ricos
 bd_frases_ricos <-
@@ -459,8 +470,8 @@ bd_frases_ricos <-
 
 g_frases_ricos <-
   bd_frases_ricos |>
-  graficar_barras(salto = 35,
-                  porcentajes_fuera = TRUE,
+  graficar_barras(salto = 25,
+                  porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02) +
   scale_fill_manual(values = colores_frases_ricos) +
@@ -469,7 +480,8 @@ g_frases_ricos <-
   labs(caption = p_frases_ricos_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        axis.text.y = element_text(size = 13),
+        plot.caption = element_text(size = 12))
 
 # Frases gobierno
 bd_frases_gobierno <-
@@ -482,17 +494,18 @@ bd_frases_gobierno <-
 
 g_frases_gobierno <-
   bd_frases_gobierno |>
-  graficar_barras(salto = 35,
-                  porcentajes_fuera = TRUE,
+  graficar_barras(salto = 25,
+                  porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02) +
   scale_fill_manual(values = colores_frases_gobierno) +
-  scale_y_continuous(limits = c(0, 1.0),
+  scale_y_continuous(limits = c(0, .75),
                      labels = scales::percent) +
   labs(caption = p_frases_gobierno_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 16))
+        axis.text.y = element_text(size = 13),
+        plot.caption = element_text(size = 12))
 
 # Satisfaccion democracia
 bd_satisfaccion_democracia <-
@@ -553,7 +566,8 @@ bd_variables_izq_der <-
   variables_izq_der %>%
   purrr::map_df(.x = .,
                 .f = ~ tibble("variable" = .x,
-                              "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,
+                              "media" = calcular_resultados_calificacion(bd_entrevistas_efectivas = bd_respuestas_efectivas,limtes = c(1,5),
+                                                                         max_min = F,
                                                                          variable = .x) %>%
                                 purrr::pluck("media"))) |>
   mutate(izq = case_when(variable == "escala_bienestar" ~ "El Estado es el responsable del bienestar de las personas",
@@ -574,6 +588,7 @@ bd_variables_izq_der |>
   ggplot(aes(y = y_numeric,
              x = media)) +
   geom_point(size = 3) +
+  geom_vline(xintercept = 3,linetype = 'dashed',colour = 'red',linewidth = 1,alpha = .2) +
   geom_text(aes(label = round(media, digits = 1)),
             vjust = -.5, size = 5) +
   scale_y_continuous(breaks = bd_variables_izq_der$y_numeric,
@@ -584,9 +599,10 @@ bd_variables_izq_der |>
   # coord_flip() +
   scale_x_continuous(limits = c(1, 5.5),
                      breaks = 1:5) +
-  labs(caption = '')+
+  labs(caption = p_izquierda_derecha_tit)+
   tema_morant() +
-  theme(axis.text.y  = element_text(size = 9),
-        plot.caption = element_text(size = 16))
+  theme(axis.text.y  = element_text(size = 12),
+        plot.caption = element_text(size = 12,hjust = 1),
+        plot.caption.position = "plot" )
 
 

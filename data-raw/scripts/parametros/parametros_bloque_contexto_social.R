@@ -97,7 +97,7 @@ p_chile_futuro_tit <-
   filter(grepl(pattern = "chile_futuro", x = llave)) |>
   distinct(pregunta) |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 75)
+  stringr::str_wrap(width = 55)
 
 colores_chile_futuro <-
   bd_respuestas_efectivas |>
@@ -112,7 +112,7 @@ p_frases_ricos_tit <-
   filter(grepl(pattern = "frases_ricos", x = llave)) |>
   distinct(pregunta) |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 75)
+  stringr::str_wrap(width = 55)
 
 colores_frases_ricos <-
   bd_respuestas_efectivas |>
@@ -157,4 +157,4 @@ p_izquierda_derecha_tit <-
   filter(grepl(pattern = "escala", x = llave)) |>
   distinct(pregunta) |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 75)
+  stringr::str_wrap(width = 95)
