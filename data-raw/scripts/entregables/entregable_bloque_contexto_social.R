@@ -36,23 +36,10 @@ if(modo != "solo nubes") {
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = g_temas, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Téma de mayor interés para la población',
+    ph_with(value = 'Tema de mayor interés para la población',
             location = ph_location_label(ph_label = "titulo"))
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_medios_com, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Medios de comunicación mas utilizados',
-            location = ph_location_label(ph_label = "titulo"))
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_utiliza, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Redes sociales mas utilizados',
-            location = ph_location_label(ph_label = "titulo"))
-
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_problema_chile, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Problemas que más preocupan a los chilenos',
-            location = ph_location_label(ph_label = "titulo"))
 
   # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
   #   ph_with(value = g_cali_delincuencia, location = ph_location_label(ph_label = "grafica_uno")) |>

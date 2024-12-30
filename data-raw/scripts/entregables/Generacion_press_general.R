@@ -9,17 +9,13 @@ library(officer)
 
 # Resultados ----------------------------------------------------------------------------------
 
-# source(file = "./R/resultados_bloque_problematicas_sociales.R")
-# source(file = "./R/resultados_bloque_evaluacion_autoridades.R")
-# source(file = './R/resultados_bloque04_1_Candidato_ideal.R')
-# source(file = './R/resultados_bloque02_MetodologiaMorena.R')
-# source(file = './R/resultados_bloque02_5_Analisis_perfiles.R')
-# source(file = './R/resultados_bloque04_Intencion_gobernatura.R')
-# source(file = "./R/resultados_bloque_conocimiento_personajes_secundarios.R")
-# source(file = "./R/resultados_bloque_programas_sociales.R")
-# source(file = './R/resultados_bloque07_datosSociodemograficos.R')
-# source(file = "./R/resultados_bloque_amai.R")
-# source(file = "./R/Grafica_redes_personajes.R")
+source(file = './data-raw/scripts/resultados/resultados_bloque_contexto_social.R')
+source(file = './data-raw/scripts/resultados/resultados_bloque_conocimiento_personajes.R')
+source(file = './data-raw/scripts/resultados/resultados_bloque_participacion_politica.R')
+source(file = './data-raw/scripts/resultados/resultados_bloque_cualidades_candidato.R')
+source(file = './data-raw/scripts/resultados/resultados_bloque_evaluacion_autoridades.R')
+source(file = './data-raw/scripts/resultados/resultados_bloque_sociodemograficos.R')
+
 #
 # source(file = "./R/resultados_nubes_palabras.R")
 
@@ -83,8 +79,11 @@ source('./data-raw/scripts/entregables/entregable_bloque_cualidades_candidato.R'
 
 ## Evaluación de autoridades ------------------------------------------------------------------
 
-#source('./R/entregable_bloque_evaluacion_autoridades.R')
+source('./data-raw/scripts/entregables/entregable_bloque_evaluacion_autoridades.R')
 
+## Sociodemograficos ------------------------------------------------------------------
+
+source('./data-raw/scripts/entregables/entregable_bloque_sociodemograficos.R')
 
 
 print(pptx, path_export)
