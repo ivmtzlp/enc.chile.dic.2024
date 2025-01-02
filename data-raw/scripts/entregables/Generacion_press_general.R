@@ -64,11 +64,6 @@ source('./data-raw/scripts/entregables/entregable_bloque_contexto_social.R')
 
 source('./data-raw/scripts/entregables/entregable_bloque_conocimiento_personajes.R')
 
-
-## Participacion politica ------------------------------------------------------------------
-
-source('./data-raw/scripts/entregables/entregable_bloque_participacion_politica.R')
-
 ## Participacion politica ------------------------------------------------------------------
 
 source('./data-raw/scripts/entregables/entregable_bloque_participacion_politica.R')
