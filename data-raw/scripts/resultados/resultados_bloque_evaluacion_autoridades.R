@@ -41,6 +41,8 @@ p_aprueba_autoridades_graf<-
     caption_opinion  = aprueba_autoridades_tit,
     size_caption_opinion = 12,
     burbuja = NULL,
+    size_text_legend = 10,
+    salto_respuestas = 10,
 
 
     #NO SABE NO CONTESTA

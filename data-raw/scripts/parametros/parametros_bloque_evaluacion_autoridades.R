@@ -14,4 +14,4 @@ aprueba_autoridades_tit <- "Independiente de su posición política, ¿usted apr
 
 aprueba_autoridades_tit <-
   aprueba_autoridades_tit |>
-  stringr::str_wrap(width = 55)
+  stringr::str_wrap(width = 75)
