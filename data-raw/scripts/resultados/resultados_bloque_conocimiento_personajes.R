@@ -125,7 +125,7 @@ bd_calif_per |>
 
 p_calif_per_graf <-
 bd_calif_per |>
-  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6) +
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 5,nudge_x = 0.4 ) +
   labs(caption = p_calif_per_tit) +
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()

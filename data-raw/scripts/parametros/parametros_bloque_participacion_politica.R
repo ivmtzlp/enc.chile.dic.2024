@@ -40,7 +40,8 @@ p_participacion_pr_21_tit <-
   filter(grepl('participacion_pr_21',llave)) |>
   select(pregunta) |>
   distinct(pregunta) |>
-  pull()
+  pull() |>
+  stringr::str_wrap(width = 40)
 
 
 
@@ -50,7 +51,8 @@ p_participacion_mun_24_tit <-
   filter(grepl('participacion_mun_24',llave)) |>
   select(pregunta) |>
   distinct(pregunta) |>
-  pull()
+  pull()|>
+  stringr::str_wrap(width = 40)
 
 
 #Voto proximas elecciones
@@ -96,7 +98,8 @@ p_voto_pr_tit <-
   filter(!grepl('proximas',llave)) |>
   select(pregunta) |>
   distinct(pregunta) |>
-  pull()
+  pull()|>
+  stringr::str_wrap(width = 55)
 
 colores_voto_pr <-
   bd_respuestas_efectivas |>
@@ -116,7 +119,8 @@ p_voto2_pr_tit <-
   filter(grepl('voto2_pr',llave)) |>
   select(pregunta) |>
   distinct(pregunta) |>
-  pull()
+  pull()|>
+  stringr::str_wrap(width = 55)
 
 colores_voto2_pr <-
   bd_respuestas_efectivas |>

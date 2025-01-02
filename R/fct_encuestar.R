@@ -404,7 +404,7 @@ graficar_barras_saldo <- function(bd, orden, grupo_positivo, grupo_negativo, Reg
 
 
 
-graficar_intervalo_numerica <- function(bd, escala = c(0, 10), point_size = 1, text_point_size = 8){
+graficar_intervalo_numerica <- function(bd, escala = c(0, 10), point_size = 1, text_point_size = 8, nudge_x = .3){
   g <-
     bd %>%
     ggplot(aes(y = media, x = stats::reorder(stringr::str_wrap(tema, 40), media))) +
@@ -413,12 +413,12 @@ graficar_intervalo_numerica <- function(bd, escala = c(0, 10), point_size = 1, t
     g <-
       g +
       geom_text(aes(label = scales::percent(x = media, accuracy = 1.0)),
-                nudge_x = .3, size = text_point_size)
+                nudge_x = nudge_x, size = text_point_size)
   } else {
     g <-
       g +
       geom_text(aes(label = round(media, digits = 2)),
-                nudge_x = .3, size = text_point_size)
+                nudge_x = nudge_x, size = text_point_size)
   }
   g <-
     g +

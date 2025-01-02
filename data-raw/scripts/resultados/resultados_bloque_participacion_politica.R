@@ -77,7 +77,9 @@ p_participacion_pr_21_graf <-
 bd_participacion_pr_21 |>
   graficar_gauge(color_principal = color_general,escala = c(0,1),size_text_pct = 12)+
   labs(title = p_participacion_pr_21_tit,
-       caption =  "Entrevistados que contestaron que Sí")
+       caption =  "Entrevistados que contestaron que Sí")+
+  theme(plot.title = element_text(size = 12),
+        plot.caption = element_text(size = 12))
 
 
 # Perticipacion municipal 24
@@ -95,7 +97,9 @@ p_participacion_mun_24_graf <-
   bd_participacion_mun_24 |>
   graficar_gauge(color_principal =color_general,escala = c(0,1),size_text_pct = 12)+
   labs(title = p_participacion_mun_24_tit,
-       caption =  "Entrevistados que contestaron que Sí")
+       caption =  "Entrevistados que contestaron que Sí")+
+  theme(plot.title = element_text(size = 12),
+        plot.caption = element_text(size = 12))
 
 
 
@@ -161,7 +165,7 @@ p_voto_pr_graf<-
   graficar_barras(salto = 35,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.01)+
+                  desplazar_porcentajes = 0.05)+
   #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
   scale_fill_manual(values = colores_voto_pr ) +
   scale_y_continuous(limits = c(0, 0.5),
@@ -188,7 +192,7 @@ p_voto2_pr_graf<-
   graficar_barras(salto = 35,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.01)+
+                  desplazar_porcentajes = 0.05)+
   #graficar_barras(orden_respuestas = rev(orden_voto2_pr))+
   labs(caption = p_voto2_pr_tit)+
   scale_fill_manual(values = colores_voto2_pr ) +
@@ -216,7 +220,7 @@ p_candidato_nunca_voto_graf<-
   graficar_barras(salto = 35,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.01)+
+                  desplazar_porcentajes = 0.02)+
   #graficar_barras(orden_respuestas = rev(orden_candidato_nunca_voto))+
   labs(caption = p_candidato_nunca_voto_tit)+
   scale_fill_manual(values = colores_candidato_nunca_voto ) +
@@ -245,7 +249,7 @@ p_definicion_postura_ideologica_graf<-
   graficar_barras(salto = 35,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.01,
+                  desplazar_porcentajes = 0.02,
                   orden_respuestas = rev(orden_definicion_postura_ideologica))+
   scale_y_continuous(limits = c(0, 0.5),
                      labels = scales::percent) +
@@ -274,7 +278,7 @@ p_identificacion_partido_graf<-
   graficar_barras(salto = 35,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.01)+
+                  desplazar_porcentajes = 0.03)+
   #graficar_barras(orden_respuestas = rev(orden_identificacion_partido))+
   scale_y_continuous(limits = c(0, 0.75),
                      labels = scales::percent) +

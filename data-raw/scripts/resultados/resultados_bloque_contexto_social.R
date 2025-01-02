@@ -38,7 +38,7 @@ bd_medios_com <-
 
 g_medios_com <-
   bd_medios_com |>
-  graficar_lollipops(width_cats = 35) +
+  graficar_lollipops(width_cats = 35,size_pct = 5) +
   scale_color_manual(values = colores_medios_com) +
   scale_y_continuous(limits = c(0, 1.0),
                      labels = scales::percent) +
@@ -72,7 +72,7 @@ g_utiliza <-
   graficar_barras(salto = 35,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.03) +
+                  desplazar_porcentajes = 0.04) +
   scale_fill_manual(values = colores_utiliza) +
   scale_y_continuous(limits = c(0, 1.0),
                      labels = scales::percent) +
@@ -97,7 +97,7 @@ bd_problema_chile <-
 
 g_problema_chile <-
   bd_problema_chile |>
-  graficar_lollipops(width_cats = 35) +
+  graficar_lollipops(width_cats = 35,size_pct = 5) +
   scale_color_manual(values = colores_problema) +
   scale_y_continuous(limits = c(0, 1.0),
                      labels = scales::percent) +
@@ -399,7 +399,7 @@ bd_cali_desem<-
 
 p_cali_desem_graf <-
   bd_cali_desem |>
-  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = .5) +
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 5,point_size = .5,nudge_x = .4) +
   labs(caption = p_calificacion_gobierno) +
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()
@@ -521,7 +521,7 @@ g_satisfaccion_democracia <-
   graficar_barras(salto = 35,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.02,
+                  desplazar_porcentajes = 0.04,
                   orden_respuestas = rev(c("Muy satisfecho",
                                            "Algo satisfecho",
                                            "Ni satisfecho ni insatisfecho",
@@ -587,10 +587,12 @@ escala_izq_der_graf<-
 bd_variables_izq_der |>
   ggplot(aes(y = y_numeric,
              x = media)) +
-  geom_point(size = 3) +
+  geom_point(size = 3,colour = "#850D2D") +
   geom_vline(xintercept = 3,linetype = 'dashed',colour = 'red',linewidth = 1,alpha = .2) +
   geom_text(aes(label = round(media, digits = 1)),
-            vjust = -.5, size = 5) +
+            nudge_y = .17,
+            #vjust = -.7,
+            size = 5) +
   scale_y_continuous(breaks = bd_variables_izq_der$y_numeric,
                      labels = bd_variables_izq_der$izq |> stringr::str_wrap(width = 40),
                      sec.axis = sec_axis(~.,
@@ -603,6 +605,6 @@ bd_variables_izq_der |>
   tema_morant() +
   theme(axis.text.y  = element_text(size = 12),
         plot.caption = element_text(size = 12,hjust = 1),
-        plot.caption.position = "plot" )
+        plot.caption.position = "plot")
 
 

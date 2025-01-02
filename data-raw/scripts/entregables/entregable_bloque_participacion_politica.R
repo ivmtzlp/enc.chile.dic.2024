@@ -47,7 +47,7 @@ if(modo != "solo nubes") {
   add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
     ph_with(value = p_participacion_pr_21_graf, location = ph_location_label(ph_label = "grafica_uno")) |>
     ph_with(value = p_participacion_mun_24_graf, location = ph_location_label(ph_label = "grafica_dos")) |>
-    ph_with(value = 'Participación den las elecciones anteriores',
+    ph_with(value = 'Participación de las elecciones anteriores',
             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
@@ -68,7 +68,7 @@ if(modo != "solo nubes") {
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = p_candidato_nunca_voto_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Candidato por el que nunca votaria',
+    ph_with(value = 'Candidato por el que nunca votaría',
             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
