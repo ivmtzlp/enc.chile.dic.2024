@@ -176,7 +176,7 @@ p_perteneciente_pueblo_indigena_tit <-
   diccionario |>
   filter(llave == 'perteneciente_pueblo_indigena') |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 75)
+  stringr::str_wrap(width = 45)
 
 # Trabaja actualmente
 p_semana_pasada_trabajo_tit <-

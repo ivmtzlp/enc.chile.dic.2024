@@ -2,6 +2,35 @@
 #diccionario |> View()
 source(file = './data-raw/scripts/parametros/parametros_bloque_sociodemograficos.R')
 
+#Rango de edad
+rango_edad_graf <-
+bd_respuestas_efectivas |>
+  group_by(rango_edad =  case_when(edad >= 18 & edad <= 29 ~ "18-29",
+                                   edad >= 30 & edad <= 39 ~ "30-39",
+                                   edad >= 40 & edad <= 49 ~ "40-49",
+                                   edad >= 50 & edad <= 59 ~ "50-59",
+                                   edad >= 60 & edad <= 64 ~ "60-64",
+                                   edad >= 65 ~ "65+",
+                                   T ~ NA)
+  )|>
+  count(rango_edad) |>
+  ungroup() |>
+  mutate(media = n/sum(n)) |>
+  rename(respuesta = rango_edad) |>
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.02,
+                  orden_respuestas = c("65+", "60-64","50-59","40-49","30-39","18-29") )+
+  scale_fill_manual(values = rep(color_general,7))+
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  labs(caption = ""  )+
+  tema_morant()+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
+
+
 # Nivel de educacion
 bd_educacion_jefe_hogar <-
   bd_respuestas_efectivas |>
@@ -50,7 +79,7 @@ g_ocupacion_jefe_hogar <-
   labs(caption = p_ocupacion_jefe_hogar_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
-        axis.text.y = element_text(size = 12),
+        axis.text.y = element_text(size = 10),
         plot.caption = element_text(size = 12))
 
 
@@ -193,7 +222,7 @@ bd_curso_aprobado <-
 
 g_curso_aprobado <-
   bd_curso_aprobado |>
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 10,
                   porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02,
@@ -203,7 +232,7 @@ g_curso_aprobado <-
                      labels = scales::percent) +
   labs(caption = p_curso_aprobado_tit) +
   tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.x = element_text(size = 14),
         #axis.text.y = element_text(size = 14),
         plot.caption = element_text(size = 12))
 
@@ -226,7 +255,8 @@ p_perteneciente_pueblo_indigena_graf <-
   bd_perteneciente_pueblo_indigena |>
   graficar_gauge(color_principal =color_general,escala = c(0,1),size_text_pct = 12)+
   labs(title = p_perteneciente_pueblo_indigena_tit,
-       caption =  "Entrevistados que contestaron que Sí")
+       caption =  "Entrevistados que contestaron que Sí")+
+  theme(plot.title = element_text(size = 12))
 
 
 # Trabaja actualmente
@@ -244,7 +274,8 @@ p_semana_pasada_trabajo_graf <-
   bd_semana_pasada_trabajo |>
   graficar_gauge(color_principal =color_general,escala = c(0,1),size_text_pct = 12)+
   labs(title = p_semana_pasada_trabajo_tit,
-       caption =  "Entrevistados que contestaron que Trabajó")
+       caption =  "Entrevistados que contestaron que Sí trabajó")+
+  theme(plot.title = element_text(size = 12))
 
 # Razon no trabajo
 bd_razon_no_trabajo <-
@@ -257,7 +288,7 @@ bd_razon_no_trabajo <-
 
 g_razon_no_trabajo <-
   bd_razon_no_trabajo |>
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 23,
                   porcentajes_fuera = F,
                   text_size = 6,
                   desplazar_porcentajes = 0.02) +
@@ -266,7 +297,7 @@ g_razon_no_trabajo <-
                      labels = scales::percent) +
   labs(caption = p_razon_no_trabajo_tit) +
   tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.x = element_text(size = 15),
         axis.text.y = element_text(size = 14),
         plot.caption = element_text(size = 12))
 

@@ -8,6 +8,7 @@ Sys.setenv(tz = "America/Santiago")
 
 source(file = "./R/utils_constantes.R")
 source(file = "./R/fct_encuestar.R")
+source(file = "./R/fct_resultados.R")
 load(file = "./data/bd_region_comuna.rda")
 load(file = "./data/bd_comunas_regionMetropolitanaSantiago.rda")
 
@@ -86,7 +87,8 @@ bd_respuestas_efectivas <-
                               replacement = "Ns/Nc",
                               x = .x)),
          across(.cols = c(starts_with("cali_")),
-                .fns = ~ as.factor(.x)))
+                .fns = ~ as.factor(.x))) |>
+  mutate(pesos = 1)
 
 # Calculo de registros de rechazo -------------------------------------------------------------
 

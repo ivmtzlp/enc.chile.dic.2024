@@ -275,7 +275,7 @@ bd_identificacion_partido<-
 
 p_identificacion_partido_graf<-
   bd_identificacion_partido|>
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 40,
                   text_size = 6,
                   porcentajes_fuera = TRUE,
                   desplazar_porcentajes = 0.03)+
@@ -286,6 +286,7 @@ p_identificacion_partido_graf<-
   labs(caption = p_identificacion_partido_tit)+
   tema_morant()+
   theme(axis.text.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14),
         plot.caption = element_text(size = 12))
 
 

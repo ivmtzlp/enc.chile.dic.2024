@@ -102,3 +102,22 @@ calcular_resultados_calificacion <- function(bd_entrevistas_efectivas, variable,
   }
 
 }
+
+
+
+
+calcular_proporcionesCategorias <-
+  function(bd, llave_categorias, separacion_multicategoria = ">>>"){
+    bd |>
+    count(!!rlang::sym(llave_categorias),wt = pesos,name = 'total') |>
+    tibble::rownames_to_column(var = "id") %>%
+    tidyr::separate_rows(!!rlang::sym(llave_categorias), sep = separacion_multicategoria) |>
+    filter(!(!!rlang::sym(llave_categorias) %in% c("sin_categoria", "", NA_character_))) |>
+    group_by(!!rlang::sym(llave_categorias)) |>
+    summarise(total = sum(total, na.rm = TRUE)) %>%
+    rename(categoria = !!rlang::sym(colnames(.)[1])) |>
+    mutate(total = as.integer(round(total))) |>
+    arrange(desc(total)) |>
+    mutate(pct = total/sum(total),
+           acum = cumsum(pct))
+}

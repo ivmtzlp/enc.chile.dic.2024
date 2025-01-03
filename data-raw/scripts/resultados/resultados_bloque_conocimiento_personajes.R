@@ -130,4 +130,62 @@ bd_calif_per |>
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()
 
+############################################################################################
+############################################################################################
+############################################################################################
+#Cruces
+############################################################################################
+############################################################################################
+############################################################################################
+
+
+principales_cand <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr) |>
+  filter(!is.na(voto_pr)) |>
+  count(voto_pr) |>
+  mutate(media = n /sum(n)) |>
+  filter(!voto_pr %in% c("Ninguno","Ns/Nc") ) |>
+  mutate(rango = dense_rank(x=-media) ) |>
+  filter(rango <=4 | voto_pr == 'Marco Enríquez-Ominami') |>
+  pull(voto_pr)
+
+
+
+bd_conoce_per_sexo <-
+  conoce_per_vars |>
+  purrr::map_df(.f = ~{
+
+
+    bd_respuestas_efectivas |>
+      select(all_of(.x),sexo) |>
+      count(!!rlang::sym(.x),sexo) |>
+      mutate(media = n /sum(n)) |>
+      mutate(aspecto = .x ) |>
+      left_join(diccionario |>
+                  select(llave,tema),
+                by = c('aspecto' = 'llave' )) |>
+      rename('respuesta' := .x,
+             variable_principal= sexo)
+  }) |>
+  filter(respuesta == "Sí")
+
+
+
+bd_respuestas_efectivas |>
+  names()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
