@@ -34,6 +34,11 @@ if(modo != "sin nubes") {
 if(modo != "solo nubes") {
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+    ph_with(value = rango_edad_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Rango de edad de las personas encuestadas',
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = g_educacion_jefe_hogar, location = ph_location_label(ph_label = "imagen_principal")) |>
     ph_with(value = 'Educación del jefe/a del hogar',
             location = ph_location_label(ph_label = "titulo"))
@@ -63,10 +68,6 @@ if(modo != "solo nubes") {
     ph_with(value = 'Educación formal actual',
             location = ph_location_label(ph_label = "titulo"))
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_asiste_educacion, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Educación formal actual',
-            location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
     ph_with(value = g_grado_curso_aprobado, location = ph_location_label(ph_label = "grafica_uno")) |>
