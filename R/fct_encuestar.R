@@ -467,6 +467,53 @@ graficar_intervalo_numerica <- function(bd, escala = c(0, 10), point_size = 1, t
 # }
 
 
+graficar_lolipop_diferencias <- function(bd,
+                                         orden_variablePrincipal,
+                                         colores_variables_secundarias,
+                                         nudge_x = 0.05,
+                                         size_geom_text = 6,
+                                         caption = "",
+                                         wrap_y = 25,
+                                         wrap_caption = 25,
+                                         limits = c(0, 0.75),
+                                         traslape = F,
+                                         limite_dif_pct = 0.02,
+                                         ajuste_pos = 0.02) {
+  if(traslape){
+    bd <- bd |>
+      group_by(variable_principal)|>
+      mutate(#mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+        mean_dif_traslap = (max(mean)-min(mean)),
+        mean_pos =  ifelse(mean_dif_traslap<=limite_dif_pct,ajuste_pos,0),
+        mean_pos =  ifelse(mean!= min(mean) & mean!= max(mean),0,mean_pos),
+        mean_pos =  ifelse(mean == min(mean) ,mean_pos*(-1),mean_pos),
+        mean_pos =  mean_pos + mean)|>
+      ungroup()
+  }
 
+
+  g <-
+    bd |>
+    ggplot(aes(x = factor(variable_principal, levels = orden_variablePrincipal),
+               y = mean,
+               color = tema,
+               group = variable_principal)) +
+    geom_line(color = "#a2d2ff", linewidth = 4.5, alpha = 0.5) +
+    geom_point(size = 7) +
+    {if (traslape) geom_text(aes(label = scales::percent(x = mean, accuracy = 1.0),y =mean_pos),
+                             nudge_x = nudge_x,
+                             size = size_geom_text)} +
+    {if(!traslape) geom_text(aes(label = scales::percent(x = mean, accuracy = 1.0)),
+                             nudge_x = nudge_x,
+                             size = size_geom_text)} +
+    coord_flip() +
+    labs(color = "",
+         caption = stringr::str_wrap(string = caption, width = wrap_caption)) +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(string = x, width = wrap_y)) +
+    scale_y_continuous(labels = scales::percent,
+                       limits = limits) +
+    scale_color_manual(values = colores_variables_secundarias)
+  return(g)
+}
 
 
