@@ -517,3 +517,50 @@ graficar_lolipop_diferencias <- function(bd,
 }
 
 
+graficar_crucePuntos = function(bd, cruce,variable, vartype,orden_cruce=NULL,size_pct = 6,nudge_x_pct = .15,traslape = F,limite_dif_pct = 0.02,ajuste_pos = 0.02){
+
+  if(traslape){
+    bd <- bd |>
+      group_by(!!rlang::sym(cruce))|>
+      mutate(#mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+        mean_dif_traslap = (max(mean)-min(mean)),
+        mean_pos =  ifelse(mean_dif_traslap<=limite_dif_pct,ajuste_pos,0),
+        mean_pos =  ifelse(mean!= min(mean) & mean!= max(mean),0,mean_pos),
+        mean_pos =  ifelse(mean == min(mean) ,mean_pos*(-1),mean_pos),
+        mean_pos =  mean_pos + mean)|>
+      ungroup()
+  }
+
+
+  if(is.null(orden_cruce)){
+    g <- bd |>
+      ggplot(aes(x=reorder(!!rlang::sym(cruce),mean), xend=!!rlang::sym(cruce),
+                 color=!!rlang::sym(variable)))
+  }else{
+    g <- bd |>
+      ggplot(aes(x=factor(!!rlang::sym(cruce),levels=orden_cruce), xend=!!rlang::sym(cruce),
+                 color=!!rlang::sym(variable)))
+  }
+
+  g <- g +
+    geom_linerange(aes(ymin = mean-!!rlang::sym(vartype), ymax = mean+!!rlang::sym(vartype)),
+                   linetype="solid", color="black", linewidth=.5) +
+    geom_vline(aes(xintercept = !!rlang::sym(variable)), linetype = "dashed",
+               color = "gray60", size=.5) +
+    geom_point(aes(y=mean),
+               shape=19,  size=6) +
+    {if (traslape) geom_text(aes(label = scales::percent(x = mean, accuracy = 1.0),y =mean_pos),
+                             nudge_x = nudge_x_pct,vjust = 0,show.legend = F,
+                             size = size_pct)} +
+    {if(!traslape) geom_text(aes(label = scales::percent(x = mean, accuracy = 1.0),y = mean),
+                             nudge_x = nudge_x_pct,vjust = 0,show.legend = F,
+                             size = size_pct)} +
+    # geom_text(aes(y = mean,label = scales::percent(mean,1)), vjust = 0, nudge_x = nudge_x_pct, show.legend = F,size = size_pct)+
+    scale_y_continuous(limits = c(0, 1.0),
+                       breaks = seq(0, 1.0, 0.1),
+                       labels = scales::percent)+
+    coord_flip()+
+    tema_morant()+
+    tema_transparente()
+  return(g)
+}

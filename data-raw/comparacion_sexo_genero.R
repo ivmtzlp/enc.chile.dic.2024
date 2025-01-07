@@ -29,7 +29,7 @@ comunas_encuesta <- bd_respuestas_efectivas |>
 
 bd_respuestas_efectivas <-
 bd_respuestas_efectivas |>
-  mutate(sexo = sample(c('Hombres',"Mujeres"),size =1858,replace = T ))
+  mutate(sexo = sample(c('Hombres',"Mujeres"),size =2125,replace = T ))
 
 
 #### Sexo

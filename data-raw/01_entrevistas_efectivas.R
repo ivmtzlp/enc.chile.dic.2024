@@ -17,6 +17,10 @@ load(file = "./data/bd_comunas_regionMetropolitanaSantiago.rda")
 link_eliminadas <- "https://docs.google.com/spreadsheets/d/1kzB6JoLrJ-79WrxJkRbRtCfiPgAIKaTI/edit?gid=812542906#gid=812542906"
 path_eliminadas <- "data-raw/bd_eliminadas_enc_chih_dic_2024.xlsx"
 
+link_sexos <- "https://docs.google.com/spreadsheets/d/13xdlT5w-EUmfKG80iV_Cy465Dt7hsavE/edit?usp=sharing&ouid=107325048037311002262&rtpof=true&sd=true"
+path_sexos <- "data-raw/bd_sexos_enc_chih_dic_2024.xlsx"
+
+
 # Data raw ------------------------------------------------------------------------------------
 
 ## Entrevistas de campo -----------------------------------------------------------------------
@@ -40,6 +44,19 @@ bd_eliminadas <-
   transmute(SbjNum = ID,
             razon = Observaciones)
 
+## Sexos faltantes  ---------------------------------------------------------------------------------
+
+googledrive::drive_download(file = link_sexos,
+                            path = path_sexos,
+                            overwrite = T)
+
+2
+
+bd_sexos_faltantes <-
+  readxl::read_xlsx(path = path_sexos) |>
+  rename(edad_falt = edad,
+         sexo_falt = sexo)
+
 # Base de entrevistas efectivas ---------------------------------------------------------------
 
 bd_respuestas_efectivas <-
@@ -62,6 +79,15 @@ bd_respuestas_efectivas <-
          comuna_mm = dplyr::if_else(condition = comuna %in% unique(bd_comunas_regionMetropolitanaSantiago$comuna),
                                     true = "SANTIAGO",
                                     false =  comuna_mm)) |>
+  #Bloque AMAI
+  mutate(generacion = case_when(edad >= 18 & edad <= 25 ~ "Generación Z (18 a 25 años)",
+                                edad >= 26 & edad <= 40 ~ "Millenials (26 a 40 años)",
+                                edad >= 41 & edad <= 55 ~ "Generación X (41 a 55 años)",
+                                edad >= 56  ~ "Baby Boomers  (56 años o más)"),
+         generacion = factor(generacion, levels = c("Generación Z (18 a 25 años)",
+                                                    "Millenials (26 a 40 años)",
+                                                    "Generación X (41 a 55 años)",
+                                                    "Baby Boomers  (56 años o más)"))) |>
   mutate(across(.cols = c(temas, medios_com, contains("_chile_O"),
                           chile_actual, chile_futuro,
                           frases_ricos, frases_gobierno,
@@ -111,6 +137,26 @@ bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
   left_join(geolocalizacion_efectiva, by = "SbjNum")
 
+# Agregar categorias -------------------------------------------------------------
+
+source(file = "./data-raw/scripts/nubes/03_bds_categorias_procesadas.R")
+
+bd_respuestas_efectivas <-
+  bd_respuestas_efectivas |>
+  left_join(bd_categorias_procesada, by = c("SbjNum"="id"))
+
+# Agregar sexos faltantes -----------------------------------------------------
+
+bd_respuestas_efectivas <-
+bd_respuestas_efectivas |>
+  left_join(bd_sexos_faltantes |>
+              select(SbjNum ,sexo_falt),
+            by = "SbjNum") |>
+  mutate(sexo = ifelse(is.na(sexo),sexo_falt,sexo))
+
+
+
+# shps efectivas -------------------------------------------------------------
 shp_entrevistas_efectivas <-
   bd_respuestas_efectivas |>
   transmute(SbjNum,

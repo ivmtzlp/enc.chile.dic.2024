@@ -148,12 +148,6 @@ for(aspecto in asepctos_nubes){
 
 }
 
-###
-# Bachelet
-###
-
-
-
 
 ############
 # Aprobacion

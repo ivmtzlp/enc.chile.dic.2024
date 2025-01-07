@@ -149,10 +149,11 @@ principales_cand <-
   filter(!voto_pr %in% c("Ninguno","Ns/Nc") ) |>
   mutate(rango = dense_rank(x=-media) ) |>
   filter(rango <=4 | voto_pr == 'Marco Enríquez-Ominami') |>
+  arrange(rango) |>
   pull(voto_pr)
 
 
-
+##### Conocimiento vs sexo
 bd_conoce_per_sexo <-
   conoce_per_vars |>
   purrr::map_df(.f = ~{
@@ -169,19 +170,116 @@ bd_conoce_per_sexo <-
       rename('respuesta' := .x,
              variable_principal= sexo)
   }) |>
-  filter(respuesta == "Sí")
+  filter(respuesta == "Sí") |>
+  rename(mean = media) |>
+  filter(tema %in% principales_cand)
+
+# Invertir variables
+bd_conoce_per_sexo <-
+  bd_conoce_per_sexo |>
+      transmute(aux = variable_principal,
+                variable_principal = tema,
+                tema = aux,
+                mean) |>
+      select(!aux)
+
+# Ver diferencias
+bd_conoce_per_sexo <-
+  bd_conoce_per_sexo |>
+  group_by(variable_principal)|>
+  mutate(mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+         mean_dif = (max(mean)-min(mean)))|>
+  ungroup()
 
 
+# conoce_per_sexo_graf <-
+# bd_conoce_per_sexo |>
+#   graficar_lolipop_diferencias(orden_variablePrincipal = rev(principales_cand),
+#                                colores_variables_secundarias = c('Mujeres'= color_m,"Hombres"=color_h),
+#                                nudge_x = 0.25,traslape = T,
+#                                limite_dif_pct = 0.03,
+#                                ajuste_pos = 0.007)+
+#   labs(caption = p_conoce_per_tit)+
+#   tema_morant() +
+#   theme(legend.position = "bottom",
+#         axis.text.x = element_text(size = 16),
+#         axis.text.y = element_text(size = 16),
+#         legend.text = element_text(size = 12),
+#         plot.caption = element_text(size = 12))
 
-bd_respuestas_efectivas |>
-  names()
+
+conoce_per_sexo_graf <-
+  bd_conoce_per_sexo |>
+  mutate(cv= 0) |>
+  graficar_crucePuntos(cruce = 'variable_principal',
+                       vartype = 'cv',
+                       variable = 'tema',
+                       size_pct = 5,
+                       orden_cruce = rev(principales_cand),traslape = T,limite_dif_pct = 0.3,ajuste_pos = 0.015)+
+  scale_color_manual(values = c('Mujeres'= color_m,"Hombres"=color_h))+
+  #scale_x_discrete(labels= c('F'='Mujer','M'='Hombre'))+
+  scale_y_continuous(limits = c(0, .75),
+                     labels = scales::percent)+
+  labs(caption =p_conoce_per_tit)+
+  theme(legend.position = 'bottom',
+        legend.title = element_blank())
 
 
+##### Conocimiento vs edad
+
+bd_conoce_per_generacion <-
+  conoce_per_vars |>
+  purrr::map_df(.f = ~{
 
 
+    bd_respuestas_efectivas |>
+      select(all_of(.x),generacion) |>
+      count(!!rlang::sym(.x),generacion) |>
+      mutate(media = n /sum(n)) |>
+      mutate(aspecto = .x ) |>
+      left_join(diccionario |>
+                  select(llave,tema),
+                by = c('aspecto' = 'llave' )) |>
+      rename('respuesta' := .x,
+             variable_principal= generacion)
+  }) |>
+  filter(respuesta == "Sí") |>
+  rename(mean = media) |>
+  filter(tema %in% principales_cand)
+
+# Invertir variables
+bd_conoce_per_generacion <-
+  bd_conoce_per_generacion |>
+  transmute(aux = variable_principal,
+            variable_principal = tema,
+            tema = aux,
+            mean) |>
+  select(!aux)
+
+# Ver diferencias
+bd_conoce_per_generacion <-
+  bd_conoce_per_generacion |>
+  group_by(variable_principal)|>
+  mutate(mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+         mean_dif = (max(mean)-min(mean)))|>
+  ungroup()
 
 
-
+conoce_per_generacion_graf <-
+  bd_conoce_per_generacion |>
+  graficar_lolipop_diferencias(orden_variablePrincipal = rev(principales_cand),
+                               colores_variables_secundarias = colores_generacion,
+                               nudge_x = 0.25,traslape = T,
+                               limite_dif_pct = 0.03,
+                               ajuste_pos = 0.007)+
+  labs(caption = p_conoce_per_tit)+
+  tema_morant() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.text = element_text(size = 12),
+        plot.caption = element_text(size = 12))+
+  guides(color = guide_legend(ncol  = 2))
 
 
 
