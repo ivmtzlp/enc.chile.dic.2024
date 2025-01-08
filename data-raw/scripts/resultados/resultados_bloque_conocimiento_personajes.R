@@ -244,6 +244,9 @@ bd_conoce_per_generacion <-
              variable_principal= generacion)
   }) |>
   filter(respuesta == "Sí") |>
+  group_by(tema) |>
+  mutate(media = n/sum(n)) |>
+  ungroup() |>
   rename(mean = media) |>
   filter(tema %in% principales_cand)
 
@@ -269,7 +272,8 @@ conoce_per_generacion_graf <-
   bd_conoce_per_generacion |>
   graficar_lolipop_diferencias(orden_variablePrincipal = rev(principales_cand),
                                colores_variables_secundarias = colores_generacion,
-                               nudge_x = 0.25,traslape = T,
+                               nudge_x = 0.25,
+                               traslape = T,
                                limite_dif_pct = 0.03,
                                ajuste_pos = 0.007)+
   labs(caption = p_conoce_per_tit)+

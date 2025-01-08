@@ -290,8 +290,209 @@ p_identificacion_partido_graf<-
         plot.caption = element_text(size = 12))
 
 
+############################################################################################
+############################################################################################
+############################################################################################
+#Cruces
+############################################################################################
+############################################################################################
+############################################################################################
+principales_cand <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr) |>
+  filter(!is.na(voto_pr)) |>
+  count(voto_pr) |>
+  mutate(media = n /sum(n)) |>
+  filter(!voto_pr %in% c("Ninguno","Ns/Nc") ) |>
+  mutate(rango = dense_rank(x=-media) ) |>
+  filter(rango <=4 | voto_pr == 'Marco Enríquez-Ominami') |>
+  arrange(rango) |>
+  pull(voto_pr)
+
+#####################
+# Voto Pr por sexo 25
+#####################
+bd_sexo_voto_pr<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr,sexo,pesos) |>
+  filter(!is.na(voto_pr)) |>
+  filter(!is.na(sexo)) |>
+  count(voto_pr,sexo,wt = pesos) |>
+  group_by(voto_pr) |>
+  mutate(media = n /sum(n)) |>
+  rename(tema=voto_pr,variable_principal = sexo, mean=media) |>
+  ungroup()
 
 
+# Invertir variables
+bd_sexo_voto_pr <-
+  bd_sexo_voto_pr |>
+  transmute(aux = variable_principal,
+            variable_principal = tema,
+            tema = aux,
+            mean) |>
+  select(!aux)
+
+# Ver diferencias
+bd_sexo_voto_pr <-
+  bd_sexo_voto_pr |>
+  group_by(variable_principal)|>
+  mutate(mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+         mean_dif = (max(mean)-min(mean)))|>
+  ungroup()
+
+
+
+voto_pr_sexo_graf <-
+  bd_sexo_voto_pr |>
+  mutate(cv= 0) |>
+  filter(variable_principal %in% principales_cand) |>
+  graficar_crucePuntos(cruce = 'variable_principal',
+                       vartype = 'cv',
+                       variable = 'tema',
+                       size_pct = 5,
+                       orden_cruce = rev(principales_cand),traslape = T,limite_dif_pct = 0.3,ajuste_pos = 0.015)+
+  scale_color_manual(values = c('Mujer'= color_m,"Hombre"=color_h))+
+  #scale_x_discrete(labels= c('F'='Mujer','M'='Hombre'))+
+  scale_y_continuous(limits = c(0, .75),
+                     labels = scales::percent)+
+  labs(caption =p_voto_pr_graf)+
+  theme(legend.position = 'bottom',
+        legend.title = element_blank())
+
+#####################
+# Voto Pr por generacion 25
+#####################
+bd_generacion_voto_pr<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr,generacion,pesos) |>
+  filter(!is.na(voto_pr)) |>
+  filter(!is.na(generacion)) |>
+  count(voto_pr,generacion,wt = pesos) |>
+  group_by(voto_pr) |>
+  mutate(media = n /sum(n)) |>
+  rename(tema=voto_pr,variable_principal = generacion, mean=media) |>
+  ungroup()
+
+
+# Invertir variables
+bd_generacion_voto_pr <-
+  bd_generacion_voto_pr |>
+  transmute(aux = variable_principal,
+            variable_principal = tema,
+            tema = aux,
+            mean) |>
+  select(!aux)
+
+# Ver diferencias
+bd_generacion_voto_pr <-
+  bd_generacion_voto_pr |>
+  group_by(variable_principal)|>
+  mutate(mean_diff_pos = min(mean) + (max(mean)-min(mean))/2,
+         mean_dif = (max(mean)-min(mean)))|>
+  ungroup()
+
+
+voto_pr_generacion_graf <-
+  bd_generacion_voto_pr |>
+  filter(variable_principal %in% principales_cand) |>
+  graficar_lolipop_diferencias(orden_variablePrincipal = rev(principales_cand),
+                               colores_variables_secundarias = colores_generacion,
+                               nudge_x = 0.25,limits = c(0,.6),
+                               traslape = T,
+                               limite_dif_pct = 0.03,
+                               ajuste_pos = 0.007)+
+  labs(caption = p_voto_pr_graf)+
+  tema_morant() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.text = element_text(size = 12),
+        plot.caption = element_text(size = 12))+
+  guides(color = guide_legend(ncol  = 2))
+
+
+
+#####################
+# Temas interes politica
+#####################
+
+# bd_temas_interes_politica <-
+# bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(temas,interes_politica,pesos) |>
+#   filter(!is.na(temas)) |>
+#   filter(!is.na(interes_politica)) |>
+#   count(temas,interes_politica,wt = pesos) |>
+#   group_by(temas) |>
+#   mutate(media = n /sum(n)) |>
+#   ungroup() |>
+#   tidyr::complete(temas,interes_politica,fill = list(n = 0, media =0)) |>
+#
+#   mutate(media = scales::percent(x = media,accuracy=1.0))
+#
+#
+# orden_temas_interes_politica <-
+# bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(temas,pesos) |>
+#   count(temas,wt = pesos) |>
+#   mutate(media = n/sum(n)) |>
+#   arrange(desc(media)) |>
+#   mutate(temas = as.character(temas)) |>
+#   select(temas, media)
+#
+# colores_temas_interes_2 <-
+# orden_temas_interes_politica |>
+#   select(temas) |>
+#   asignar_colores()
+#
+#
+# colores_temas_interes_2["Política"] <- color_ominami
+# colores_temas_interes_2<- colores_temas_interes_2[!names(colores_temas_interes_2) %in% c("Salud","Deportes", "Películas")]
+#
+#
+#
+# bd_temas_interes_politica <-
+# bd_temas_interes_politica|>
+#   mutate(interes_politica = factor(interes_politica,
+#                                    levels = c("Muy interesado","Interesado" ,"Neutral/Indiferente","Muy poco interesado","Nada interesado","Ns/Nc")  )) |>
+#   arrange(interes_politica) |>
+#   tidyr::pivot_wider(id_cols = temas,
+#                      names_from = interes_politica,
+#                      values_from = media) |>
+#  left_join(orden_temas_interes_politica,
+#            by = "temas") |>
+#   arrange(desc(media)) |>
+#   select(!media) |>
+#   rename(respuesta = temas)
+#
+#
+# temas_interes_politica_tbl <-
+# bd_temas_interes_politica|>
+# encuestar:::formatear_tabla_votoCruzado(
+#                             var1 = "respuesta",
+#                             var2 = "",
+#                             filtro_var2 = NULL,
+#                             etiquetas = c("Temas de interés","Nivel de interés /nen la política"),
+#                             colores_var1 = colores_temas_interes_2,
+#                             colores_var2 = rep("white",7),
+#                             size_text_header = 18,
+#                             size_text_body = 14,
+#                             salto = 20
+#                             )|>
+#   flextable::color(color = "black", part = "header", i = 2) |>
+#   flextable::bg(i = ~ respuesta == 'Política', bg=color_ominami,part="body") |>
+#   flextable::color(i = ~ respuesta == 'Política', color='white',part="body")
+#
+
+
+#####################
+# Temas interes politica
+#####################
 
 
 

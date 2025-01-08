@@ -266,6 +266,78 @@ g_rechazo <-
        caption = stringr::str_wrap(string = "Por ejemplo, un rechazo del 75% nos dice que de 4 intentos, 3 fueron rechazados y 1 fue efectivo",
                                    width = 55))
 
+
+
+bd_temas_interes_politica <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(temas,interes_politica,pesos) |>
+  filter(!is.na(temas)) |>
+  filter(!is.na(interes_politica)) |>
+  count(temas,interes_politica,wt = pesos) |>
+  group_by(temas) |>
+  mutate(media = n /sum(n)) |>
+  ungroup() |>
+  tidyr::complete(temas,interes_politica,fill = list(n = 0, media =0)) |>
+
+  mutate(media = scales::percent(x = media,accuracy=1.0))
+
+
+orden_temas_interes_politica <-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(temas,pesos) |>
+  count(temas,wt = pesos) |>
+  mutate(media = n/sum(n)) |>
+  arrange(desc(media)) |>
+  mutate(temas = as.character(temas)) |>
+  select(temas, media)
+
+colores_temas_interes_2 <-
+  orden_temas_interes_politica |>
+  select(temas) |>
+  asignar_colores()
+
+
+colores_temas_interes_2["Política"] <- color_ominami
+colores_temas_interes_2<- colores_temas_interes_2[!names(colores_temas_interes_2) %in% c("Salud","Deportes", "Películas")]
+
+
+
+bd_temas_interes_politica <-
+  bd_temas_interes_politica|>
+  mutate(interes_politica = factor(interes_politica,
+                                   levels = c("Muy interesado","Interesado" ,"Neutral/Indiferente","Muy poco interesado","Nada interesado","Ns/Nc")  )) |>
+  arrange(interes_politica) |>
+  tidyr::pivot_wider(id_cols = temas,
+                     names_from = interes_politica,
+                     values_from = media) |>
+  left_join(orden_temas_interes_politica,
+            by = "temas") |>
+  arrange(desc(media)) |>
+  select(!media) |>
+  rename(respuesta = temas)
+
+
+temas_interes_politica_tbl <-
+  bd_temas_interes_politica|>
+  encuestar:::formatear_tabla_votoCruzado(
+    var1 = "respuesta",
+    var2 = "",
+    filtro_var2 = NULL,
+    etiquetas = c("Temas de interés","Nivel de interés \nen la política"),
+    colores_var1 = colores_temas_interes_2,
+    colores_var2 = rep("white",7),
+    size_text_header = 18,
+    size_text_body = 14,
+    salto = 20
+  )|>
+  flextable::color(color = "black", part = "header", i = 2) |>
+  flextable::bg(i = ~ respuesta == 'Política', bg=color_ominami,part="body") |>
+  flextable::color(i = ~ respuesta == 'Política', color='white',part="body")
+
+
+
 # Exportar ------------------------------------------------------------------------------------
 
 path_entregable <-
@@ -291,6 +363,7 @@ add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
           location = ph_location_label(ph_label = "imagen_principal")) |>
   ph_with(value = "Tasa de rechazo",
           location = ph_location_label(ph_label = "titulo"))
+
 
 add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
   ph_with(value = tot_efectivas_flex,
@@ -334,6 +407,12 @@ add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
   ph_with(value = g_voto_pr_otro,
           location = ph_location_label(ph_label = "imagen_principal")) |>
   ph_with(value = p_voto_pr_otro_tit,
+          location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = temas_interes_politica_tbl,
+          location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = "Temas de interés vs nivel de interés en la política",
           location = ph_location_label(ph_label = "titulo"))
 
 print(pptx, path_entregable)
