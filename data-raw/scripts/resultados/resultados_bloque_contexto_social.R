@@ -7,7 +7,7 @@ source(file = "./data-raw/scripts/parametros//parametros_bloque_contexto_social.
 bd_temas <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(temas) |>
+  count(temas,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = temas)
@@ -30,7 +30,7 @@ g_temas <-
 bd_medios_com <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(medios_com) |>
+  count(medios_com,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = medios_com,
@@ -52,12 +52,12 @@ g_medios_com <-
 bd_utiliza <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(contains("utiliza")) |>
-  tidyr::pivot_longer(cols = everything(),
+  select(contains("utiliza"),pesos) |>
+  tidyr::pivot_longer(cols = -pesos,#everything(),
                       names_to = "pregunta",
                       values_to = "respuesta") |>
   group_by(pregunta) |>
-  count(respuesta) |>
+  count(respuesta,wt = pesos) |>
   mutate(pct = n/sum(n, na.rm = TRUE)) |>
   ungroup() |>
   filter(respuesta == "Sí") |>
@@ -87,8 +87,8 @@ g_utiliza <-
 bd_problema_chile <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(SbjNum, contains("problema_chile_O")) |>
-  tidyr::pivot_longer(cols = !SbjNum,
+  select(SbjNum, contains("problema_chile_O"),pesos) |>
+  tidyr::pivot_longer(cols = !c(SbjNum,pesos),
                       names_to = "pregunta",
                       values_to = "respuesta") |>
   na.omit() |>
@@ -409,7 +409,7 @@ p_cali_desem_graf <-
 bd_chile_actual <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(chile_actual) |>
+  count(chile_actual,wt = ,pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = chile_actual)
@@ -436,7 +436,7 @@ g_chile_actual <-
 bd_chile_futuro <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(chile_futuro) |>
+  count(chile_futuro,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = chile_futuro)
@@ -463,7 +463,7 @@ g_chile_futuro <-
 bd_frases_ricos <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(frases_ricos) |>
+  count(frases_ricos,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = frases_ricos)
@@ -487,7 +487,7 @@ g_frases_ricos <-
 bd_frases_gobierno <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(frases_gobierno) |>
+  count(frases_gobierno,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = frases_gobierno)
@@ -511,7 +511,7 @@ g_frases_gobierno <-
 bd_satisfaccion_democracia <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(satisfaccion_democracia) |>
+  count(satisfaccion_democracia,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = satisfaccion_democracia)

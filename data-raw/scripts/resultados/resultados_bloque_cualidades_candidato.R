@@ -13,12 +13,12 @@ source('./data-raw/scripts/parametros/parametros_bloque_cualidades_candidato.R')
 bd_cualidades_valora_candidato <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(SbjNum, contains("cualidades_valora_candidato_O")) |>
-  tidyr::pivot_longer(cols = !SbjNum,
+  select(SbjNum, contains("cualidades_valora_candidato_O"),pesos) |>
+  tidyr::pivot_longer(cols = !c(SbjNum,pesos),
                       names_to = "pregunta",
                       values_to = "respuesta") |>
   na.omit() |>
-  count(respuesta) |>
+  count(respuesta,wt = pesos) |>
   mutate(pct = n/nrow(bd_respuestas_efectivas))
 
 p_cualidades_valora_candidato_graf <-
@@ -36,8 +36,8 @@ p_cualidades_valora_candidato_graf <-
 bd_necesita_chile_economia<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(necesita_chile_economia) |>
-  count(necesita_chile_economia) |>
+  select(necesita_chile_economia,pesos) |>
+  count(necesita_chile_economia,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=necesita_chile_economia )
 
@@ -61,8 +61,8 @@ p_necesita_chile_economia_graf<-
 bd_necesita_chile_consenso <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(necesita_chile_consenso) |>
-  count(necesita_chile_consenso) |>
+  select(necesita_chile_consenso,pesos) |>
+  count(necesita_chile_consenso,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=necesita_chile_consenso )
 

@@ -12,8 +12,8 @@ source('./data-raw/scripts/parametros/parametros_bloque_participacion_politica.R
 bd_interes_politica<-
 bd_respuestas_efectivas |>
   as_tibble() |>
-  select(interes_politica) |>
-  count(interes_politica) |>
+  select(interes_politica,pesos) |>
+  count(interes_politica,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=interes_politica )
 
@@ -38,8 +38,8 @@ bd_interes_politica|>
 bd_interes_eleccion_mun_24<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(interes_eleccion_mun_24) |>
-  count(interes_eleccion_mun_24) |>
+  select(interes_eleccion_mun_24,pesos) |>
+  count(interes_eleccion_mun_24,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=interes_eleccion_mun_24 )
 
@@ -66,8 +66,8 @@ p_interes_eleccion_mun_24_graf <-
 bd_participacion_pr_21<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(participacion_pr_21) |>
-  count(participacion_pr_21) |>
+  select(participacion_pr_21,pesos) |>
+  count(participacion_pr_21,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=participacion_pr_21 ) |>
   filter(respuesta == 'Sí')
@@ -86,8 +86,8 @@ bd_participacion_pr_21 |>
 bd_participacion_mun_24<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(participacion_mun_24) |>
-  count(participacion_mun_24) |>
+  select(participacion_mun_24,pesos) |>
+  count(participacion_mun_24,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=participacion_mun_24 ) |>
   filter(respuesta == 'Sí')
@@ -107,8 +107,8 @@ p_participacion_mun_24_graf <-
 bd_voto_proximas_elecciones<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(voto_proximas_elecciones) |>
-  count(voto_proximas_elecciones) |>
+  select(voto_proximas_elecciones,pesos) |>
+  count(voto_proximas_elecciones,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=voto_proximas_elecciones)
 
@@ -133,8 +133,8 @@ p_voto_proximas_elecciones_graf<-
 bd_participacion_primarias<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(participacion_primarias) |>
-  count(participacion_primarias) |>
+  select(participacion_primarias,pesos) |>
+  count(participacion_primarias,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=participacion_primarias ) |>
   filter(respuesta == 'Sí')
@@ -153,9 +153,9 @@ p_participacion_primarias_graf <-
 bd_voto_pr<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(voto_pr) |>
+  select(voto_pr,pesos) |>
   filter(!is.na(voto_pr)) |>
-  count(voto_pr) |>
+  count(voto_pr,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=voto_pr)
 
@@ -180,9 +180,9 @@ p_voto_pr_graf<-
 bd_voto2_pr<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(voto2_pr) |>
+  select(voto2_pr,pesos) |>
   filter(!is.na(voto2_pr)) |>
-  count(voto2_pr) |>
+  count(voto2_pr,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=voto2_pr)
 
@@ -208,9 +208,9 @@ p_voto2_pr_graf<-
 bd_candidato_nunca_voto<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(candidato_nunca_voto) |>
+  select(candidato_nunca_voto,pesos) |>
   filter(!is.na(candidato_nunca_voto)) |>
-  count(candidato_nunca_voto) |>
+  count(candidato_nunca_voto,wt=pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=candidato_nunca_voto)
 
@@ -235,9 +235,9 @@ p_candidato_nunca_voto_graf<-
 bd_definicion_postura_ideologica<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(definicion_postura_ideologica) |>
+  select(definicion_postura_ideologica,pesos) |>
   #filter(!is.na(definicion_postura_ideologica)) |>
-  count(definicion_postura_ideologica) |>
+  count(definicion_postura_ideologica,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=definicion_postura_ideologica)
 
@@ -266,9 +266,9 @@ p_definicion_postura_ideologica_graf<-
 bd_identificacion_partido<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(identificacion_partido) |>
+  select(identificacion_partido,pesos) |>
   #filter(!is.na(identificacion_partido)) |>
-  count(identificacion_partido) |>
+  count(identificacion_partido,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=identificacion_partido)
 
@@ -300,9 +300,9 @@ p_identificacion_partido_graf<-
 principales_cand <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(voto_pr) |>
+  select(voto_pr,pesos) |>
   filter(!is.na(voto_pr)) |>
-  count(voto_pr) |>
+  count(voto_pr,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   filter(!voto_pr %in% c("Ninguno","Ns/Nc") ) |>
   mutate(rango = dense_rank(x=-media) ) |>

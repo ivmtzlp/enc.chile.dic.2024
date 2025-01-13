@@ -15,8 +15,8 @@ conoce_per_vars |>
 
 
     bd_respuestas_efectivas |>
-      select(all_of(.x)) |>
-      count(!!rlang::sym(.x)) |>
+      select(all_of(.x),pesos) |>
+      count(!!rlang::sym(.x),wt = pesos) |>
       mutate(media = n /sum(n)) |>
       mutate(aspecto = .x ) |>
       left_join(diccionario |>
@@ -51,8 +51,8 @@ bd_opinion_per <-
 
 
     bd_respuestas_efectivas |>
-      select(all_of(.x)) |>
-      count(!!rlang::sym(.x)) |>
+      select(all_of(.x),pesos) |>
+      count(!!rlang::sym(.x),wt = pesos) |>
       filter(!is.na(!!rlang::sym(.x))) |>
       mutate(media = n /sum(n)) |>
       mutate(aspecto = .x ) |>
@@ -142,9 +142,9 @@ bd_calif_per |>
 principales_cand <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(voto_pr) |>
+  select(voto_pr,pesos) |>
   filter(!is.na(voto_pr)) |>
-  count(voto_pr) |>
+  count(voto_pr,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   filter(!voto_pr %in% c("Ninguno","Ns/Nc") ) |>
   mutate(rango = dense_rank(x=-media) ) |>
@@ -160,8 +160,8 @@ bd_conoce_per_sexo <-
 
 
     bd_respuestas_efectivas |>
-      select(all_of(.x),sexo) |>
-      count(!!rlang::sym(.x),sexo) |>
+      select(all_of(.x),sexo,pesos) |>
+      count(!!rlang::sym(.x),sexo,wt = pesos) |>
       mutate(media = n /sum(n)) |>
       mutate(aspecto = .x ) |>
       left_join(diccionario |>
@@ -233,8 +233,8 @@ bd_conoce_per_generacion <-
 
 
     bd_respuestas_efectivas |>
-      select(all_of(.x),generacion) |>
-      count(!!rlang::sym(.x),generacion) |>
+      select(all_of(.x),generacion,pesos) |>
+      count(!!rlang::sym(.x),generacion,wt = pesos) |>
       mutate(media = n /sum(n)) |>
       mutate(aspecto = .x ) |>
       left_join(diccionario |>

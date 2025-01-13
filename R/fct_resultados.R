@@ -52,7 +52,7 @@ calcular_resultados_calificacion <- function(bd_entrevistas_efectivas, variable,
   bd_resultados <-
     bd_entrevistas_efectivas |>
     as_tibble() |>
-    count(!!rlang::sym(variable), sort = TRUE) |>
+    count(!!rlang::sym(variable), sort = TRUE,wt = pesos) |>
     tidyr::complete(!!rlang::sym(variable) := c(as.character(seq.int(from = limtes[1],
                                                                      to = limtes[2],
                                                                      by = 1)),

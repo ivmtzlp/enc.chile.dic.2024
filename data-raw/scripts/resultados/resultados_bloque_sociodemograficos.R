@@ -13,7 +13,7 @@ bd_respuestas_efectivas |>
                                    edad >= 65 ~ "65+",
                                    T ~ NA)
   )|>
-  count(rango_edad) |>
+  count(rango_edad,wt = pesos) |>
   ungroup() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = rango_edad) |>
@@ -35,7 +35,7 @@ bd_respuestas_efectivas |>
 bd_educacion_jefe_hogar <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(educacion_jefe_hogar) |>
+  count(educacion_jefe_hogar,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = educacion_jefe_hogar)
@@ -61,7 +61,7 @@ g_educacion_jefe_hogar <-
 bd_ocupacion_jefe_hogar <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(ocupacion_jefe_hogar) |>
+  count(ocupacion_jefe_hogar,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = ocupacion_jefe_hogar)
@@ -87,7 +87,7 @@ g_ocupacion_jefe_hogar <-
 bd_personas_viven_hogar <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(personas_viven_hogar) |>
+  count(personas_viven_hogar,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = personas_viven_hogar,
@@ -112,7 +112,7 @@ g_personas_viven_hogar <-
 bd_ingreso_mensual_hogar <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(ingreso_mensual_hogar) |>
+  count(ingreso_mensual_hogar,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = ingreso_mensual_hogar)
@@ -139,7 +139,7 @@ g_ingreso_mensual_hogar <-
 bd_vivienda_comuna <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(vivienda_comuna) |>
+  count(vivienda_comuna,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = vivienda_comuna)
@@ -165,7 +165,7 @@ g_vivienda_comuna <-
 bd_asiste_educacion <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(asiste_educacion) |>
+  count(asiste_educacion,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = asiste_educacion)
@@ -191,7 +191,7 @@ g_asiste_educacion <-
 bd_grado_curso_aprobado <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(grado_curso_aprobado) |>
+  count(grado_curso_aprobado,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = grado_curso_aprobado,
@@ -215,7 +215,7 @@ g_grado_curso_aprobado <-
 bd_curso_aprobado <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(curso_aprobado) |>
+  count(curso_aprobado,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = curso_aprobado)
@@ -244,8 +244,8 @@ g_curso_aprobado <-
 bd_perteneciente_pueblo_indigena<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(perteneciente_pueblo_indigena) |>
-  count(perteneciente_pueblo_indigena) |>
+  select(perteneciente_pueblo_indigena,pesos) |>
+  count(perteneciente_pueblo_indigena,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=perteneciente_pueblo_indigena ) |>
   filter(respuesta == 'Sí')
@@ -263,8 +263,8 @@ p_perteneciente_pueblo_indigena_graf <-
 bd_semana_pasada_trabajo<-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  select(semana_pasada_trabajo) |>
-  count(semana_pasada_trabajo) |>
+  select(semana_pasada_trabajo,pesos) |>
+  count(semana_pasada_trabajo,wt = pesos) |>
   mutate(media = n /sum(n)) |>
   rename(respuesta=semana_pasada_trabajo ) |>
   filter(respuesta == 'Trabajó')
@@ -281,7 +281,7 @@ p_semana_pasada_trabajo_graf <-
 bd_razon_no_trabajo <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(razon_no_trabajo) |>
+  count(razon_no_trabajo,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = razon_no_trabajo)

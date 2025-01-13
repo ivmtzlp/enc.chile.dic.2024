@@ -10,8 +10,8 @@ bd_aprueba_autoridades <-
 
 
     bd_respuestas_efectivas |>
-      select(all_of(.x)) |>
-      count(!!rlang::sym(.x)) |>
+      select(all_of(.x),pesos) |>
+      count(!!rlang::sym(.x),wt = pesos) |>
       filter(!is.na(!!rlang::sym(.x))) |>
       mutate(media = n /sum(n)) |>
       mutate(aspecto = .x ) |>

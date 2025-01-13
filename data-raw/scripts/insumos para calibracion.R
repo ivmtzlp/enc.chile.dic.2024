@@ -166,19 +166,24 @@ censo_total |>
   rename(semana_pasada_trabajo=P17,sexo=P08, edad=P09) |>
   left_join(read.csv(paste0(dir_bd_micro,'etiquetas_persona_P17.csv'),sep = ';') |>
               as_tibble()|>
-              rename(semana_pasada_trabajo_raz=valor,semana_pasada_trabajo_nom = glosa),
+              rename(semana_pasada_trabajo=valor,semana_pasada_trabajo_raz = glosa),
             by = 'semana_pasada_trabajo') |>
   mutate(sexo_nom = case_match(sexo,
                                1~"Hombre",
                                2~"Mujer",
-                               .default = NA)) |> #distinct(semana_pasada_trabajo_nom)
+                               .default = NA)) |> #distinct(semana_pasada_trabajo_raz)
   mutate(semana_pasada_trabajo_raz = case_match(semana_pasada_trabajo_raz,
-                                                        "Missing"~NA,
-                                                        .default = semana_pasada_trabajo_nom)) |> #distinct(semana_pasada_trabajo_nom)
+                                                        c("Missing","No aplica")~NA,
+                                                        .default = semana_pasada_trabajo_raz)) |> #distinct(semana_pasada_trabajo_raz)
+  mutate(semana_pasada_trabajo_nom =  case_match(semana_pasada_trabajo_raz,
+                                                 c("Por un pago en dinero o especies","Sin pago para un familiar")~"Trabajó",
+                                                 NA~NA,
+                                                 .default = "No trabajó"
+                                                 ) ) |>
   left_join(comunas_micro |>
               rename(COMUNA=valor,NOM_COMUNA = glosa),
-            by = 'COMUNA') |>
-  count(REGION, PROVINCIA, COMUNA,NOM_COMUNA ,sexo_nom,edad, semana_pasada_trabajo_nom,name = "poblacion") |>
+            by = 'COMUNA') |>  #distinct(semana_pasada_trabajo_nom)
+  count(REGION, PROVINCIA, COMUNA,NOM_COMUNA ,sexo_nom,edad, semana_pasada_trabajo_raz,semana_pasada_trabajo_nom,name = "poblacion") |>
   write.csv('./data-raw/insumos_calibracion/poblacion_censo_semana_pasada_trabajo_chile.csv')
 
 
