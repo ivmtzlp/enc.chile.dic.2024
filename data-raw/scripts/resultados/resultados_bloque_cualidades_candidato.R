@@ -12,14 +12,24 @@ source('./data-raw/scripts/parametros/parametros_bloque_cualidades_candidato.R')
 
 bd_cualidades_valora_candidato <-
   bd_respuestas_efectivas |>
+  tibble::rownames_to_column() %>%
   as_tibble() |>
-  select(SbjNum, contains("cualidades_valora_candidato_O"),pesos) |>
-  tidyr::pivot_longer(cols = !c(SbjNum,pesos),
-                      names_to = "pregunta",
-                      values_to = "respuesta") |>
-  na.omit() |>
-  count(respuesta,wt = pesos) |>
-  mutate(pct = n/nrow(bd_respuestas_efectivas))
+  select(rowname, contains("cualidades_valora_candidato_O"),pesos) |>
+  mutate(tot_pesos = sum(pesos)) |>
+  tidyr::pivot_longer(cols = !c(rowname,pesos,tot_pesos)) |>
+  filter(!is.na(value)) %>%
+  mutate(seleccion = 1) %>%
+  select(-name) %>%
+  pivot_wider(names_from = value, values_from = seleccion,values_fill = 0)%>%
+  select(-rowname) %>%
+  summarise(across(-c(pesos,tot_pesos),~sum(.x * pesos)),
+            tot_pesos = unique(tot_pesos) ) %>%
+  pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
+  mutate(pct = value/tot_pesos,
+         respuesta = forcats::fct_reorder(.f = respuesta,
+                                          .x = pct,
+                                          .fun = max))
+
 
 p_cualidades_valora_candidato_graf <-
   bd_cualidades_valora_candidato |>

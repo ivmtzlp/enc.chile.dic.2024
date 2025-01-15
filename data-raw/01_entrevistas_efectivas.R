@@ -114,6 +114,13 @@ bd_respuestas_efectivas <-
                               x = .x)),
          across(.cols = c(starts_with("cali_")),
                 .fns = ~ as.factor(.x))) |>
+  mutate(rango_edad = case_when(edad >= 18 & edad <= 29 ~ "18-29",
+                                edad >= 30 & edad <= 39 ~ "30-39",
+                                edad >= 40 & edad <= 49 ~ "40-49",
+                                edad >= 50 & edad <= 59 ~ "50-59",
+                                edad >= 60 & edad <= 64 ~ "60-64",
+                                edad >= 65 ~ "65+",
+                                T ~ NA)) |>
   mutate(pesos = 1)
 
 # Calculo de registros de rechazo -------------------------------------------------------------
@@ -154,6 +161,30 @@ bd_respuestas_efectivas |>
             by = "SbjNum") |>
   mutate(sexo = ifelse(is.na(sexo),sexo_falt,sexo))
 
+# Agregar pesos  -----------------------------------------------------
+#
+#
+# diseno_sn_pesp <- survey::svydesign(ids = ~1,
+#                                     data = bd_respuestas_efectivas |>
+#                                       filter(!is.na(sexo)),
+#                                     strata = ~ sexo + rango_edad + comuna_mm,
+#                                     weights = ~pesos
+#
+# )
+#
+#
+# population_totals <- readRDS("./data-raw/bd_genericas/vector_de_pesos.rds")
+#
+# calibrated_design <- calibrate(
+#   diseno_sn_pesp,
+#   formula = ~sexo + rango_edad + comuna_mm,
+#   population = population_totals
+# )
+#
+# bd_respuestas_efectivas <-
+#   bd_respuestas_efectivas |>
+#   filter(!is.na(sexo)) |>
+#   mutate(pesos = weights(calibrated_design))
 
 
 # shps efectivas -------------------------------------------------------------

@@ -409,7 +409,7 @@ p_cali_desem_graf <-
 bd_chile_actual <-
   bd_respuestas_efectivas |>
   as_tibble() |>
-  count(chile_actual,wt = ,pesos) |>
+  count(chile_actual,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
   rename(respuesta = chile_actual)

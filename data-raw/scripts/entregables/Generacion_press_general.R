@@ -33,7 +33,7 @@ dia <- lubridate::today() |> lubridate::day()
 
 c("completo", "sin nubes", "solo nubes")
 
-modo <- "completo"
+modo <- "sin nubes"
 
 # Entregable ----------------------------------------------------------------------------------
 

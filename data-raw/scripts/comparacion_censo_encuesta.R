@@ -146,6 +146,54 @@ dif_encuesta_censo_rango_edad_graf <-
   tema_morant()
 
 
+#########################################################
+
+
+bd_comuna_enc_censo <-
+  censo_tot_comu_sexo_edad |>
+  mutate(NOM_COMUNA = stringi::stri_trans_general(NOM_COMUNA,
+                                                  "Latin-ASCII")) |>
+  mutate(NOM_COMUNA =  stringr::str_to_upper(NOM_COMUNA)) |>
+  filter(NOM_COMUNA %in% comunas_encuesta) |>  #distinct(NOM_COMUNA)
+  filter(edad >= 18) |>
+  left_join(bd_respuestas_efectivas |>
+              distinct(comuna_mm,comuna),
+            by = c("NOM_COMUNA" = "comuna")) |>
+  group_by(comuna_mm) |>
+  summarise(poblacion = sum(poblacion)) |>
+  ungroup() |>
+  mutate(media = poblacion/sum(poblacion)) |>
+  left_join(
+    bd_respuestas_efectivas |>
+      count(comuna_mm,name = "poblacion_enc") |>
+      mutate(media_enc = poblacion_enc/sum(poblacion_enc)),
+    by = "comuna_mm"
+  )|>
+  mutate(dif = media_enc- media )
+
+
+
+dif_comuna_enc_censo_graf <-
+  bd_comuna_enc_censo |>
+  mutate(tipo = "a") |>
+  ggplot(aes(y = comuna_mm,x = dif, grupo= tipo, colour = tipo) )+
+  geom_line(show.legend = FALSE,
+            linewidth = 1) +
+  geom_point(size = 3)+
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1))+
+  geom_vline(xintercept = 0,linetype = 'dashed')+
+  geom_text(aes(label = scales::percent(x = dif, accuracy = 1.1)),nudge_y = .1)+
+  annotate(
+    "text", label = "Sobre representado",
+    x = .052, y = 16.5, size = 4, colour = "blue"
+  )+
+  annotate(
+    "text", label = "Subrepresentado",
+    x = -.052, y = 16.5, size = 4, colour = "red"
+  )+
+  tema_morant()
+
+##################################################
 ########################
 #Comparacion Vive en esta comuna actualmente
 ########################

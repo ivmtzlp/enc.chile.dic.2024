@@ -501,9 +501,32 @@ voto_pr_generacion_graf <-
 
 
 
+#####################
+# Temas interes politica
+#####################
+voto_pr_voto2_pr_ca_graf <-
+encuestar:::analisis_correspondencia(var1 = "voto_pr",
+                                     var2 = "voto2_pr",
+                                     legenda1 = "Primera opción \nde voto",
+                                     legenda2 = "Segunda opción \nde voto",
+                                     diseno = calibrated_design
+                                     )
 
 
+voto_pr_voto2_pr_bd <-
+bd_respuestas_efectivas |>
+  count(voto_pr,voto2_pr,wt = pesos) |>
+  group_by(voto_pr) |>
+  mutate(media = n/sum(n)) |>
+  filter(voto_pr %in%   (bd_voto_pr |> top_n(n = 3,wt = media) |> pull(respuesta))) |>
+  rename(respuesta=voto2_pr)
 
 
-
+voto_pr_voto2_pr_graf <-
+voto_pr_voto2_pr_bd |>
+  graficar_barras() +
+  scale_fill_manual(values = colores_voto_pr ) +
+  labs(caption = p_voto2_pr_tit)+
+  facet_wrap(facets = ~voto_pr)+
+  tema_morant()
 
