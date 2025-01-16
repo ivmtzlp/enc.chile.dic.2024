@@ -33,17 +33,17 @@ if(modo != "sin nubes") {
 }
 
 if(modo != "solo nubes") {
-
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_temas, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Tema de mayor interés para la población',
-            location = ph_location_label(ph_label = "titulo"))
-
-
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_medios_com, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Principales medios de información para los chilenos',
-            location = ph_location_label(ph_label = "titulo"))
+#
+#   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+#     ph_with(value = g_temas, location = ph_location_label(ph_label = "imagen_principal")) |>
+#     ph_with(value = 'Tema de mayor interés para la población',
+#             location = ph_location_label(ph_label = "titulo"))
+#
+#
+#   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+#     ph_with(value = g_medios_com, location = ph_location_label(ph_label = "imagen_principal")) |>
+#     ph_with(value = 'Principales medios de información para los chilenos',
+#             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = g_utiliza, location = ph_location_label(ph_label = "imagen_principal")) |>
@@ -97,6 +97,11 @@ if(modo != "solo nubes") {
     ph_with(value = 'Perspectiva de mejora en la vida de los chilenos',
             location = ph_location_label(ph_label = "titulo"))
 
+  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+    ph_with(value = p_interes_politica_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Interés en la política',
+            location = ph_location_label(ph_label = "titulo"))
+
   add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
     ph_with(value = g_frases_ricos, location = ph_location_label(ph_label = "grafica_uno")) |>
     ph_with(value = g_frases_gobierno, location = ph_location_label(ph_label = "grafica_dos")) |>
@@ -104,10 +109,10 @@ if(modo != "solo nubes") {
             location = ph_location_label(ph_label = "titulo"))
 
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = g_satisfaccion_democracia, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Percepción de la democarcia de los chilenos',
-            location = ph_location_label(ph_label = "titulo"))
+  # add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  #   ph_with(value = g_satisfaccion_democracia, location = ph_location_label(ph_label = "imagen_principal")) |>
+  #   ph_with(value = 'Percepción de la democarcia de los chilenos',
+  #           location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = escala_izq_der_graf, location = ph_location_label(ph_label = "imagen_principal")) |>

@@ -194,6 +194,109 @@ pct_opinion_winter_positiva <-
   pull(media)
 
 
+
+### parisi
+
+pct_opinion_parisi <-
+  bd_respuestas_efectivas |>
+  count(opinion_parisi,wt = pesos) |>
+  rename(respuesta = opinion_parisi) |>
+  filter(!is.na(respuesta)) |>
+  mutate(media = n/sum(n))
+
+
+# Negativa parisi
+bd_categoria_razon_opinion_parisi_negativa <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_parisi_negativa")
+
+
+pct_opinion_parisi_negativa <-
+  pct_opinion_parisi|>
+  filter(respuesta %in% c("Negativa")) |>
+  pull(media)
+
+
+# Positiva parisi
+bd_categoria_razon_opinion_parisi_positiva <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_parisi_positiva")
+
+
+pct_opinion_parisi_positiva <-
+  pct_opinion_parisi|>
+  filter(respuesta %in% c("Positiva")) |>
+  pull(media)
+
+
+
+### kast
+
+pct_opinion_kast <-
+  bd_respuestas_efectivas |>
+  count(opinion_kast,wt = pesos) |>
+  rename(respuesta = opinion_kast) |>
+  filter(!is.na(respuesta)) |>
+  mutate(media = n/sum(n))
+
+
+# Negativa kast
+bd_categoria_razon_opinion_kast_negativa <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_kast_negativa")
+
+
+pct_opinion_kast_negativa <-
+  pct_opinion_kast|>
+  filter(respuesta %in% c("Negativa")) |>
+  pull(media)
+
+
+# Positiva kast
+bd_categoria_razon_opinion_kast_positiva <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_kast_positiva")
+
+
+pct_opinion_kast_positiva <-
+  pct_opinion_kast|>
+  filter(respuesta %in% c("Positiva")) |>
+  pull(media)
+
+
+### kaiser
+
+pct_opinion_kaiser <-
+  bd_respuestas_efectivas |>
+  count(opinion_kaiser,wt = pesos) |>
+  rename(respuesta = opinion_kaiser) |>
+  filter(!is.na(respuesta)) |>
+  mutate(media = n/sum(n))
+
+
+# Negativa kaiser
+bd_categoria_razon_opinion_kaiser_negativa <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_kaiser_negativa")
+
+
+pct_opinion_kaiser_negativa <-
+  pct_opinion_kaiser|>
+  filter(respuesta %in% c("Negativa")) |>
+  pull(media)
+
+
+# Positiva kaiser
+bd_categoria_razon_opinion_kaiser_positiva <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_opinion_kaiser_positiva")
+
+
+pct_opinion_kaiser_positiva <-
+  pct_opinion_kaiser|>
+  filter(respuesta %in% c("Positiva")) |>
+  pull(media)
+
 #
 # # Razon buena opinion andrea
 # pct_opinion_per1_andrea_buena <-

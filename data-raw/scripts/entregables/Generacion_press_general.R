@@ -33,8 +33,13 @@ dia <- lubridate::today() |> lubridate::day()
 
 c("completo", "sin nubes", "solo nubes")
 
-modo <- "sin nubes"
+modo <- "completo"
 
+
+if(modo != "sin nubes") {
+source(file = "./data-raw/scripts/nubes/05_resultados_nubes_palabras.R")
+
+}
 # Entregable ----------------------------------------------------------------------------------
 
 # pptx <-
@@ -50,10 +55,9 @@ add_slide(pptx, layout = "gerencia_portada", master = "gerencia") %>%
           location = ph_location_label(ph_label = "titulo")) |>
   ph_with(value = 'Chile',
           location = ph_location_label(ph_label = "subtitulo")) |>
-  ph_with(value = paste0('Del 6 al ',dia,' de diciembre del 2024'),
+  ph_with(value = paste0('Del 6 de diciembre al ',dia,' de enero del 2024'),
           location = ph_location_label(ph_label = "periodo"))
 
-#add_slide(pptx, layout = "gerencia_nota_metodologica", master = "gerencia")
 
 ## Nota metodológica
 add_slide(pptx, layout = "gerencia_nota_metodologica", master = "gerencia")

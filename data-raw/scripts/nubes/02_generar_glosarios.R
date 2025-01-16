@@ -70,3 +70,20 @@ encuestar:::generarGlosario_preguntaAbierta(folder = "./data-raw/scripts/nubes/g
                                             variable = "razon_opinion_winter_positiva")
 
 
+glos_faltantes_v1<- c("describe_bachelet","describe_ominami","describe_vodanovic","describe_winter","razon_opinion_kaiser_negativa",
+  "razon_opinion_kaiser_positiva","razon_opinion_kast_negativa","razon_opinion_kast_positiva","razon_opinion_parisi_negativa",
+  "razon_opinion_parisi_positiva")
+
+for(element in glos_faltantes_v1){
+  encuestar:::generarGlosario_preguntaAbierta(folder = "./data-raw/scripts/nubes/glosarios/",
+                                              prefijo = "glosario_",
+                                              bd_categorias_raw = bd_categorias_raw,
+                                              variable = element)}
+
+
+
+
+
+
+
+

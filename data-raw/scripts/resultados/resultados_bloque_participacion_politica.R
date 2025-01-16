@@ -8,30 +8,6 @@ source('./data-raw/scripts/parametros/parametros_bloque_participacion_politica.R
 
 #######################################333
 
-# Interes Politica
-bd_interes_politica<-
-bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(interes_politica,pesos) |>
-  count(interes_politica,wt = pesos) |>
-  mutate(media = n /sum(n)) |>
-  rename(respuesta=interes_politica )
-
-
-p_interes_politica_graf<-
-bd_interes_politica|>
-  graficar_barras(orden_respuestas = rev(orden_interes_politica),salto = 35,
-                  porcentajes_fuera = TRUE,
-                  text_size = 6,
-                  desplazar_porcentajes = 0.02)+
-  scale_fill_manual(values=colores_interes_politica)+
-  labs(caption = p_interes_politica_tit) +
-  scale_y_continuous(limits = c(0, 0.5),
-                     labels = scales::percent) +
-  tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 12))
-
 
 
 # Interes eleccion municipal
@@ -358,7 +334,7 @@ voto_pr_sexo_graf <-
   #scale_x_discrete(labels= c('F'='Mujer','M'='Hombre'))+
   scale_y_continuous(limits = c(0, .75),
                      labels = scales::percent)+
-  labs(caption =p_voto_pr_graf)+
+  labs(caption =p_voto_pr_tit)+
   theme(legend.position = 'bottom',
         legend.title = element_blank())
 
@@ -531,6 +507,21 @@ voto_pr_voto2_pr_bd |>
   facet_wrap(facets = ~voto_pr)+
   tema_morant()
 
+voto_pr_voto2_pr_v2_bd <-
+  bd_respuestas_efectivas |>
+  count(voto_pr,voto2_pr,wt = pesos) |>
+  group_by(voto_pr) |>
+  mutate(media = n/sum(n)) |>
+  filter(voto_pr %in%   c("Tomás Vodanovic","Marco Enríquez-Ominami")) |>
+  rename(respuesta=voto2_pr)
+
+voto_pr_voto2_pr_v2_graf <-
+  voto_pr_voto2_pr_v2_bd |>
+  graficar_barras() +
+  scale_fill_manual(values = colores_voto_pr ) +
+  labs(caption = p_voto2_pr_tit)+
+  facet_wrap(facets = ~voto_pr)+
+  tema_morant()
 
 voto_pr_candidato_nunca_voto_ca_graf <-
   encuestar:::analisis_correspondencia(var1 = "voto_pr",
@@ -540,12 +531,133 @@ voto_pr_candidato_nunca_voto_ca_graf <-
                                        diseno = calibrated_design
   )+
   tema_transparente()
+###################################
+#--------------------interes politica
+##################################
+
+
+bd_interes_politica_mod<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(interes_politica,pesos) |>
+  mutate(interes_politica = case_match(interes_politica,
+                                       c("Muy interesado","Interesado")~"INTERESADOS",
+                                       c("Nada interesado","Muy poco interesado")~"NO INTERESADOS",
+                                       "Neutral/Indiferente" ~ "NEUTRALES",
+                                       .default = interes_politica
+  )) |>
+  count(interes_politica,wt = pesos) |>
+  mutate(coef_op =  n/sum(n),
+         coef_op =  scales::percent(coef_op,accuracy =1.0)) |>
+  select(-n)
+
+
+
+################################################
+# voto pr interés política
+################################################
+
+
+
+#Voto proximas elecciones Chile actual
+bd_interes_politica_voto_pr_ominami<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr,interes_politica,pesos) |>
+  filter(!is.na(voto_pr)) |>
+  mutate(interes_politica = case_match(interes_politica,
+                                       c("Muy interesado","Interesado")~"INTERESADOS",
+                                       c("Nada interesado","Muy poco interesado")~"NO INTERESADOS",
+                                       "Neutral/Indiferente" ~ "NEUTRALES",
+                                       .default = interes_politica
+  )) |>
+  count(voto_pr,interes_politica,wt = pesos) |>
+  group_by(interes_politica) |>
+  mutate(media = n /sum(n)) |>
+  rename(respuesta=voto_pr) %>%
+  filter(!interes_politica %in% c("Ns/Nc","NEUTRALES")) |>
+  left_join(bd_interes_politica_mod,by = "interes_politica") |>
+  mutate(interes_politica = paste0(interes_politica," (",coef_op,")"))
+
+
+p_interes_politica_voto_pr_ominami_graf<-
+  bd_interes_politica_voto_pr_ominami|>
+  mutate(interes_politica =  stringr::str_wrap(interes_politica,width = 15)) |>
+  graficar_barras(salto = 35,
+                  text_size = 6,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.05)+
+  #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
+  scale_fill_manual(values = colores_voto_pr ) +
+  scale_y_continuous(limits = c(0, .75),
+                     labels = scales::percent) +
+  labs(caption = paste0("Voto a la presidencia de Chile","\npor Interés en la política"))+
+  tema_morant()+
+  facet_wrap(~interes_politica)+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
+
+
+
+################################################
+# analisis correspondencia interés política
+################################################
+
+
+voto_pr_interes_politica_ac<-
+  encuestar::analisis_correspondencia(var1 = "interes_politica",
+                                      var2 = "voto_pr",
+                                      legenda1 = "Interés en la política",
+                                      legenda2 = "Preferencia de voto",
+                                      diseno = calibrated_design)+
+  tema_transparente()
 
 
 
 
 
 
+################################################
+# voto pr perfil
+################################################
 
+inclin_op_ominami<-
+  bd_opinion_ominami_voto_proximas_elecciones |>
+  ungroup() |>
+  filter(respuesta == "Positiva") |>
+  top_n(n = 3,wt = media) |>
+  pull(tema)
+
+
+
+#Voto proximas elecciones
+bd_voto_proximas_elecciones_voto_pr_ominami<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(voto_pr,voto_proximas_elecciones,pesos) |>
+  filter(!is.na(voto_pr)) |>
+  count(voto_pr,voto_proximas_elecciones,wt = pesos) |>
+  group_by(voto_proximas_elecciones) |>
+  mutate(media = n /sum(n)) |>
+  rename(respuesta=voto_pr)
+
+
+p_voto_proximas_elecciones_voto_pr_ominami_graf<-
+  bd_voto_proximas_elecciones_voto_pr_ominami|>
+  filter(voto_proximas_elecciones %in% inclin_op_ominami) |>
+  mutate(voto_proximas_elecciones =  stringr::str_wrap(voto_proximas_elecciones,width = 15)) |>
+  graficar_barras(salto = 35,
+                  text_size = 5,
+                  porcentajes_fuera = TRUE,
+                  desplazar_porcentajes = 0.07)+
+  #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
+  scale_fill_manual(values = colores_voto_pr ) +
+  scale_y_continuous(limits = c(0, .75),
+                     labels = scales::percent) +
+  labs(caption = paste0("Voto a la presidencia de Chile","\nTres principales perfiles de inclinación al voto"))+
+  tema_morant()+
+  facet_wrap(~voto_proximas_elecciones)+
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))
 
 

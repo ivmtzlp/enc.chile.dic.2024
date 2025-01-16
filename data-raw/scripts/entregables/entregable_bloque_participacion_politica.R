@@ -33,22 +33,19 @@ if(modo != "sin nubes") {
 
 if(modo != "solo nubes") {
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = p_interes_politica_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Interés en la política',
-            location = ph_location_label(ph_label = "titulo"))
-
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = p_interes_eleccion_mun_24_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Interés en las elecciones municipales de 2024',
-            location = ph_location_label(ph_label = "titulo"))
 
 
-  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
-    ph_with(value = p_participacion_pr_21_graf, location = ph_location_label(ph_label = "grafica_uno")) |>
-    ph_with(value = p_participacion_mun_24_graf, location = ph_location_label(ph_label = "grafica_dos")) |>
-    ph_with(value = 'Participación de las elecciones anteriores',
-            location = ph_location_label(ph_label = "titulo"))
+  # add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  #   ph_with(value = p_interes_eleccion_mun_24_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  #   ph_with(value = 'Interés en las elecciones municipales de 2024',
+  #           location = ph_location_label(ph_label = "titulo"))
+  #
+  #
+  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
+  #   ph_with(value = p_participacion_pr_21_graf, location = ph_location_label(ph_label = "grafica_uno")) |>
+  #   ph_with(value = p_participacion_mun_24_graf, location = ph_location_label(ph_label = "grafica_dos")) |>
+  #   ph_with(value = 'Participación de las elecciones anteriores',
+  #           location = ph_location_label(ph_label = "titulo"))
 
   # add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
   #   ph_with(value = p_voto_proximas_elecciones_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
@@ -78,11 +75,26 @@ if(modo != "solo nubes") {
     ph_with(value = 'Segunda opción de voto de los 3 principales aspiantes de primera opción',
             location = ph_location_label(ph_label = "titulo"))
 
+
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-    ph_with(value = voto_pr_voto2_pr_ca_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Análisis de correspondencia entre primer y segunda opción de voto',
+    ph_with(value = voto_pr_voto2_pr_v2_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Segunda opción de voto de los 2 principales aspiantes de de izquierda',
             location = ph_location_label(ph_label = "titulo"))
 
+  # add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  #   ph_with(value = voto_pr_voto2_pr_ca_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  #   ph_with(value = 'Análisis de correspondencia entre primer y segunda opción de voto',
+  #           location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+    ph_with(value = p_interes_politica_voto_pr_ominami_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Preferencia de voto y niveles de interés en la política',
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+    ph_with(value = voto_pr_interes_politica_ac, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Análisisi de correspondencia entre preferencia de voto y niveles de interés en la política',
+            location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = p_candidato_nunca_voto_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
@@ -93,6 +105,11 @@ if(modo != "solo nubes") {
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = voto_pr_candidato_nunca_voto_ca_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
     ph_with(value = 'Análisis de correspondencia entre voto de primera opción contra aspirantes por los que nunca votaría',
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+    ph_with(value = p_voto_proximas_elecciones_voto_pr_ominami_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+    ph_with(value = 'Preferencia de voto e inclinación de perfil electoral',
             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%

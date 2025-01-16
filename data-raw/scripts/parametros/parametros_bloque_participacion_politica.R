@@ -1,7 +1,7 @@
 #Constantes   ########################################33
 
 # Interes Politica
-orden_interes_politica <- c("Muy interesado",   "Interesado",   "Neutral/Indiferente",   "Nada interesado", "Muy poco interesado", "Ns/Nc" )
+orden_interes_politica <- c("Muy interesado",   "Interesado",   "Neutral/Indiferente", "Muy poco interesado",   "Nada interesado", "Ns/Nc" )
 
 p_interes_politica_tit <-
   diccionario |>

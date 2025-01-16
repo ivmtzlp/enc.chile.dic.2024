@@ -20,11 +20,11 @@ bd_cualidades_valora_candidato <-
   filter(!is.na(value)) %>%
   mutate(seleccion = 1) %>%
   select(-name) %>%
-  pivot_wider(names_from = value, values_from = seleccion,values_fill = 0)%>%
+  tidyr::pivot_wider(names_from = value, values_from = seleccion,values_fill = 0)%>%
   select(-rowname) %>%
   summarise(across(-c(pesos,tot_pesos),~sum(.x * pesos)),
             tot_pesos = unique(tot_pesos) ) %>%
-  pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
+  tidyr::pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
   mutate(pct = value/tot_pesos,
          respuesta = forcats::fct_reorder(.f = respuesta,
                                           .x = pct,

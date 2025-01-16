@@ -402,7 +402,7 @@ p_cali_desem_graf <-
   graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = .7,nudge_x = .4) +
   geom_vline(xintercept = c(1:10), linetype = "dotted",alpha = .3) +
   labs(caption = p_calificacion_gobierno) +
-  scale_y_binned(labels = c(1:7),limits = c(1,7))+
+  scale_y_continuous(breaks = c(1:7),limits = c(1,7))+
   tema_morant()
 
 
@@ -609,3 +609,27 @@ bd_variables_izq_der |>
         plot.caption.position = "plot")
 
 
+
+# Interes Politica
+bd_interes_politica<-
+  bd_respuestas_efectivas |>
+  as_tibble() |>
+  select(interes_politica,pesos) |>
+  count(interes_politica,wt = pesos) |>
+  mutate(media = n /sum(n)) |>
+  rename(respuesta=interes_politica )
+
+
+p_interes_politica_graf<-
+  bd_interes_politica|>
+  graficar_barras(orden_respuestas = rev(orden_interes_politica),salto = 35,
+                  porcentajes_fuera = TRUE,
+                  text_size = 6,
+                  desplazar_porcentajes = 0.02)+
+  scale_fill_manual(values=colores_interes_politica)+
+  labs(caption = p_interes_politica_tit) +
+  scale_y_continuous(limits = c(0, 0.5),
+                     labels = scales::percent) +
+  tema_morant() +
+  theme(axis.text.x = element_text(size = 16),
+        plot.caption = element_text(size = 12))

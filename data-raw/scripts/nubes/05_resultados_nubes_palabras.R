@@ -61,7 +61,7 @@ wc_razon_opinion_mathei_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 40) +
+  encuestar:::graficar_nube_palabras(max_size = 35) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -109,7 +109,7 @@ wc_razon_opinion_ominami_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 40) +
+  encuestar:::graficar_nube_palabras(max_size = 35) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -289,6 +289,142 @@ wc_razon_opinion_winter_positiva <-
   tema_transparente()
 
 
+### parisi
+
+# Negativa parisi
+glosario_razon_opinion_parisi_negativa <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_parisi_negativa.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_parisi_negativa <-
+  bd_categoria_razon_opinion_parisi_negativa |>
+  left_join(glosario_razon_opinion_parisi_negativa, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_mala, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 40) +
+  labs(title = paste0("Negativa",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_parisi_negativa, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_mala,
+                                  face = "bold"))+
+  tema_transparente()
+
+
+# Positiva parisi
+glosario_razon_opinion_parisi_positiva <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_parisi_positiva.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_parisi_positiva <-
+  bd_categoria_razon_opinion_parisi_positiva |>
+  left_join(glosario_razon_opinion_parisi_positiva, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_buena, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 50) +
+  labs(title = paste0("Positiva",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_parisi_positiva, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_buena,
+                                  face = "bold"))+
+  tema_transparente()
+
+
+### kast
+
+# Negativa kast
+glosario_razon_opinion_kast_negativa <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_kast_negativa.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_kast_negativa <-
+  bd_categoria_razon_opinion_kast_negativa |>
+  left_join(glosario_razon_opinion_kast_negativa, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_mala, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 40) +
+  labs(title = paste0("Negativa",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_kast_negativa, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_mala,
+                                  face = "bold"))+
+  tema_transparente()
+
+
+# Positiva kast
+glosario_razon_opinion_kast_positiva <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_kast_positiva.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_kast_positiva <-
+  bd_categoria_razon_opinion_kast_positiva |>
+  left_join(glosario_razon_opinion_kast_positiva, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_buena, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 50) +
+  labs(title = paste0("Positiva",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_kast_positiva, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_buena,
+                                  face = "bold"))+
+  tema_transparente()
+
+
+### kaiser
+
+# Negativa kaiser
+glosario_razon_opinion_kaiser_negativa <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_kaiser_negativa.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_kaiser_negativa <-
+  bd_categoria_razon_opinion_kaiser_negativa |>
+  left_join(glosario_razon_opinion_kaiser_negativa, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_mala, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 40) +
+  labs(title = paste0("Negativa",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_kaiser_negativa, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_mala,
+                                  face = "bold"))+
+  tema_transparente()
+
+
+# Positiva kaiser
+glosario_razon_opinion_kaiser_positiva <-
+  readxl::read_excel(path = "./data-raw/scripts/nubes/glosarios/glosario_razon_opinion_kaiser_positiva.xlsx") |>
+  select(categoria, categoria_corregida)
+
+wc_razon_opinion_kaiser_positiva <-
+  bd_categoria_razon_opinion_kaiser_positiva |>
+  left_join(glosario_razon_opinion_kaiser_positiva, by = "categoria") |>
+  encuestar::asignar_coloresCategorias(criterio = "top",
+                                       top = 10,
+                                       colores = c(color_opinion_buena, color_nsnc)) |>
+  encuestar:::graficar_nube_palabras(max_size = 50) +
+  labs(title = paste0("Positiva",
+                      "\n",
+                      "Porcentaje con esa postura: ",
+                      scales::percent(pct_opinion_kaiser_positiva, accuracy = 1.))) +
+  theme(plot.title = element_text(size = 26,
+                                  colour = color_opinion_buena,
+                                  face = "bold"))+
+  tema_transparente()
 
 # # Prioridad gob Maru
 # glosario_categoria_prioridad_gob_maru <-

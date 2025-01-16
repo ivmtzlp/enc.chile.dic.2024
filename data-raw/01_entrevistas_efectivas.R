@@ -21,6 +21,10 @@ link_sexos <- "https://docs.google.com/spreadsheets/d/13xdlT5w-EUmfKG80iV_Cy465D
 path_sexos <- "data-raw/bd_sexos_enc_chih_dic_2024.xlsx"
 
 
+link_sexos_v2 <- "https://docs.google.com/spreadsheets/d/14QrBN6azj2r6XXmkWpKFt2IhRXYsTvOK/edit?usp=drive_link&ouid=107325048037311002262&rtpof=true&sd=true"
+path_sexos_v2 <- "data-raw/bd_sexos_enc_chih_dic_2024_v2.xlsx"
+
+
 # Data raw ------------------------------------------------------------------------------------
 
 ## Entrevistas de campo -----------------------------------------------------------------------
@@ -52,10 +56,24 @@ googledrive::drive_download(file = link_sexos,
 
 2
 
+
+googledrive::drive_download(file = link_sexos_v2,
+                            path = path_sexos_v2,
+                            overwrite = T)
+
+2
+
+
 bd_sexos_faltantes <-
   readxl::read_xlsx(path = path_sexos) |>
   rename(edad_falt = edad,
-         sexo_falt = sexo)
+         sexo_falt = sexo) |>
+  bind_rows(readxl::read_xlsx(path = path_sexos_v2) |>
+              mutate(edad = as.numeric(edad)) |>
+              # select(edad,sexo)
+              rename(edad_falt = edad,
+                     sexo_falt = sexo)
+              )
 
 # Base de entrevistas efectivas ---------------------------------------------------------------
 
@@ -160,6 +178,11 @@ bd_respuestas_efectivas |>
               select(SbjNum ,sexo_falt),
             by = "SbjNum") |>
   mutate(sexo = ifelse(is.na(sexo),sexo_falt,sexo))
+
+bd_respuestas_efectivas <-
+  bd_respuestas_efectivas |>
+  filter(!is.na(sexo))
+
 
 # Agregar pesos  -----------------------------------------------------
 #

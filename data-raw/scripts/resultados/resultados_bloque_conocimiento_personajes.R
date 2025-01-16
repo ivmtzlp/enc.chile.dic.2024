@@ -128,7 +128,7 @@ bd_calif_per |>
   graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = 1.2,nudge_x = 0.45 ) +
   geom_vline(xintercept = c(1:9),linetype = "dotted",alpha = 0.7)+
   labs(caption = p_calif_per_tit) +
-  scale_y_binned(labels = c(1:7),limits = c(1,7))+
+  scale_y_continuous(breaks = c(1:7),limits = c(1,7))+
   tema_morant()
 
 ############################################################################################
@@ -290,5 +290,90 @@ conoce_per_generacion_graf <-
 
 
 
+################################################
+# interés política  opinion ominami
+################################################
 
+
+bd_conoce_ominami_interes_politica <-
+  bd_respuestas_efectivas |>
+  mutate(interes_politica = case_match(interes_politica,
+                                       c("Muy interesado","Interesado")~"INTERESADOS",
+                                       c("Nada interesado","Muy poco interesado")~"NO INTERESADOS",
+                                       "Neutral/Indiferente" ~ "NEUTRALES",
+                                       .default = interes_politica
+  )) |>
+  select(interes_politica,all_of("conoce_per_ominami"),pesos) |>
+  count(interes_politica,conoce_per_ominami,wt = pesos) |>
+  filter(!is.na(interes_politica)) |>
+  group_by(interes_politica) |>
+  mutate(media = n /sum(n)) |>
+  mutate(aspecto = "conoce_per_ominami") |>
+  left_join(diccionario |>
+              select(llave,tema),
+            by = c('aspecto' = 'llave' )) |>
+  rename(respuesta = conoce_per_ominami )|>
+  #filter(interes_politica %in% c("Michelle Bachelet","Tomás Vodanovic")) |>
+  mutate(tema = paste0(interes_politica))
+
+
+
+bd_opinion_ominami_interes_politica <-
+  bd_respuestas_efectivas |>
+  mutate(interes_politica = case_match(interes_politica,
+                                       c("Muy interesado","Interesado")~"INTERESADOS",
+                                       c("Nada interesado","Muy poco interesado")~"NO INTERESADOS",
+                                       "Neutral/Indiferente" ~ "NEUTRALES",
+                                       .default = interes_politica
+  )) |>
+  select(interes_politica,opinion_ominami,pesos) |>
+  count(interes_politica,opinion_ominami,wt = pesos) |>
+  filter(!is.na(opinion_ominami)) |>
+  filter(!is.na(interes_politica)) |>
+  group_by(interes_politica) |>
+  mutate(media = n /sum(n)) |>
+  mutate(aspecto = "opinion_ominami" ) |>
+  left_join(diccionario |>
+              select(llave,tema),
+            by = c('aspecto' = 'llave' )) |>
+  rename(respuesta = "opinion_ominami" ) |>
+  #filter(interes_politica %in% c("Michelle Bachelet","Tomás Vodanovic")) |>
+  mutate(tema = paste0(interes_politica))
+
+
+
+p_opinion_ominami_interes_politica_graf<-
+  bd_opinion_ominami_interes_politica |>
+  filter(!interes_politica  %in% c("Ns/Nc") ) |>
+  graficar_candidato_opinion(
+
+    #patron_inicial = "opinion",
+    #aspectos = aspectos_conoce_per,
+    size_text_cat = 16,
+
+    #OPINION
+    salto = 45,
+    colores = colores_opinion_per,
+    regular = "",
+    orden_resp = c("Negativa","Positiva"),
+    grupo_positivo = c("Positiva"),
+    grupo_negativo = rev(c("Negativa")),
+    caption_opinion  ="Opinion de Marco Enríquez-Ominami, por interés en la política" ,
+    size_caption_opinion = 12,
+
+    #CONOCIMIENTO
+    burbuja = bd_conoce_ominami_interes_politica |> filter(respuesta == 'Sí') |> filter(!interes_politica  %in% c("Ns/Nc") ) |>  rename(valor =  respuesta),
+    #llave_burbuja = "conoce_per",
+    color_burbuja = color_general,
+    caption_burbuja = "Conocimiento",
+    size_caption_burbuja = 12,
+    size_burbuja = 8,
+
+    #NO SABE NO CONTESTA
+    ns_nc ="Ns/Nc (No leer)",
+    caption_nsnc = "Ns/Nc",
+    size_caption_nsnc = 12,
+    color_nsnc = "gray50"
+
+  )
 
