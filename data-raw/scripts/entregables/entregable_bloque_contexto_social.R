@@ -50,7 +50,7 @@ if(modo != "solo nubes") {
     ph_with(value = 'Redes sociales más utilizadas por los chilenos',
             location = ph_location_label(ph_label = "titulo"))
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>%
     ph_with(value = g_problema_chile, location = ph_location_label(ph_label = "imagen_principal")) |>
     ph_with(value = 'Principales problemas para la población chilena',
             location = ph_location_label(ph_label = "titulo"))

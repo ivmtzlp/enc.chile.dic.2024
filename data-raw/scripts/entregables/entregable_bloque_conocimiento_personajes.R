@@ -7,29 +7,72 @@ add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
   ph_with(value = 'Conocimiento de personajes ',
           location = ph_location_label(ph_label = "titulo"))
 
-# if(modo != "solo nubes") {
-#
-#   add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>%
-#     ph_with(value = g_medios_com,
-#             location = ph_location_label(ph_label = "imagen_principal")) |>
-#     ph_with(value = "La televisión y facebook son los medios de comuicación más utilizados",
-#             location = ph_location_label(ph_label = "titulo"))
-#
-#   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-#     ph_with(value = g_utiliza,
-#             location = ph_location_label(ph_label = "imagen_principal")) |>
-#     ph_with(value = "WhatsApp y Facebook son las redes sociales que más utilizan los chihuahuenses",
-#             location = ph_location_label(ph_label = "titulo"))
-#
-# }
 
 if(modo != "sin nubes") {
 
-  # add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
-  #   ph_with(value = wc_prioridad_gob_maru,
-  #           location = ph_location_label(ph_label = "imagen_principal")) |>
-  #   ph_with(value = "El 25% de los entrevistados no perciben mejoras en el estado como resultado de la gestión del Gobierno de Maru Campos",
+
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_bachelet_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_bachelet_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Michelle Bachelet?",
+            location = ph_location_label(ph_label = "titulo"))
+
+
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_mathei_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_mathei_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Evelyn Mathei?",
+            location = ph_location_label(ph_label = "titulo"))
+
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_ominami_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_ominami_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Marco Enríquez-Ominami?",
+            location = ph_location_label(ph_label = "titulo"))
+
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_toha_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_toha_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Carolina Tohá?",
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_vodanovic_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_vodanovic_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Tomás Vodanovic?",
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_winter_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_winter_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Gonzalo Winter?",
+            location = ph_location_label(ph_label = "titulo"))
+
+  ##################
+
+  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+  #   ph_with(value = wc_razon_opinion_parisi_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+  #   ph_with(value = wc_razon_opinion_parisi_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+  #   ph_with(value = "¿Porqué tiene una opinión (...) de Franco Parisi?",
   #           location = ph_location_label(ph_label = "titulo"))
+  #
+  #
+  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+  #   ph_with(value = wc_razon_opinion_kast_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+  #   ph_with(value = wc_razon_opinion_kast_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+  #   ph_with(value = "¿Porqué tiene una opinión (...) de José Antonio Kast?",
+  #           location = ph_location_label(ph_label = "titulo"))
+  #
+  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+  #   ph_with(value = wc_razon_opinion_kaiser_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+  #   ph_with(value = wc_razon_opinion_kaiser_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+  #   ph_with(value = "¿Porqué tiene una opinión (...) de Johannes Kaiser?",
+  #           location = ph_location_label(ph_label = "titulo"))
+  #
 
 }
 

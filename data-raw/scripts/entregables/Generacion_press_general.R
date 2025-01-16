@@ -55,6 +55,9 @@ add_slide(pptx, layout = "gerencia_portada", master = "gerencia") %>%
 
 #add_slide(pptx, layout = "gerencia_nota_metodologica", master = "gerencia")
 
+## Nota metodológica
+add_slide(pptx, layout = "gerencia_nota_metodologica", master = "gerencia")
+
 ## Problemáticas sociales  --------------------------------------------------------------------
 
 source('./data-raw/scripts/entregables/entregable_bloque_contexto_social.R')

@@ -82,7 +82,7 @@ p_chile_actual_tit <-
   filter(grepl(pattern = "chile_actual", x = llave)) |>
   distinct(pregunta) |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 55)
+  stringr::str_wrap(width = 35)
 
 colores_chile_actual <-
   bd_respuestas_efectivas |>
@@ -97,7 +97,7 @@ p_chile_futuro_tit <-
   filter(grepl(pattern = "chile_futuro", x = llave)) |>
   distinct(pregunta) |>
   pull(pregunta) |>
-  stringr::str_wrap(width = 55)
+  stringr::str_wrap(width = 35)
 
 colores_chile_futuro <-
   bd_respuestas_efectivas |>

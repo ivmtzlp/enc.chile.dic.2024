@@ -34,7 +34,7 @@ if(modo != "sin nubes") {
 
 if(modo != "solo nubes") {
 
-  add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>%
     ph_with(value = p_cualidades_valora_candidato_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
     ph_with(value = 'Cualidades candidatos',
             location = ph_location_label(ph_label = "titulo"))

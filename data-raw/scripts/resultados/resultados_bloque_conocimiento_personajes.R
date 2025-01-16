@@ -125,7 +125,8 @@ bd_calif_per |>
 
 p_calif_per_graf <-
 bd_calif_per |>
-  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 5,nudge_x = 0.4 ) +
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = 1.2,nudge_x = 0.45 ) +
+  geom_vline(xintercept = c(1:9),linetype = "dotted",alpha = 0.7)+
   labs(caption = p_calif_per_tit) +
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()
@@ -216,7 +217,7 @@ conoce_per_sexo_graf <-
                        variable = 'tema',
                        size_pct = 5,
                        orden_cruce = rev(principales_cand),traslape = T,limite_dif_pct = 0.3,ajuste_pos = 0.015)+
-  scale_color_manual(values = c('Mujeres'= color_m,"Hombres"=color_h))+
+  scale_color_manual(values = c('Mujer'= color_m,"Hombre"=color_h))+
   #scale_x_discrete(labels= c('F'='Mujer','M'='Hombre'))+
   scale_y_continuous(limits = c(0, .75),
                      labels = scales::percent)+

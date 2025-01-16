@@ -14,7 +14,7 @@ p_conoce_per_tit <- diccionario |>
 
 aspectos_conoce_per <-  gsub(pattern = 'conoce_per_',replacement = '',conoce_per_vars)
 
-colores_conoce_per <-  c("Michelle Bachellete" = color_general,
+colores_conoce_per <-  c("Michelle Bachelet" = color_general,
                          "Evelyn Mathei" = color_general,
                          "José Antonio Kast" = color_general,
                          "Carolina Tohá" = color_general,

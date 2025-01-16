@@ -399,7 +399,8 @@ bd_cali_desem<-
 
 p_cali_desem_graf <-
   bd_cali_desem |>
-  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 5,point_size = .5,nudge_x = .4) +
+  graficar_intervalo_numerica(escala = c(1,7),text_point_size = 6,point_size = .7,nudge_x = .4) +
+  geom_vline(xintercept = c(1:10), linetype = "dotted",alpha = .3) +
   labs(caption = p_calificacion_gobierno) +
   scale_y_binned(labels = c(1:7),limits = c(1,7))+
   tema_morant()
@@ -425,7 +426,7 @@ g_chile_actual <-
                                            "En retroceso",
                                            "Ns/Nc"))) +
   scale_fill_manual(values = colores_chile_actual) +
-  scale_y_continuous(limits = c(0, 0.5),
+  scale_y_continuous(limits = c(0, 0.6),
                      labels = scales::percent) +
   labs(caption = p_chile_actual_tit) +
   tema_morant() +
@@ -452,7 +453,7 @@ g_chile_futuro <-
                                            "Peor que hoy",
                                            "Ns/Nc"))) +
   scale_fill_manual(values = colores_chile_futuro) +
-  scale_y_continuous(limits = c(0, 0.5),
+  scale_y_continuous(limits = c(0, 0.6),
                      labels = scales::percent) +
   labs(caption = p_chile_futuro_tit) +
   tema_morant() +
@@ -587,12 +588,12 @@ escala_izq_der_graf<-
 bd_variables_izq_der |>
   ggplot(aes(y = y_numeric,
              x = media)) +
-  geom_point(size = 3,colour = "#850D2D") +
+  geom_point(size = 4,colour = "#850D2D") +
   geom_vline(xintercept = 3,linetype = 'dashed',colour = 'red',linewidth = 1,alpha = .2) +
   geom_text(aes(label = round(media, digits = 1)),
-            nudge_y = .17,
+            nudge_y = .19,
             #vjust = -.7,
-            size = 5) +
+            size = 6) +
   scale_y_continuous(breaks = bd_variables_izq_der$y_numeric,
                      labels = bd_variables_izq_der$izq |> stringr::str_wrap(width = 40),
                      sec.axis = sec_axis(~.,

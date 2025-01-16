@@ -76,8 +76,8 @@ bd_participacion_pr_21<-
 p_participacion_pr_21_graf <-
 bd_participacion_pr_21 |>
   graficar_gauge(color_principal = color_general,escala = c(0,1),size_text_pct = 12)+
-  labs(title = p_participacion_pr_21_tit,
-       caption =  "Entrevistados que contestaron que Sí")+
+  labs(title = paste0(p_participacion_pr_21_tit,
+       '\nEntrevistados que respondieron "Sí"'))+
   theme(plot.title = element_text(size = 12),
         plot.caption = element_text(size = 12))
 
@@ -96,8 +96,8 @@ bd_participacion_mun_24<-
 p_participacion_mun_24_graf <-
   bd_participacion_mun_24 |>
   graficar_gauge(color_principal =color_general,escala = c(0,1),size_text_pct = 12)+
-  labs(title = p_participacion_mun_24_tit,
-       caption =  "Entrevistados que contestaron que Sí")+
+  labs(title = paste0(p_participacion_mun_24_tit,
+                      '\nEntrevistados que respondieron "Sí"'))+
   theme(plot.title = element_text(size = 12),
         plot.caption = element_text(size = 12))
 
@@ -115,17 +115,17 @@ bd_voto_proximas_elecciones<-
 
 p_voto_proximas_elecciones_graf<-
   bd_voto_proximas_elecciones|>
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 20,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.02)+
+                  desplazar_porcentajes = 0.05)+
   #graficar_barras(orden_respuestas = rev(orden_voto_proximas_elecciones))+
   scale_fill_manual(values = colores_voto_proximas_elecciones) +
   labs(caption = p_voto_proximas_elecciones_tit)+
   scale_y_continuous(limits = c(0, 0.5),
                      labels = scales::percent) +
   tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.x = element_text(size = 13),
         plot.caption = element_text(size = 12))
 
 
@@ -143,8 +143,8 @@ bd_participacion_primarias<-
 p_participacion_primarias_graf <-
   bd_participacion_primarias |>
   graficar_gauge(color_principal = color_general,escala = c(0,1),size_text_pct = 12)+
-  labs(title = p_participacion_primarias_tit,
-       caption =  "Entrevistados que contestaron que Sí")+
+  labs(title = paste0(p_participacion_primarias_tit,
+                      '\nEntrevistados que respondieron "Sí"'))+
   theme(plot.title = element_text(size = 12),
         plot.caption = element_text(size = 12))
 
@@ -510,7 +510,8 @@ encuestar:::analisis_correspondencia(var1 = "voto_pr",
                                      legenda1 = "Primera opción \nde voto",
                                      legenda2 = "Segunda opción \nde voto",
                                      diseno = calibrated_design
-                                     )
+                                     )+
+  tema_transparente()
 
 
 voto_pr_voto2_pr_bd <-
@@ -529,4 +530,22 @@ voto_pr_voto2_pr_bd |>
   labs(caption = p_voto2_pr_tit)+
   facet_wrap(facets = ~voto_pr)+
   tema_morant()
+
+
+voto_pr_candidato_nunca_voto_ca_graf <-
+  encuestar:::analisis_correspondencia(var1 = "voto_pr",
+                                       var2 = "candidato_nunca_voto",
+                                       legenda1 = "Primera opción \nde voto",
+                                       legenda2 = "Candidato por el que\nnunca votaría",
+                                       diseno = calibrated_design
+  )+
+  tema_transparente()
+
+
+
+
+
+
+
+
 

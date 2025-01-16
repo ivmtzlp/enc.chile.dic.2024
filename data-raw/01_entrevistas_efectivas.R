@@ -163,28 +163,28 @@ bd_respuestas_efectivas |>
 
 # Agregar pesos  -----------------------------------------------------
 #
-#
-# diseno_sn_pesp <- survey::svydesign(ids = ~1,
-#                                     data = bd_respuestas_efectivas |>
-#                                       filter(!is.na(sexo)),
-#                                     strata = ~ sexo + rango_edad + comuna_mm,
-#                                     weights = ~pesos
-#
-# )
-#
-#
-# population_totals <- readRDS("./data-raw/bd_genericas/vector_de_pesos.rds")
-#
-# calibrated_design <- calibrate(
-#   diseno_sn_pesp,
-#   formula = ~sexo + rango_edad + comuna_mm,
-#   population = population_totals
-# )
-#
-# bd_respuestas_efectivas <-
-#   bd_respuestas_efectivas |>
-#   filter(!is.na(sexo)) |>
-#   mutate(pesos = weights(calibrated_design))
+
+diseno_sn_pesp <- survey::svydesign(ids = ~1,
+                                    data = bd_respuestas_efectivas |>
+                                      filter(!is.na(sexo)),
+                                    strata = ~ sexo + rango_edad + comuna_mm,
+                                    weights = ~pesos
+
+)
+
+
+population_totals <- readRDS("./data-raw/bd_genericas/vector_de_pesos.rds")
+
+calibrated_design <- survey::calibrate(
+  diseno_sn_pesp,
+  formula = ~sexo + rango_edad + comuna_mm,
+  population = population_totals
+)
+
+bd_respuestas_efectivas <-
+  bd_respuestas_efectivas |>
+  filter(!is.na(sexo)) |>
+  mutate(pesos = weights(calibrated_design))
 
 
 # shps efectivas -------------------------------------------------------------

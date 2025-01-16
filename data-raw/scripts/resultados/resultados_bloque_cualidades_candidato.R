@@ -54,16 +54,16 @@ bd_necesita_chile_economia<-
 p_necesita_chile_economia_graf<-
   bd_necesita_chile_economia|>
   #graficar_barras(orden_respuestas = rev(orden_necesita_chile_economia))+
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 20,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.03)+
+                  desplazar_porcentajes = 0.1)+
   scale_fill_manual(values = colores_necesita_chile_economia) +
-  scale_y_continuous(limits = c(0, 0.75),
+  scale_y_continuous(limits = c(0, 1),
                      labels = scales::percent) +
   labs(caption = p_necesita_chile_economia_tit) +
   tema_morant() +
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.x = element_text(size = 13),
         plot.caption = element_text(size = 12))
 
 
@@ -79,16 +79,16 @@ bd_necesita_chile_consenso <-
 p_necesita_chile_consenso_graf <-
   bd_necesita_chile_consenso|>
   #graficar_barras(orden_respuestas = rev(orden_necesita_chile_consenso))+
-  graficar_barras(salto = 35,
+  graficar_barras(salto = 20,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.03)+
+                  desplazar_porcentajes = 0.1)+
   scale_fill_manual(values = colores_necesita_chile_consenso) +
   labs(caption = p_necesita_chile_consenso_tit)+
-  scale_y_continuous(limits = c(0, 0.75),
+  scale_y_continuous(limits = c(0, 1),
                      labels = scales::percent) +
   tema_morant()+
-  theme(axis.text.x = element_text(size = 16),
+  theme(axis.text.x = element_text(size = 13),
         plot.caption = element_text(size = 12))
 
 

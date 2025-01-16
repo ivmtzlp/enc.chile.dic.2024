@@ -61,7 +61,8 @@ p_voto_proximas_elecciones_tit <-
   filter(grepl('voto_proximas_elecciones',llave)) |>
   select(pregunta) |>
   distinct(pregunta) |>
-  pull()
+  pull() |>
+  stringr::str_wrap(width = 40)
 
 colores_voto_proximas_elecciones <-
   bd_respuestas_efectivas |>

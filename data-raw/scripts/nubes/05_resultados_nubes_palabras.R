@@ -61,7 +61,7 @@ wc_razon_opinion_mathei_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -109,7 +109,7 @@ wc_razon_opinion_ominami_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -131,7 +131,7 @@ wc_razon_opinion_ominami_positiva <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_buena, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Positiva",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -158,7 +158,7 @@ wc_razon_opinion_toha_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -180,7 +180,7 @@ wc_razon_opinion_toha_positiva <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_buena, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Positiva",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -207,7 +207,7 @@ wc_razon_opinion_vodanovic_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -229,7 +229,7 @@ wc_razon_opinion_vodanovic_positiva <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_buena, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Positiva",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -256,7 +256,7 @@ wc_razon_opinion_winter_negativa <-
   encuestar::asignar_coloresCategorias(criterio = "top",
                                        top = 10,
                                        colores = c(color_opinion_mala, color_nsnc)) |>
-  encuestar:::graficar_nube_palabras(max_size = 50) +
+  encuestar:::graficar_nube_palabras(max_size = 40) +
   labs(title = paste0("Negativa",
                       "\n",
                       "Porcentaje con esa postura: ",
@@ -287,6 +287,7 @@ wc_razon_opinion_winter_positiva <-
                                   colour = color_opinion_buena,
                                   face = "bold"))+
   tema_transparente()
+
 
 
 # # Prioridad gob Maru
