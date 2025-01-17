@@ -60,7 +60,7 @@ if(modo != "solo nubes") {
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = g_vivienda_comuna, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Pertenencia en el hogar',
+    ph_with(value = 'Pertenencia en a la comuna',
             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%

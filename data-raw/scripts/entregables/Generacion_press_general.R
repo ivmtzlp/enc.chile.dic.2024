@@ -4,7 +4,12 @@
 library(officer)
 
 # Constantes ----------------------------------------------------------------------------------
-#source('./R/constantes_resultados.R')
+source('./data-raw/scripts/parametros/parametros_bloque_conocimiento_personajes.R')
+source('./data-raw/scripts/parametros/parametros_bloque_contexto_social.R')
+source('./data-raw/scripts/parametros/parametros_bloque_cualidades_candidato.R')
+source('./data-raw/scripts/parametros/parametros_bloque_evaluacion_autoridades.R')
+source('./data-raw/scripts/parametros/parametros_bloque_participacion_politica.R')
+source('./data-raw/scripts/parametros/parametros_bloque_sociodemograficos.R')
 
 
 # Resultados ----------------------------------------------------------------------------------

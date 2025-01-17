@@ -70,25 +70,25 @@ if(modo != "sin nubes") {
 
   ##################
 
-  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
-  #   ph_with(value = wc_razon_opinion_parisi_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
-  #   ph_with(value = wc_razon_opinion_parisi_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
-  #   ph_with(value = "¿Porqué tiene una opinión (...) de Franco Parisi?",
-  #           location = ph_location_label(ph_label = "titulo"))
-  #
-  #
-  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
-  #   ph_with(value = wc_razon_opinion_kast_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
-  #   ph_with(value = wc_razon_opinion_kast_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
-  #   ph_with(value = "¿Porqué tiene una opinión (...) de José Antonio Kast?",
-  #           location = ph_location_label(ph_label = "titulo"))
-  #
-  # add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
-  #   ph_with(value = wc_razon_opinion_kaiser_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
-  #   ph_with(value = wc_razon_opinion_kaiser_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
-  #   ph_with(value = "¿Porqué tiene una opinión (...) de Johannes Kaiser?",
-  #           location = ph_location_label(ph_label = "titulo"))
-  #
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_parisi_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_parisi_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Franco Parisi?",
+            location = ph_location_label(ph_label = "titulo"))
+
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_kast_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_kast_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de José Antonio Kast?",
+            location = ph_location_label(ph_label = "titulo"))
+
+  add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+    ph_with(value = wc_razon_opinion_kaiser_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+    ph_with(value = wc_razon_opinion_kaiser_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+    ph_with(value = "¿Porqué tiene una opinión (...) de Johannes Kaiser?",
+            location = ph_location_label(ph_label = "titulo"))
+
 
 }
 
@@ -107,3 +107,64 @@ if(modo != "solo nubes") {
 
 
 }
+
+
+
+
+
+########
+
+if(modo != "sin nubes") {
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_bachelet, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Michelle Bachelete"),location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_winter, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Gonzalo Winter"),
+location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_vodanovic, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Tomás Vodanovic"),
+location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_ominami, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Marco Enríquez-Ominami"),
+location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_toha, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Carolina Tohá"),
+location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_mathei, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Evelyn Mathei"),
+location = ph_location_label(ph_label = "titulo"))
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_kast, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "José Antonio Kast"),
+location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_una_grafica_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_describe_kaiser, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = paste0("Describa en una sola palabra a ",
+                         "Johannes Kaiser"),
+location = ph_location_label(ph_label = "titulo"))
+
+}
+
+

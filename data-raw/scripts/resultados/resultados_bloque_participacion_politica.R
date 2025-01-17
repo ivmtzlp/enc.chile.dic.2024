@@ -620,6 +620,21 @@ voto_pr_interes_politica_ac<-
 ################################################
 # voto pr perfil
 ################################################
+bd_opinion_ominami_voto_proximas_elecciones <-
+  bd_respuestas_efectivas |>
+  select(voto_proximas_elecciones,opinion_ominami,pesos) |>
+  count(voto_proximas_elecciones,opinion_ominami,wt = pesos) |>
+  filter(!is.na(opinion_ominami)) |>
+  filter(!is.na(voto_proximas_elecciones)) |>
+  group_by(voto_proximas_elecciones) |>
+  mutate(media = n /sum(n)) |>
+  mutate(aspecto = "opinion_ominami" ) |>
+  left_join(diccionario |>
+              select(llave,tema),
+            by = c('aspecto' = 'llave' )) |>
+  rename(respuesta = "opinion_ominami" ) |>
+  #filter(voto_proximas_elecciones %in% c("Michelle Bachelet","Tomás Vodanovic")) |>
+  mutate(tema = paste0(voto_proximas_elecciones))
 
 inclin_op_ominami<-
   bd_opinion_ominami_voto_proximas_elecciones |>

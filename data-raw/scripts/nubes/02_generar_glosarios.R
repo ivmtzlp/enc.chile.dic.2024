@@ -84,6 +84,12 @@ for(element in glos_faltantes_v1){
 
 
 
+glos_faltantes_v2<- c("describe_kaiser","describe_kast","describe_mathei","describe_toha","razon_aprueba_gobierno_boric_aprueba","razon_aprueba_gobierno_boric_desaprueba")
 
+for(element in glos_faltantes_v2){
+  encuestar:::generarGlosario_preguntaAbierta(folder = "./data-raw/scripts/nubes/glosarios/",
+                                              prefijo = "glosario_",
+                                              bd_categorias_raw = bd_categorias_raw,
+                                              variable = element)}
 
 

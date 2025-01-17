@@ -334,7 +334,8 @@ temas_interes_politica_tbl <-
   )|>
   flextable::color(color = "black", part = "header", i = 2) |>
   flextable::bg(i = ~ respuesta == 'Política', bg=color_ominami,part="body") |>
-  flextable::color(i = ~ respuesta == 'Política', color='white',part="body")
+  flextable::color(i = ~ respuesta == 'Política', color='white',part="body") |>
+  flextable::autofit()
 
 
 

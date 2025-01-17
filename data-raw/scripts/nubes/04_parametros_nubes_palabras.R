@@ -297,6 +297,96 @@ pct_opinion_kaiser_positiva <-
   filter(respuesta %in% c("Positiva")) |>
   pull(media)
 
+
+######################################################################################
+# Aprobacion gobierno borich
+###
+
+pct_aprueba_gobierno_boric <-
+  bd_respuestas_efectivas |>
+  count(aprueba_gobierno_boric,wt = pesos) |>
+  rename(respuesta = aprueba_gobierno_boric) |>
+  filter(!is.na(respuesta)) |>
+  mutate(media = n/sum(n))
+
+
+# Negativa
+bd_categoria_razon_aprueba_gobierno_boric_negativa <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_aprueba_gobierno_boric_desaprueba")
+
+
+pct_aprueba_gobierno_boric_negativa <-
+  pct_aprueba_gobierno_boric|>
+  filter(respuesta %in% c("Desaprueba mucho","Desaprueba poco")) |>
+  summarise(media = sum(media)) |>
+  pull(media)
+
+
+# Positiva
+bd_categoria_razon_aprueba_gobierno_boric_positiva <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_razon_aprueba_gobierno_boric_aprueba")
+
+
+pct_aprueba_gobierno_boric_positiva <-
+  pct_aprueba_gobierno_boric|>
+  filter(respuesta %in% c("Aprueba mucho","Aprueba poco")) |>
+  summarise(media = sum(media)) |>
+  pull(media)
+
+##################################################################################################33
+#describe bachelet
+bd_describe_bachelet <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_bachelet")
+
+
+#describe winter
+bd_describe_winter <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_winter")
+
+#describe vodanovic
+bd_describe_vodanovic <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_vodanovic")
+#describe ominami
+bd_describe_ominami <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_ominami")
+#describe toha
+bd_describe_toha <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_toha")
+#describe mathei
+bd_describe_mathei <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_mathei")
+#describe kast
+bd_describe_kast <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_kast")
+#describe kaiser
+bd_describe_kaiser <-
+  calcular_proporcionesCategorias(bd = bd_respuestas_efectivas,
+                                  llave_categorias = "categoria_describe_kaiser")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #
 # # Razon buena opinion andrea
 # pct_opinion_per1_andrea_buena <-

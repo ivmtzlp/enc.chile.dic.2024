@@ -57,7 +57,7 @@ p_necesita_chile_economia_graf<-
   graficar_barras(salto = 20,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.1)+
+                  desplazar_porcentajes = 0.05)+
   scale_fill_manual(values = colores_necesita_chile_economia) +
   scale_y_continuous(limits = c(0, 1),
                      labels = scales::percent) +
@@ -82,7 +82,7 @@ p_necesita_chile_consenso_graf <-
   graficar_barras(salto = 20,
                   porcentajes_fuera = TRUE,
                   text_size = 6,
-                  desplazar_porcentajes = 0.1)+
+                  desplazar_porcentajes = 0.05)+
   scale_fill_manual(values = colores_necesita_chile_consenso) +
   labs(caption = p_necesita_chile_consenso_tit)+
   scale_y_continuous(limits = c(0, 1),

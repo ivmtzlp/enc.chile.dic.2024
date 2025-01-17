@@ -720,9 +720,10 @@ bd_ingreso_mensual_hogarvoto_pr_ninguno <-
   count(ingreso_mensual_hogar,wt = pesos) |>
   na.omit() |>
   mutate(media = n/sum(n)) |>
-  rename(respuesta = ingreso_mensual_hogar) |>
-  left_join(bd_voto_pr_ninguno,by = "voto_pr") |>
-  mutate(voto_pr = paste0(voto_pr," (",coef_op,")"))
+  rename(respuesta = ingreso_mensual_hogar)
+# |>
+#   left_join(bd_voto_pr_ninguno,by = "voto_pr") |>
+#   mutate(voto_pr = paste0(voto_pr," (",coef_op,")"))
 
 g_ingreso_mensual_hogarvoto_pr_ninguno <-
   bd_ingreso_mensual_hogarvoto_pr_ninguno |>
@@ -793,11 +794,105 @@ p_definicion_postura_ideologica_voto_pr_ninguno_graf<-
 
 
 add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
-  ph_with(value = 'Analisis coyuntural respecto estrategias para  Marco Enríquez-Ominami',
+  ph_with(value = 'Percepción de Marco por electorado de Bachelet y Vodanovic',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_opinion_ominami_voto_pr_bac_vo_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Opinión de Enríquez Ominami por electorado Bachelet y Vodanovic',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
+  ph_with(value = 'Percepción electoral por inclinación al voto',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_opinion_ominami_voto_proximas_elecciones_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Opinión de Enríquez Ominami por perfil electoral',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_voto_pr_op_ominami_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Voto por perfil electoral',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_voto_pr_chile_actual_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Voto por percepción de chile',
+          location = ph_location_label(ph_label = "titulo"))
+################################################################
+
+
+add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
+  ph_with(value = 'Análisis de población por interés en la política',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = sexo_gen_interes_politica_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Distribución de sexo y género por nivel de interés en la política',
           location = ph_location_label(ph_label = "titulo"))
 
 
 
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = g_ingreso_mensual_hogarinteres_politica, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Distribución de ingreso por nivel de interés en la política',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = g_curso_aprobadointeres_politica, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Nivel educativo por grado de interés en la política',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_definicion_postura_ideologica_interes_plolitica_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Postura ideológica nivel de interés en la política',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_opinion_ominami_interes_politica_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Opinión de Marco por nivel de interés en la política',
+          location = ph_location_label(ph_label = "titulo"))
+
+#########################################################
+
+add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
+  ph_with(value = 'Análisis de población que no tiene preferencia electoral',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = sexo_gen_voto_pr_ninguno_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Distribución de sexo y género para población sin preferencia electoral ',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = g_ingreso_mensual_hogarvoto_pr_ninguno, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Distribución de ingreso para población sin preferencia electoral ',
+          location = ph_location_label(ph_label = "titulo"))
+
+
+
+
+
+add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+  ph_with(value = p_definicion_postura_ideologica_voto_pr_ninguno_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = 'Definición ideológica para población sin preferencia electoral ',
+          location = ph_location_label(ph_label = "titulo"))
 
 
 

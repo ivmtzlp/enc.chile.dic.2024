@@ -25,6 +25,10 @@ link_sexos_v2 <- "https://docs.google.com/spreadsheets/d/14QrBN6azj2r6XXmkWpKFt2
 path_sexos_v2 <- "data-raw/bd_sexos_enc_chih_dic_2024_v2.xlsx"
 
 
+link_sustitucioenes <- "https://docs.google.com/spreadsheets/d/1qio4TWIypZaiAfe8a5KvX1QesCeRaHuOXO2fjvkZhwM/edit?usp=sharing"
+path_sustitucioenes <- "data-raw/sustituciones.xlsx"
+
+
 # Data raw ------------------------------------------------------------------------------------
 
 ## Entrevistas de campo -----------------------------------------------------------------------
@@ -183,6 +187,38 @@ bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
   filter(!is.na(sexo))
 
+# Sustituciones -----------------------------------------------------
+googledrive::drive_download(file = link_sustitucioenes,
+                            path = path_sustitucioenes,
+                            overwrite = T)
+
+2
+
+bd_sustituciones <-
+  readxl::read_xlsx(path = path_sustitucioenes)
+
+lista_codigo_survey<- bd_sustituciones |>
+  janitor::clean_names() |>
+  distinct(codigo_survey) |> pull()
+
+bd_sustituciones_pivot<-
+  bd_sustituciones |>
+  janitor::clean_names() |>
+  rename(SbjNum=id) |>
+  select(SbjNum,codigo_survey ,correcion ) |>
+  tidyr::pivot_wider(names_from = codigo_survey,values_from = correcion)
+
+
+for (variable_survey in lista_codigo_survey) {
+  bd_respuestas_efectivas <-
+    bd_respuestas_efectivas |>
+    left_join(bd_sustituciones_pivot |>
+                select(all_of(c("SbjNum",variable_survey))) |>
+                rename("aux"=variable_survey),
+              by = "SbjNum") |>
+    mutate(!!rlang::sym(variable_survey) := ifelse(!is.na(aux), aux, !!rlang::sym(variable_survey))) %>% # Sustituir si hay un valor en df2
+    select(-aux)
+}
 
 # Agregar pesos  -----------------------------------------------------
 #

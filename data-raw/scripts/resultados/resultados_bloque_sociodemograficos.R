@@ -3,34 +3,60 @@
 source(file = './data-raw/scripts/parametros/parametros_bloque_sociodemograficos.R')
 
 #Rango de edad
-rango_edad_graf <-
-bd_respuestas_efectivas |>
-  group_by(rango_edad =  case_when(edad >= 18 & edad <= 29 ~ "18-29",
-                                   edad >= 30 & edad <= 39 ~ "30-39",
-                                   edad >= 40 & edad <= 49 ~ "40-49",
-                                   edad >= 50 & edad <= 59 ~ "50-59",
-                                   edad >= 60 & edad <= 64 ~ "60-64",
-                                   edad >= 65 ~ "65+",
-                                   T ~ NA)
-  )|>
-  count(rango_edad,wt = pesos) |>
+# rango_edad_graf <-
+# bd_respuestas_efectivas |>
+#   group_by(rango_edad =  case_when(edad >= 18 & edad <= 29 ~ "18-29",
+#                                    edad >= 30 & edad <= 39 ~ "30-39",
+#                                    edad >= 40 & edad <= 49 ~ "40-49",
+#                                    edad >= 50 & edad <= 59 ~ "50-59",
+#                                    edad >= 60 & edad <= 64 ~ "60-64",
+#                                    edad >= 65 ~ "65+",
+#                                    T ~ NA)
+#   )|>
+#   count(rango_edad,wt = pesos) |>
+#   ungroup() |>
+#   mutate(media = n/sum(n)) |>
+#   rename(respuesta = rango_edad) |>
+#   graficar_barras(salto = 35,
+#                   text_size = 6,
+#                   porcentajes_fuera = TRUE,
+#                   desplazar_porcentajes = 0.02,
+#                   orden_respuestas = c("65+", "60-64","50-59","40-49","30-39","18-29") )+
+#   scale_fill_manual(values = rep(color_general,7))+
+#   scale_y_continuous(limits = c(0, 0.5),
+#                      labels = scales::percent) +
+#   labs(caption = ""  )+
+#   tema_morant()+
+#   theme(axis.text.x = element_text(size = 16),
+#         plot.caption = element_text(size = 12))
+
+rango_edad_graf<-
+  #base
+  bd_respuestas_efectivas |>
+  filter(!sexo == "-") |>
+  count(sexo,rango_edad,wt = pesos) |>
+  # group_by(sexo) |>
+  mutate(coef = n/sum(n)) |>
   ungroup() |>
-  mutate(media = n/sum(n)) |>
-  rename(respuesta = rango_edad) |>
-  graficar_barras(salto = 35,
-                  text_size = 6,
-                  porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.02,
-                  orden_respuestas = c("65+", "60-64","50-59","40-49","30-39","18-29") )+
-  scale_fill_manual(values = rep(color_general,7))+
-  scale_y_continuous(limits = c(0, 0.5),
-                     labels = scales::percent) +
-  labs(caption = ""  )+
-  tema_morant()+
-  theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 12))
-
-
+  mutate(coef = case_when(sexo == "Hombre" ~ -coef,
+                          T  ~ coef)) %>%
+  #grafica
+  ggplot(aes(x = rango_edad, y = coef, fill = sexo, label = scales::percent(abs(coef), 1))) +
+  ggchicklet::geom_chicklet(alpha = 0.9) +
+  coord_flip() +
+  scale_fill_manual(values = c(color_h, color_m)) +
+  ggfittext::geom_bar_text(contrast = TRUE) +
+  lemon::scale_y_symmetric(labels = function(x) scales::percent(abs(x), accuracy = 1)) +
+  tema_morant() +
+  theme(legend.title = element_blank(),
+        axis.title.y = element_text(family = font_family, colour = font_color, size = 16),
+        axis.text.y = element_text(size = 14),
+        legend.position = "bottom",
+        legend.text = element_text(size = 16),
+        plot.background = element_rect(color = "transparent",fill = "transparent"),
+        panel.background = element_rect(color = "transparent",fill = "transparent")) +
+  labs(x = "Rango de edad",y=NULL,
+       caption = 'Rango de edad y sexo de las personas entrevistadas')
 # Nivel de educacion
 bd_educacion_jefe_hogar <-
   bd_respuestas_efectivas |>

@@ -249,95 +249,95 @@ p_cualidades_valora_candidato_op_ominami_graf <-
 #################################################
 
 
-
-
-# Voto Pr 25
-bd_voto_pr<-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(voto_pr,pesos) |>
-  filter(!is.na(voto_pr)) |>
-  count(voto_pr,wt = pesos) |>
-  mutate(media = n /sum(n)) |>
-  rename(respuesta=voto_pr)
-
-
-p_voto_pr_graf<-
-  bd_voto_pr|>
-  graficar_barras(salto = 35,
-                  text_size = 6,
-                  porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.05)+
-  #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
-  scale_fill_manual(values = colores_voto_pr ) +
-  scale_y_continuous(limits = c(0, 0.5),
-                     labels = scales::percent) +
-  labs(caption = p_voto_pr_tit)+
-  tema_morant()+
-  theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 12))
-
-
-# Voto segundo Pr 25
-bd_voto2_pr<-
-  bd_respuestas_efectivas |>
-  as_tibble() |>
-  select(voto2_pr,pesos) |>
-  filter(!is.na(voto2_pr)) |>
-  count(voto2_pr,wt = pesos) |>
-  mutate(media = n /sum(n)) |>
-  rename(respuesta=voto2_pr)
-
-
-p_voto2_pr_graf<-
-  bd_voto2_pr|>
-  graficar_barras(salto = 35,
-                  text_size = 6,
-                  porcentajes_fuera = TRUE,
-                  desplazar_porcentajes = 0.05)+
-  #graficar_barras(orden_respuestas = rev(orden_voto2_pr))+
-  labs(caption = p_voto2_pr_tit)+
-  scale_fill_manual(values = colores_voto2_pr ) +
-  scale_y_continuous(limits = c(0, 0.5),
-                     labels = scales::percent) +
-  tema_morant()+
-  theme(axis.text.x = element_text(size = 16),
-        plot.caption = element_text(size = 12))
-
-
-# Cualidad mas valorada
-
-bd_cualidades_valora_candidato <-
-  bd_respuestas_efectivas |>
-  tibble::rownames_to_column() %>%
-  as_tibble() |>
-  select(rowname, contains("cualidades_valora_candidato_O"),pesos) |>
-  mutate(tot_pesos = sum(pesos)) |>
-  tidyr::pivot_longer(cols = !c(rowname,pesos,tot_pesos)) |>
-  filter(!is.na(value)) %>%
-  mutate(seleccion = 1) %>%
-  select(-name) %>%
-  tidyr::pivot_wider(names_from = value, values_from = seleccion,values_fill = 0)%>%
-  select(-rowname) %>%
-  summarise(across(-c(pesos,tot_pesos),~sum(.x * pesos)),
-            tot_pesos = unique(tot_pesos) ) %>%
-  tidyr::pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
-  mutate(pct = value/tot_pesos,
-         respuesta = forcats::fct_reorder(.f = respuesta,
-                                          .x = pct,
-                                          .fun = max))
-
-
-p_cualidades_valora_candidato_graf <-
-  bd_cualidades_valora_candidato |>
-  graficar_lollipops(width_cats = 50) +
-  scale_color_manual(values = colores_cualidades_valora_candidato) +
-  scale_y_continuous(limits = c(0, 1.0),
-                     labels = scales::percent) +
-  labs(caption = p_cualidades_valora_candidato_tit) +
-  tema_morant() +
-  theme(axis.text.x = element_text(size = 12),
-        plot.caption = element_text(size = 12))
+#
+#
+# # Voto Pr 25
+# bd_voto_pr<-
+#   bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(voto_pr,pesos) |>
+#   filter(!is.na(voto_pr)) |>
+#   count(voto_pr,wt = pesos) |>
+#   mutate(media = n /sum(n)) |>
+#   rename(respuesta=voto_pr)
+#
+#
+# p_voto_pr_graf<-
+#   bd_voto_pr|>
+#   graficar_barras(salto = 35,
+#                   text_size = 6,
+#                   porcentajes_fuera = TRUE,
+#                   desplazar_porcentajes = 0.05)+
+#   #graficar_barras(orden_respuestas = rev(orden_voto_pr))+
+#   scale_fill_manual(values = colores_voto_pr ) +
+#   scale_y_continuous(limits = c(0, 0.5),
+#                      labels = scales::percent) +
+#   labs(caption = p_voto_pr_tit)+
+#   tema_morant()+
+#   theme(axis.text.x = element_text(size = 16),
+#         plot.caption = element_text(size = 12))
+#
+#
+# # Voto segundo Pr 25
+# bd_voto2_pr<-
+#   bd_respuestas_efectivas |>
+#   as_tibble() |>
+#   select(voto2_pr,pesos) |>
+#   filter(!is.na(voto2_pr)) |>
+#   count(voto2_pr,wt = pesos) |>
+#   mutate(media = n /sum(n)) |>
+#   rename(respuesta=voto2_pr)
+#
+#
+# p_voto2_pr_graf<-
+#   bd_voto2_pr|>
+#   graficar_barras(salto = 35,
+#                   text_size = 6,
+#                   porcentajes_fuera = TRUE,
+#                   desplazar_porcentajes = 0.05)+
+#   #graficar_barras(orden_respuestas = rev(orden_voto2_pr))+
+#   labs(caption = p_voto2_pr_tit)+
+#   scale_fill_manual(values = colores_voto2_pr ) +
+#   scale_y_continuous(limits = c(0, 0.5),
+#                      labels = scales::percent) +
+#   tema_morant()+
+#   theme(axis.text.x = element_text(size = 16),
+#         plot.caption = element_text(size = 12))
+#
+#
+# # Cualidad mas valorada
+#
+# bd_cualidades_valora_candidato <-
+#   bd_respuestas_efectivas |>
+#   tibble::rownames_to_column() %>%
+#   as_tibble() |>
+#   select(rowname, contains("cualidades_valora_candidato_O"),pesos) |>
+#   mutate(tot_pesos = sum(pesos)) |>
+#   tidyr::pivot_longer(cols = !c(rowname,pesos,tot_pesos)) |>
+#   filter(!is.na(value)) %>%
+#   mutate(seleccion = 1) %>%
+#   select(-name) %>%
+#   tidyr::pivot_wider(names_from = value, values_from = seleccion,values_fill = 0)%>%
+#   select(-rowname) %>%
+#   summarise(across(-c(pesos,tot_pesos),~sum(.x * pesos)),
+#             tot_pesos = unique(tot_pesos) ) %>%
+#   tidyr::pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
+#   mutate(pct = value/tot_pesos,
+#          respuesta = forcats::fct_reorder(.f = respuesta,
+#                                           .x = pct,
+#                                           .fun = max))
+#
+#
+# p_cualidades_valora_candidato_graf <-
+#   bd_cualidades_valora_candidato |>
+#   graficar_lollipops(width_cats = 50) +
+#   scale_color_manual(values = colores_cualidades_valora_candidato) +
+#   scale_y_continuous(limits = c(0, 1.0),
+#                      labels = scales::percent) +
+#   labs(caption = p_cualidades_valora_candidato_tit) +
+#   tema_morant() +
+#   theme(axis.text.x = element_text(size = 12),
+#         plot.caption = element_text(size = 12))
 
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -398,17 +398,17 @@ add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>
 #################################################
 #################################################
 #################################################
-add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
-  ph_with(value = 'Cualidades de un candidato ',
-          location = ph_location_label(ph_label = "titulo"))
-
-
-
-
-
-
+# add_slide(pptx, layout = "gerencia_subportada", master = "gerencia") %>%
+#   ph_with(value = 'Cualidades de un candidato ',
+#           location = ph_location_label(ph_label = "titulo"))
 #
-add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>%
-  ph_with(value = p_cualidades_valora_candidato_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-  ph_with(value = 'Cualidades candidatos',
-          location = ph_location_label(ph_label = "titulo"))
+#
+#
+#
+#
+#
+# #
+# add_slide(pptx, layout = "gerencia_una_grafica_mas_100", master = "gerencia") %>%
+#   ph_with(value = p_cualidades_valora_candidato_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+#   ph_with(value = 'Cualidades candidatos',
+#           location = ph_location_label(ph_label = "titulo"))

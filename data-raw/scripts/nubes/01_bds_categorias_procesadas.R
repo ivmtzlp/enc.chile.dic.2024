@@ -7,6 +7,7 @@ library(dplyr)
 link_aprobadas <- "https://docs.google.com/spreadsheets/d/15NOP8mTS-c6RemSPj6NvEcQYuWu_MVGvsEkK0YtvTNQ/edit?usp=sharing"
 bot_path <- "../categoriza_bot/data/enc_chile_dic2024/Inputs/"
 bot_path_2 <- "../categoriza_bot/data/enc_chile_dic2024/Inputs2/"
+bot_path_3 <- "../categoriza_bot/data/enc_chile_dic2024/Inputs3/"
 
 # Insumos -------------------------------------------------------------------------------------
 
@@ -217,11 +218,10 @@ variables <-
   filter(grepl("describe_",llave) ) |>
   select(llave) |>
   mutate(aspecto = gsub('describe_',"",llave)) |>
-  filter(aspecto %in%  c("bachelet","winter","vodanovic","ominami") ) |>
+  filter(!aspecto %in%  c("bachelet","winter","vodanovic","ominami") ) |>
   pull(aspecto)
 
 variables <- paste("describe_",variables,sep = "")
-
 
 
 for(i in seq.int(from = 1, to = length(variables), by = 1)) {
@@ -236,10 +236,77 @@ for(i in seq.int(from = 1, to = length(variables), by = 1)) {
                                  select(id = SbjNum, variables[i]) |>
                                  na.omit(variables[i]),
                                "categorias" = categorias),
-                      path = paste0(bot_path_2,
+                      path = paste0(bot_path_3,
                                     variables[i],
                                     ".xlsx"))
 }
+
+
+
+################################################################################
+#faltantes V2
+#####################################################################
+
+
+
+
+
+asepctos_nubes<-
+  diccionario |>
+  filter(grepl("razon_aprueba_gobierno",llave) ) |>
+  select(llave) |>
+  mutate(aspecto = gsub('razon_aprueba_gobierno_',"",llave)) |>
+  pull(aspecto)
+
+#################3
+
+for(aspecto in asepctos_nubes){
+
+
+  razon_op_buena_cat<- paste0("razon_aprueba_gobierno_",aspecto,"_aprueba")
+  razon_op_mala_cat<- paste0("razon_aprueba_gobierno_",aspecto,"_desaprueba")
+  razon_op_personaje <- paste0("razon_aprueba_gobierno_",aspecto)
+  op_personaje <- paste0("aprueba_gobierno_",aspecto)
+
+
+  # Razon opinion positiva
+  categorias <-
+    bd_categorias_raw |>
+    select(!!rlang::sym(razon_op_buena_cat)) |>
+    na.omit()
+
+  writexl::write_xlsx(x = list("encuesta" = bd_respuestas_efectivas |>
+                                 as_tibble() |>
+                                 filter(!!rlang::sym(op_personaje) %in% c("Aprueba mucho", "Aprueba poco")) |>
+                                 select(id = SbjNum,
+                                        !!rlang::sym(razon_op_buena_cat) := !!rlang::sym(razon_op_personaje)) |>
+                                 na.omit(!!rlang::sym(razon_op_buena_cat)),
+                               "categorias" = categorias),
+                      path = paste0(bot_path_3,
+                                    razon_op_buena_cat,
+                                    ".xlsx"))
+
+
+  # Razon opinion negativa
+
+  categorias <-
+    bd_categorias_raw |>
+    select(!!rlang::sym(razon_op_mala_cat)) |>
+    na.omit()
+
+  writexl::write_xlsx(x = list("encuesta" =  bd_respuestas_efectivas |>
+                                 as_tibble() |>
+                                 filter(!!rlang::sym(op_personaje) %in% c("Desaprueba mucho","Desaprueba poco")) |>
+                                 select(id = SbjNum,
+                                        !!rlang::sym(razon_op_mala_cat) := !!rlang::sym(razon_op_personaje)) |>
+                                 na.omit(!!rlang::sym(razon_op_mala_cat)),
+                               "categorias" = categorias),
+                      path = paste0(bot_path_3,
+                                    razon_op_mala_cat,
+                                    ".xlsx"))
+
+}
+
 #############################################################################################################################
 #############################################################################################################################
 #############################################################################################################################

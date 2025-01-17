@@ -40,3 +40,12 @@ if(modo != "solo nubes") {
 
 
 }
+
+if(modo != "sin nubes") {
+
+add_slide(pptx, layout = "gerencia_dos_graficas_equitativas_inteligencia", master = "gerencia") %>%
+  ph_with(value = wc_razon_aprueba_gobierno_boric_positiva, location = ph_location_label(ph_label = "grafica_uno")) |>
+  ph_with(value = wc_razon_aprueba_gobierno_boric_negativa, location = ph_location_label(ph_label = "grafica_dos")) |>
+  ph_with(value = "¿Porqué (...) de el gobierno de Gabriel Boric?",
+          location = ph_location_label(ph_label = "titulo"))
+}

@@ -85,15 +85,34 @@ g_utiliza <-
 
 # Problemas de Chile
 bd_problema_chile <-
-  bd_respuestas_efectivas |>
+  # bd_respuestas_efectivas |>
+  # as_tibble() |>
+  # select(SbjNum, contains("problema_chile_O"),pesos) |>
+  # tidyr::pivot_longer(cols = !c(SbjNum,pesos),
+  #                     names_to = "pregunta",
+  #                     values_to = "respuesta") |>
+  # na.omit() |>
+  # count(respuesta) |>
+  # mutate(pct = n/nrow(bd_respuestas_efectivas))
+bd_respuestas_efectivas |>
+  tibble::rownames_to_column() %>%
   as_tibble() |>
-  select(SbjNum, contains("problema_chile_O"),pesos) |>
-  tidyr::pivot_longer(cols = !c(SbjNum,pesos),
-                      names_to = "pregunta",
-                      values_to = "respuesta") |>
-  na.omit() |>
-  count(respuesta) |>
-  mutate(pct = n/nrow(bd_respuestas_efectivas))
+  select(rowname, contains("problema_chile_O"),pesos) |>
+  mutate(tot_pesos = sum(pesos)) |>
+  tidyr::pivot_longer(cols = !c(rowname,pesos,tot_pesos)) |>
+  filter(!is.na(value)) %>%
+  mutate(seleccion_aux = 1.0) %>%
+  select(-name) %>%
+  distinct(rowname, pesos, tot_pesos, value,seleccion_aux) |>
+  tidyr::pivot_wider( id_cols = c(rowname, pesos,tot_pesos ),names_from = value, values_from = seleccion_aux,values_fill = 0)%>%
+  select(-rowname) %>%
+  summarise(across(-c(pesos,tot_pesos),~sum(.x * pesos)),
+            tot_pesos = unique(tot_pesos) ) %>%
+  tidyr::pivot_longer(-tot_pesos, names_to = "respuesta",values_to = "value") %>%
+  mutate(pct = value/tot_pesos,
+         respuesta = forcats::fct_reorder(.f = respuesta,
+                                          .x = pct,
+                                          .fun = max))
 
 g_problema_chile <-
   bd_problema_chile |>
@@ -101,7 +120,7 @@ g_problema_chile <-
   scale_color_manual(values = colores_problema) +
   scale_y_continuous(limits = c(0, 1.0),
                      labels = scales::percent) +
-  labs(caption = p_medios_com_tit) +
+  labs(caption = p_problema_tit) +
   tema_morant() +
   theme(axis.text.x = element_text(size = 16),
         axis.text.y = element_text(size = 14),

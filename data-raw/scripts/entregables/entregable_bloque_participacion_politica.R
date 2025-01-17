@@ -66,19 +66,19 @@ if(modo != "solo nubes") {
   add_slide(pptx, layout = "gerencia_dos_graficas_equitativas", master = "gerencia") %>%
     ph_with(value = p_voto_pr_graf, location = ph_location_label(ph_label = "grafica_uno")) |>
     ph_with(value = p_voto2_pr_graf, location = ph_location_label(ph_label = "grafica_dos")) |>
-    ph_with(value = 'Preferencia por candidatos para las próximas primarias electorales',
+    ph_with(value = 'Intención de voto para la Presidencia de Chile',
             location = ph_location_label(ph_label = "titulo"))
 
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = voto_pr_voto2_pr_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Segunda opción de voto de los 3 principales aspiantes de primera opción',
+    ph_with(value = 'Segunda opción de voto de los 3 principales aspirantes de primera opción',
             location = ph_location_label(ph_label = "titulo"))
 
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = voto_pr_voto2_pr_v2_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Segunda opción de voto de los 2 principales aspiantes de de izquierda',
+    ph_with(value = 'Segunda opción de voto de los 2 principales aspirantes de de izquierda',
             location = ph_location_label(ph_label = "titulo"))
 
   # add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
@@ -93,7 +93,7 @@ if(modo != "solo nubes") {
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = voto_pr_interes_politica_ac, location = ph_location_label(ph_label = "imagen_principal")) |>
-    ph_with(value = 'Análisisi de correspondencia entre preferencia de voto y niveles de interés en la política',
+    ph_with(value = 'Análisis de correspondencia entre preferencia de voto y niveles de interés en la política',
             location = ph_location_label(ph_label = "titulo"))
 
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
