@@ -377,3 +377,76 @@ p_opinion_ominami_interes_politica_graf<-
 
   )
 
+
+
+bd_interes_politica_opinion_per <-
+  paste0("opinion_",aspectos_conoce_per) |>
+  purrr::map_df(.f = ~{
+    bd_respuestas_efectivas |>
+      mutate(interes_politica = case_match(interes_politica,
+                                           c("Muy interesado","Interesado")~"INTERESADOS",
+                                           c("Nada interesado","Muy poco interesado")~"NO INTERESADOS",
+                                           "Neutral/Indiferente" ~ "NEUTRALES",
+                                           .default = interes_politica
+      )) |>
+      select(interes_politica,!!rlang::sym(.x),pesos) |>
+      count(interes_politica,!!rlang::sym(.x),wt = pesos) |>
+      filter(!is.na(!!rlang::sym(.x))) |>
+      filter(!is.na(interes_politica)) |>
+      group_by(interes_politica) |>
+      mutate(media = n /sum(n)) |>
+      mutate(aspecto = .x ) |>
+      left_join(diccionario |>
+                  select(llave,tema),
+                by = c('aspecto' = 'llave' )) |>
+      rename("respuesta" = .x )
+  }
+  ) |> ungroup()
+
+
+candidatos_pr_chile_vec<- bd_interes_politica_opinion_per |>
+  distinct(tema) |>
+  pull()
+
+
+interes_politica_opinion_per_1_graf<-
+  bd_interes_politica_opinion_per |>
+  filter(tema %in% candidatos_pr_chile_vec[1:3]) |>
+  filter(respuesta == "Positiva") |>
+  select(-respuesta) |>
+  rename(respuesta=interes_politica) |>
+  filter(respuesta != "Ns/Nc") |>
+  graficar_barras(orden_respuestas = c("NO INTERESADOS","NEUTRALES","INTERESADOS"))+
+  scale_fill_manual(values=rep(color_opinion_muyBuena,3))+
+  scale_y_continuous(limits = c(0,0.75),labels = scales::percent_format(accuracy = 1)) +
+  facet_wrap(~tema)+
+  tema_morant()
+
+
+interes_politica_opinion_per_2_graf<-
+  bd_interes_politica_opinion_per |>
+  filter(tema %in% candidatos_pr_chile_vec[4:6]) |>
+  filter(respuesta == "Positiva") |>
+  select(-respuesta) |>
+  rename(respuesta=interes_politica) |>
+  filter(respuesta != "Ns/Nc") |>
+  graficar_barras(orden_respuestas = c("NO INTERESADOS","NEUTRALES","INTERESADOS"))+
+  scale_fill_manual(values=rep(color_opinion_muyBuena,3))+
+  scale_y_continuous(limits = c(0,0.75),labels = scales::percent_format(accuracy = 1)) +
+  facet_wrap(~tema)+
+  tema_morant()
+
+
+interes_politica_opinion_per_3_graf<-
+  bd_interes_politica_opinion_per |>
+  filter(tema %in% candidatos_pr_chile_vec[7:9]) |>
+  filter(respuesta == "Positiva") |>
+  select(-respuesta) |>
+  rename(respuesta=interes_politica) |>
+  filter(respuesta != "Ns/Nc") |>
+  graficar_barras(orden_respuestas = c("NO INTERESADOS","NEUTRALES","INTERESADOS"))+
+  scale_fill_manual(values=rep(color_opinion_muyBuena,3)) +
+  scale_y_continuous(limits = c(0,0.75),labels = scales::percent_format(accuracy = 1)) +
+  facet_wrap(~tema)+
+  tema_morant()
+
