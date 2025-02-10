@@ -101,6 +101,8 @@ bd_respuestas_efectivas <-
          comuna_mm = dplyr::if_else(condition = comuna %in% unique(bd_comunas_regionMetropolitanaSantiago$comuna),
                                     true = "SANTIAGO",
                                     false =  comuna_mm)) |>
+  mutate(voto_pr =  ifelse(is.na(voto_pr),"Ns/Nc",voto_pr)) |>
+  mutate(voto2_pr =  ifelse(is.na(voto_pr),"Ns/Nc",voto2_pr)) |>
   #Bloque AMAI
   mutate(generacion = case_when(edad >= 18 & edad <= 25 ~ "Generación Z (18 a 25 años)",
                                 edad >= 26 & edad <= 40 ~ "Millenials (26 a 40 años)",
@@ -143,7 +145,12 @@ bd_respuestas_efectivas <-
                                 edad >= 60 & edad <= 64 ~ "60-64",
                                 edad >= 65 ~ "65+",
                                 T ~ NA)) |>
-  mutate(pesos = 1)
+  mutate(pesos = 1)|>
+  mutate(manzana =  gsub("\\.0","",manzana)) |>
+  mutate(grupo_edad = cut(as.numeric(edad),
+                          breaks = c(18, 29, 44, 59, Inf),
+                          labels = c("18-29", "30-44", "45-59", "60 y más"),
+                          right = FALSE))
 
 # Calculo de registros de rechazo -------------------------------------------------------------
 
@@ -185,7 +192,8 @@ bd_respuestas_efectivas |>
 
 bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
-  filter(!is.na(sexo))
+  filter(!is.na(sexo)) |>
+  mutate(sexo = ifelse(sexo == "-","Mujer",sexo))
 
 # Sustituciones -----------------------------------------------------
 googledrive::drive_download(file = link_sustitucioenes,
@@ -220,6 +228,58 @@ for (variable_survey in lista_codigo_survey) {
     select(-aux)
 }
 
+
+
+# Agregar nivel socieconomico ---------------------
+# matriz_nive_eco <- readxl::read_excel("./data-raw/bd_genericas/educ_vs_trab.xlsx", sheet = "Sheet1")
+#
+#
+# matriz_nive_eco <-
+#   matriz_nive_eco %>%
+#   tidyr::pivot_longer(cols = -1, names_to = "ocupacion_jefe_hogar_redux", values_to = "clasif_eco") %>%
+#   rename(educacion_jefe_hogar_redux = 1)
+#
+# bd_respuestas_efectivas <-
+#   bd_respuestas_efectivas |>
+#   mutate(ocupacion_jefe_hogar_redux = case_when(
+#     grepl("Trabajos menores",ocupacion_jefe_hogar) ~ "Trabajos menores",
+#     grepl("Oficio menor, obrero no calificado",ocupacion_jefe_hogar) ~ "Oficio menor, obrero no calificado",
+#     grepl("Obrero calificado",ocupacion_jefe_hogar) ~ "Obrero calificado",
+#     grepl("Empleado administrativo medio y bajo",ocupacion_jefe_hogar) ~ "Empleado administrativo medio y bajo",
+#     grepl("Ejecutivo medio, ejecutivo medio-alto",ocupacion_jefe_hogar) ~ "Ejecutivo medio, ejecutivo medio-alto",
+#     grepl("Alto ejecutivo",ocupacion_jefe_hogar) ~ "Alto ejecutivo"
+#   )  ) |>
+#   mutate(ocupacion_jefe_hogar_redux = factor(ocupacion_jefe_hogar_redux,levels = c("Trabajos menores","Oficio menor, obrero no calificado","Obrero calificado",
+#                                                                                    "Empleado administrativo medio y bajo","Ejecutivo medio, ejecutivo medio-alto",
+#                                                                                    "Alto ejecutivo") )) |>
+#
+#   mutate(educacion_jefe_hogar_redux = case_when(
+#     grepl("Educación básica incompleta",educacion_jefe_hogar) ~ "Educación básica incompleta",
+#     grepl("Básica completa",educacion_jefe_hogar) ~ "Básica completa",
+#     grepl("Media incompleta",educacion_jefe_hogar) ~ "Media incompleta",
+#     grepl("Media completa ",educacion_jefe_hogar) ~ "Media completa",
+#     grepl("Técnica completa",educacion_jefe_hogar) ~ "Técnica completa",
+#     grepl("Universitaria completa",educacion_jefe_hogar) ~ "Universitaria completa",
+#     grepl("Post Grado",educacion_jefe_hogar) ~ "Post Grado"
+#   )  ) |>
+#   mutate(educacion_jefe_hogar_redux = factor(educacion_jefe_hogar_redux,levels = c("Educación básica incompleta","Básica completa","Media incompleta",
+#                                                                                    "Media completa","Técnica completa","Universitaria completa","Post Grado")
+#   ))
+#
+#
+# bd_respuestas_efectivas <-
+#   bd_respuestas_efectivas %>%
+#   left_join(matriz_nive_eco,
+#             by = c("ocupacion_jefe_hogar_redux", "educacion_jefe_hogar_redux")) |>
+#   mutate(niv_soc = case_match(clasif_eco,
+#                               "CB"~"C3",
+#                               "CA"~"C2",
+#                               c("A","B")~"ABC1",
+#                               .default = clasif_eco
+#                               )
+#            )
+
+
 # Agregar pesos  -----------------------------------------------------
 #
 
@@ -244,6 +304,14 @@ bd_respuestas_efectivas <-
   bd_respuestas_efectivas |>
   filter(!is.na(sexo)) |>
   mutate(pesos = weights(calibrated_design))
+
+#correcionmanzanas
+
+bd_respuestas_efectivas <-
+  bd_respuestas_efectivas |>
+  mutate(manzana =  gsub("\\.0","",manzana))
+
+
 
 
 # shps efectivas -------------------------------------------------------------

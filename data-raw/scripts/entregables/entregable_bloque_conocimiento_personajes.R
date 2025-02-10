@@ -101,21 +101,21 @@ add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
 
 
 add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-  ph_with(value = interes_politica_opinion_per_1_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+  ph_with(value = interes_politica_opinion_per_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
   ph_with(value = 'Opinión de los diferentes aspirantes para cada nivel de interés en la política',
           location = ph_location_label(ph_label = "titulo"))
 
-add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-  ph_with(value = interes_politica_opinion_per_2_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-  ph_with(value = 'Opinión de los diferentes aspirantes para cada nivel de interés en la política',
-          location = ph_location_label(ph_label = "titulo"))
-
-add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
-  ph_with(value = interes_politica_opinion_per_3_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
-  ph_with(value = 'Opinión de los diferentes aspirantes para cada nivel de interés en la política',
-          location = ph_location_label(ph_label = "titulo"))
-
-
+# add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+#   ph_with(value = interes_politica_opinion_per_2_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+#   ph_with(value = 'Opinión de los diferentes aspirantes para cada nivel de interés en la política',
+#           location = ph_location_label(ph_label = "titulo"))
+#
+# add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
+#   ph_with(value = interes_politica_opinion_per_3_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
+#   ph_with(value = 'Opinión de los diferentes aspirantes para cada nivel de interés en la política',
+#           location = ph_location_label(ph_label = "titulo"))
+#
+#
   add_slide(pptx, layout = "gerencia_grafica_unica", master = "gerencia") %>%
     ph_with(value = p_calif_per_graf, location = ph_location_label(ph_label = "imagen_principal")) |>
     ph_with(value = 'Evaluación del trabajo de los personajes',

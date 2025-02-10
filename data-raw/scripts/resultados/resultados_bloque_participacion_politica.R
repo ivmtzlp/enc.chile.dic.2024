@@ -605,7 +605,7 @@ p_interes_politica_voto_pr_ominami_graf<-
 
 
 voto_pr_interes_politica_ac<-
-  encuestar::analisis_correspondencia(var1 = "interes_politica",
+  encuestar:::analisis_correspondencia(var1 = "interes_politica",
                                       var2 = "voto_pr",
                                       legenda1 = "Interés en la política",
                                       legenda2 = "Preferencia de voto",
